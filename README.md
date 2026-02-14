@@ -31,9 +31,32 @@ npm run dev
 ```
 
 ## Multi-user handling
-- Dynamic data is profile-scoped in browser storage (results, story progress, admin state, edited set).
-- Use the top-bar profile selector to switch users.
-- Use `ملف جديد` to create a separate local profile on the same device/browser.
+- Dynamic data (results, story progress, admin state, edited set) is stored in browser `localStorage`.
+- On the public web, each visitor has isolated local data in their own browser/device.
+- No backend database is used in the current version.
+
+## Deploy to DigitalOcean App Platform (via GitHub)
+This repo is ready with an App Spec file:
+- `.do/app.yaml`
+
+Before first deploy:
+1. Push this project to a GitHub repo.
+2. If you deploy from a different repository, update `github.repo` in `.do/app.yaml`.
+3. Commit and push.
+
+Deploy options:
+1. DigitalOcean UI:
+   - App Platform -> Create App -> GitHub -> select repo/branch.
+   - Choose "Use App Spec" if prompted.
+2. `doctl` CLI:
+```bash
+doctl apps create --spec .do/app.yaml
+```
+
+Notes:
+- Build command: `npm ci && npm run build`
+- Output directory: `dist`
+- SPA routing is enabled with `catchall_document: index.html`, so routes like `/quiz/exam` work after refresh.
 
 ## Admin mode
 - Open `/admin`
