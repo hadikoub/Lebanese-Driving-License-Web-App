@@ -1,0 +1,12 @@
+{
+  "sourceCsvPath": "/Users/hadikoub/Documents/driving-test/answers-driving-exams-parsed.csv",
+  "generatedAt": "2026-02-14T20:04:01.790Z",
+  "totalRows": 340,
+  "questionsExtracted": 340,
+  "needsReviewCount": 0,
+  "missingAnswerKeyCount": 0,
+  "signsWithImageCount": 101,
+  "signsMissingImageCount": 0,
+  "rowsSkipped": 0,
+  "signsAssetsSynced": true
+}
