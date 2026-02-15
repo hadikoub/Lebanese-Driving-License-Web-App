@@ -12,6 +12,8 @@
   - timer settings
 - Questions are always shuffled in practice and exam.
 - Story mode with progressive levels that cover all questions (up to 30 per level) and saved progress.
+- Signs Flashcards section (Arabic labels + image cards) with type/count/duration filters.
+- Signs Quiz section (Arabic options + image questions) with type/count/duration filters and practice/exam modes.
 - Local JSON import/export (no backend).
 - CLI converters to generate questions from CSV or PDF.
 
@@ -94,6 +96,30 @@ Outputs:
 - `/Users/hadikoub/Documents/driving-test/data/questions.ar.generated.json`
 - `/Users/hadikoub/Documents/driving-test/data/extraction-report.json`
 - `/Users/hadikoub/Documents/driving-test/public/data/questions.ar.generated.json`
+
+## Generate signs flashcards + quiz datasets
+Inputs:
+- `/Users/hadikoub/Documents/driving-test/Road_Signs_Quiz_FlashCard.csv`
+- `/Users/hadikoub/Documents/driving-test/Road_Signs_Quiz_Version.csv`
+- `/Users/hadikoub/Documents/driving-test/sign_images_by_id/*.png`
+
+Run:
+```bash
+npm run extract:signs
+```
+
+Or explicit paths:
+```bash
+npm run extract:signs:file
+```
+
+Outputs:
+- `/Users/hadikoub/Documents/driving-test/data/signs.flashcards.ar.generated.json`
+- `/Users/hadikoub/Documents/driving-test/data/signs.quiz.ar.generated.json`
+- `/Users/hadikoub/Documents/driving-test/data/signs-extraction-report.json`
+- `/Users/hadikoub/Documents/driving-test/public/data/signs.flashcards.ar.generated.json`
+- `/Users/hadikoub/Documents/driving-test/public/data/signs.quiz.ar.generated.json`
+- `/Users/hadikoub/Documents/driving-test/public/assets/sign_images_by_id/*.png`
 
 ## Tests
 ```bash

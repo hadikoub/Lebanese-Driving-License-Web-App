@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAppState } from "../AppState";
+import { SignImage } from "../components/SignImage";
 
 export function ReviewPage(): JSX.Element {
   const { questionSet, updateQuestion, isAdmin } = useAppState();
@@ -84,7 +85,7 @@ export function ReviewPage(): JSX.Element {
 
             {question.signPath && (
               <figure className="question-sign small">
-                <img src={question.signPath} alt="إشارة مرورية مرتبطة بالسؤال" loading="lazy" />
+                <SignImage src={question.signPath} alt="إشارة مرورية مرتبطة بالسؤال" loading="lazy" />
               </figure>
             )}
 

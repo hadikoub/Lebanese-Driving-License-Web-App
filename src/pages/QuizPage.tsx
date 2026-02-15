@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useAppState } from "../AppState";
+import { SignImage } from "../components/SignImage";
 import {
   buildQuestionsForQuiz,
   calculateScore,
@@ -441,11 +442,11 @@ export function QuizPage(): JSX.Element {
         <h3>{current.promptAr}</h3>
         {current.signPath && !brokenSignIds[current.id] && (
           <figure className="question-sign">
-            <img
+            <SignImage
               src={current.signPath}
               alt="إشارة مرورية مرتبطة بالسؤال"
               loading="lazy"
-              onError={() => {
+              onExhausted={() => {
                 setBrokenSignIds((state) => ({
                   ...state,
                   [current.id]: true

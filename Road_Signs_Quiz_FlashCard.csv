@@ -1,0 +1,142 @@
+ID,Type,Name in Arabic,Name in French,Name in English
+1,Warning,منعطف لليمين,Virage à droite,Right-Hand Bend
+2,Warning,منعطف لليسار,Virage à gauche,Left-Hand Bend
+3,Warning,منعطفان من اليمين إلى اليسار,"Double virage, le premier à droite ","Double Bend, the first to the Right "
+4,Warning,منعطفان من اليسار إلى اليمين,"Double virage, le premier à gauche ","Double Bend, the first to the left "
+5,Warning,انخفاضات,Cassis,Uneven Road
+6,Warning,مطب تخفيض سرعة,Dispositif surélevé,Speed Hump
+7,Warning,الطريق يضيق من اليسار,Rétrécissement de la chaussée à gauche,Carriageway Narrows to the Left
+8,Warning,الطريق يضيق من الجانبين,Rétrécissement de la chaussée,Carriageway Narrows on both sides
+9,Warning,الطريق يضيق من اليمين,Rétrécissement de la chaussée à droite,Carriageway Narrows to the Right
+10,Warning,إشارات كهربائية,Annonce de feux tricolores,Light Signals
+11,Warning,حركة سير في كلا الاتجاهين,Circulation admise dans les deux sens,Two way Traffic
+12,Warning,خطر انهيارات,Chutes de pierres,Risk of Rock Fall
+13,Warning,تحليق منخفض للطائرات,Survol d'avions à basse altitude,Low flying aircraft
+14,Warning,إنحدار خطر,Descente dangereuse,Steep hill
+15,Warning,رياح جانبية,Vent latéral,cross wind
+16,Warning,عبور حيوانات,Traversée de bétail,Animal Crossing
+17,Warning,عبور دراجات,Passage pour conducteurs de bicyclettes...,Cycles and Mopeds with two wheels
+18,Warning,أشغال,Travaux,Works
+19,Warning,ممر سكة حديد,Passage à niveau-voie unique,Single track rail road crossing
+20,Warning,طريق منزلق,Chaussée glissante,Slippery Road
+21,Warning,تقاطع سكة حديد مجهز بحواجز,Passage à niveau avec barrières,Level railway crossing with a gate barriers
+22,Warning,تقاطع سكة حديد دون حواجز,Passage à niveau sans barrières,Level railway crossing without a gate barriers
+23,Warning,ممر أطفال / أولاد,Endroit spécialement fréquenté par des enfants,Children Crossing
+24,Warning,انتبه مدرسة,Zone scolaire,School Area
+25,Warning,ممر مشاة,Passage Piétons,Pedestrian Walkway
+26,Warning,خطر غير محدد,Danger non défini,Undefined Hazard
+27,Intersection,توقف عند التقاطع,Arrêt à l'intersection,Stop at the junction
+28,Intersection,افسح الطريق,Cédez le passage,Give way
+29,Intersection,حركة سير دائرية - مستديرة,Carrefour à sens giratoire,Roundabout
+30,Intersection,تقاطع - إفسح المجال للسيارات القادمة من اليمين,Intersection où le conducteur doit céder le passage...,Intersection-give way to vehicles from right
+31,Intersection,تقاطع مع طريق بدون أفضلية,Intersection avec une route sans priorité,Intersection with a road without priority
+32,Intersection,طريق أفضلية,Indication du caractère prioritaire d'une route,Priority Road
+33,Intersection,نهاية طريق أفضلية,Fin du caractère prioritaire d'une route,End of Priority Road
+34,Prohibition,ممنوع مرور عموم المركبات في الاتجاهين,Circulation interdite à tout véhicule dans les deux sens,Vehicles prohibited
+35,Prohibition,ممنوع الدخول,Sens interdit à tout véhicule,No Entry
+36,Prohibition,ممنوع الاتجاه لليسار,Interdiction de tourner à gauche,No Left Turn
+37,Prohibition,ممنوع الاتجاه لليمين,Interdiction de tourner à droite,No Right Turn
+38,Prohibition,ممنوع الالتفاف,Interdiction de faire demi-tour,No U-Turns
+39,Prohibition,ممنوع التجاوز,Interdiction de dépasser tous les véhicules,No Overtaking
+40,Prohibition,ممنوع التجاوز السيارات النقل,Interdiction aux véhicules de transports de marchandises de doubler,No Overtaking for Trucks
+41,Prohibition,ممنوع دخول السيارات والدراجات الآلية,Accès interdit aux véhicules à moteur...,"No Motor Vehicles, motorcycles and mopeds "
+42,Prohibition,ممنوع دخول الشاحنات,Accès interdit aux véhicules de marchandises,No Trucks
+43,Prohibition,ممنوع دخول المشاة,Accès interdit aux piétons,No Pedestrians
+44,Prohibition,ممنوع دخول الدراجات الهوائية,Accès interdit aux cycles,No Cycles
+45,Prohibition,ممنوع دخول العربات التي تقطرها الحيوانات,Accès interdit aux véhicules à traction animale,No animal-Drawn Vehicles
+46,Prohibition,ممنوع دخول المركبات الزراعية,Accès interdit aux véhicules agricoles à moteur,No agricultural motor vehicles
+47,Prohibition,ممنوع دخول العربات التي تجر باليد,Accès interdit aux voitures à bras,No entry to cars arm
+48,Prohibition,ممنوع دخول باصات النقل العام,Accès interdit aux véhicules de transport en commun,No public transport
+49,Prohibition,ممنوع دخول الدراجات الآلية,Accès interdit aux cyclomoteurs,No Motorcycles
+50,Prohibition,ممنوع مرور المركبات التي يزيد طولها عن الرقم المحدد,Accès interdit aux véhicules dont la longueur est supérieure...,Vehicle Length Restriction
+51,Prohibition,ممنوع مرور المركبات التي يزيد عرضها عن الرقم المحدد,Accès interdit aux véhicules dont la largeur... est supérieure...,No vehicles over Maximum width
+52,Prohibition,ممنوع مرور المركبات التي يزيد ارتفاعها عن الرقم المحدد,Accès interdit aux véhicules dont la hauteur... est supérieure...,Height Restriction
+53,Prohibition,ممنوع مرور المركبات التي يزيد وزنها عن الرقم المحدد,Accès interdit aux véhicules dont le poids total... excède...,Weight Restriction
+54,Prohibition,ممنوع مرور المركبات التي يزيد وزنها المحوري عن الرقم المحدد,Accès interdit aux véhicules pesant sur un essieu plus que...,Axle Weight Restriction
+55,Prohibition,أقصى سرعة مسموح بها,Limitation de vitesse,Speed Limit
+56,Prohibition,أفضلية المرور للسيارات القادمة من الجهة المقابلة,Cédez le passage à la circulation venant en sens inverse,Give way to Oncoming Traffic
+57,Prohibition,ممنوع استعمال المنبه,Signaux sonores interdits,Use of Horn Prohibited
+58,Prohibition,ممنوع دخول المركبات التي تحمل مواد ملوثة,Accès interdit aux véhicules transportant des marchandises polluantes,No Vehicles carrying Pollutants
+59,Prohibition,ممنوع دخول المركبات التي تحمل مواد متفجرة...,Accès interdit aux véhicules transportant des marchandises explosives,No Vehicles carrying Explosive or Highly Flammable...
+60,Prohibition,ممنوع دخول المركبات التي تحمل مواد خطرة,Accès interdit aux véhicules transportant des marchandises dangereuses,No Vehicles carrying Dangerous Material
+61,Parking,ممنوع الوقوف,Stationnement Interdit,No Parking
+62,Parking,ممنوع التوقف والوقوف,Arrêt et stationnement Interdits,No waiting and no parking
+63,Parking,بداية منطقة موقف بدل دفع,Entrée d'une zone à stationnement payant,Entry zone of paid parking
+64,Mandatory,اتجاه سير اجباري إلى اليمين,Obligation de tourner à droite avant le panneau,Mandatory Movement to the right
+65,Mandatory,اتجاه سير اجباري إلى اليسار,Obligation de tourner à gauche avant le panneau,Mandatory Movement to the left
+66,Mandatory,الزم اليمين,Contournement obligatoire par la droite,Keep to the right
+67,Mandatory,الزم اليسار,Contournement obligatoire par la gauche,Keep to the left
+68,Mandatory,اتجاه اجباري مستقيم,Direction obligatoire à la prochaine intersection: tout droit,Mandatory direction: Straight
+69,Mandatory,اتجاه اجباري الى اليمين,Direction obligatoire à la prochaine intersection : à droite,Mandatory direction: right
+70,Mandatory,اتجاه اجباري إلى اليسار,Direction obligatoire à la prochaine intersection: à gauche,Mandatory direction: left
+71,Mandatory,اتجاه اجباري مستقيم أو إلى اليمين,Directions obligatoires... tout droit ou à droite,Mandatory direction: left or right
+72,Mandatory,اتجاه اجباري مستقيم أو إلى اليسار,Directions obligatoires... tout droit ou à gauche,Mandatory direction... Straight or to the left
+73,Mandatory,اتجاه اجباري الى اليمين أو الى اليسار,Directions obligatoires... à droite ou à gauche,Mandatory direction... left or right
+74,Mandatory,ممر أو طريق للدراجات الهوائية,Piste ou bande obligatoire pour les cycles,Track or path required for cycles
+75,Mandatory,مسار إلزامي للمشاة,Chemin obligatoité pour piétons,Use footpath
+76,Mandatory,ممر مخصص للفروسية,Chemin obligatoire pour cavaliers,Mandatory way for riders
+77,Mandatory,أدنى سرعة الزامية,Vitesse minimale obligatoire,Minimum Speed
+78,Mandatory,السلاسل المعدنية الزامية,Chaînes à neige obligatoires,Snow chains mandatory
+79,Mandatory,مسرب مخصص للباصات,Voie réservée aux véhicules de transport en commun,Bus Lane
+80,End Prohibition,انتهاء جميع القيود السابقة على حركة السير,Fin de toutes les interdictions précédemment signalées,End of all moving traffic restrictions previously signed
+81,End Prohibition,انتهاء حد السرعة,Fin de limitation de vitesse,End of Speed Limit
+82,End Prohibition,انتهاء منع قيود التجاوز,Fin d'interdiction de dépasser,End of Overtaking prohibition
+83,End Prohibition,انتهاء قيود منع تجاوز الشاحنات,Fin d'interdiction de dépasser aux camions,End of truck Overtaking prohibition
+84,End Prohibition,انتهاء منع استعمال المنبه,Fin d'interdiction de l'usage de l'avertisseur sonore,End of Horn Restriction Zone
+85,End Mandatory,نهاية ممر أو طريق للدراجات الهوائية,Fin de piste obligatoire pour cycle,End of mandatory cycle track
+86,End Mandatory,نهاية الممر الإجباري للمشاة,Fin de chemin obligatoire pour piétons,End of mandatory footpath
+87,End Mandatory,نهاية ممر الفروسية الإلزامي,Fin de chemin obligatoire pour cavaliers,End of mandatory way for riders
+88,End Mandatory,انتهاء الحد الأدنى للسرعة,Fin de vitesse minimale obligatoire,End of minimum speed limit
+89,End Mandatory,نهاية الممر المخصص للباصات,Fin de voie réservée aux véhicules de transport en commun,End of lane reserved for public transport vehicles
+90,End Mandatory,نهاية الاستعمال الاجباري للسلاسل المعدنية,Fin d'obligation de l'usage des chaînes à neige,End of mandatory use of snow chains
+91,Information,موقف,Stationnement,Parking
+92,Information,منطقة موقف مجاني,Stationnement gratuit,Free Parking Area
+93,Information,وقوف مقابل بدل,Stationnement payant,Paid Parking
+94,Information,السرعة المقترحة,Vitesse conseillée,Advised Speed
+95,Information,نهاية حدود السرعة المقترحة,Fin de vitesse conseillée,End of Advised Speed
+96,Information,موقف سيارات أجرة,Station de taxi,Taxis
+97,Information,موقف باصات,Arrêt d'autobus,Bus Stop
+98,Information,موقف تراموي,Arrêt de tramway,Tram Stop
+99,Information,اتجاه السير اجباري الى الأمام,Circulation à sens unique,One Way Traffic
+100,Information,طريق غير نافذ,Impasse,No Through Road
+101,Information,طريق غير نافذ,Pré signalisation d'une impasse,No Through Road
+102,Information,أفضلية على السيارات القادمة من الجهة المقابلة,Priorité par rapport à la circulation... inverse,Priority over Oncoming Traffic
+103,Information,ممر مشاة,Passage pour piétons,Pedestrian Crossing
+104,Information,تحديد اتجاهات المسارب,Deux voies dans un sens et une voie dans l'autre,Lane Assignments in Two Directions
+105,Information,دمج مسارب السير,Réduction du nombre des voies,Lanes Merge
+106,Information,بداية طريق سريع,Début d'une section d'autoroute,Beginning of highway
+107,Information,نهاية طريق سريع,Fin d'une section d'autoroute,End of highway
+108,Information,مستشفى,Hôpital,Hospital
+109,Information,نفق طوله أكثر من ٥٠٠ م,Tunnel d'une longueur de plus de 500 mètres,"Tunnel, the length is more than 500 meters "
+110,Information,لافتة رادار المراقبة السرعة,Signal annonçant une zone... radar,Radar speed sign
+111,Service,إسعافات أولية,Poste de secours,First Aid Post
+112,Service,مكتب إستعلامات,Bureau d'information,Information Office
+113,Service,إسعافات أولية,Poste de secours,First aid station
+114,Service,هاتف للطوارىء,Poste d'appel d'urgence,Emergency phone
+115,Service,هاتف عمومي,Cabine téléphonique publique,Public phone
+116,Service,مراحيض عامة,Toilettes ouvertes au public,Toilets open to the public
+117,Service,تسهيلات للمعوقين,Installations accessibles aux personnes handicapées,Access for those with disabilities
+118,Service,مطعم,Restaurant ouvert 7/7 jours,Restaurant
+119,Service,مقهى,Café ouvert 7/7 jours,Cafeteria
+120,Service,محطة وقود,Poste de distribution de carburant,Fuel Station
+121,Service,فندق,Hotel ou motel,Hotel/ Motel
+122,Service,موقع تخييم (خيام),Terrain de camping pour tentes,Camping Site (Tents)
+123,Service,موقع تخييم (قوافل),Terrain de camping pour caravanes,Camping Site (Caravans)
+124,Service,نزل للشباب,Auberge de jeunesse,Youth Hostel
+125,Service,مركز تصليح,Poste de d'épannage,Mechanical Help
+126,Directional,لافتة اتجاه مع المسافة,Panneau de position... distance,Position sign with indication of distance
+127,Directional,لافتة متقدمة للدلالة على مخارج,Panneau de signalisation avancée... autoroutière,Signs of advanced motorway junction
+128,Directional,لافتة متقدمة تدل على منطقة معينة,Panneau de signalisation avancée d'aire sur route,Advanced sign for area close to the road
+129,Directional,لافتة متقدمة للدلالة على المسارب,Panneau de signalisation avancée d'affectation...,Advanced sign for motorway junction
+130,Directional,لافتة اتجاه على الطريق السريع,Panneau de signalisation avancée d'affectation...,Advanced sign for motorway junction
+131,Directional,لافتة متقدمة تدل على اتجاهات الحركة...,Panneau de présignalisation diagrammatique...,Advance warning sign at roundabout
+132,Directional,لافتة لمخرج الطريق السريع,Panneau d'avertissement de bifurcation...,Warning sign on freeway for simple exit
+133,Directional,مخرج الى طريق رقم,Sortie,Exit
+134,Directional,لافتة تأكيد الإتجاه على الطريق السريع,Panneau de confirmation de filante...,Confirmation streamlined sign used on highway
+135,Directional,لافتة مطار,Panneau d'aéroport,Airport Sign
+136,Delineators,علامات المنعطفات,Balisage des virages,Delineator of Bends
+137,Delineators,علامات المنعطفات للطرق الثلجية,Balisage des virages sur routes... enneigées,Delinator of Bends on snowy roads
+138,Delineators,علامات لتقاطعات الطرق,Signalisation de position des intersections...,Markup position of road intersection
+139,Delineators,علامات المنعطفات,Balisage de virages,Delineator of bends
+140,Delineators,علامات حدود الطريق,"Délinéateur. Balisage des limites de, chaussées ",Delineator for pavement edges
+141,Delineators,علامات تحديد رؤوس الجزر باللون الأصفر...,plaque Rétro-fléchissant jaune pour têtes d'îlots,Yellow reflective sheet for head of Islands

@@ -1,1 +1,1 @@
-{"root":["./vite.config.ts","./vitest.setup.ts","./scripts/convert-csv-to-qcm.ts","./scripts/extract-arabic-qcm.ts"],"version":"5.9.3"}
+{"root":["./vite.config.ts","./vitest.setup.ts","./scripts/convert-csv-to-qcm.ts","./scripts/convert-signs-csv.ts","./scripts/extract-arabic-qcm.ts"],"version":"5.9.3"}

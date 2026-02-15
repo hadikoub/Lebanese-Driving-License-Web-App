@@ -15,7 +15,9 @@
     "extract:qcm": "node --import tsx scripts/extract-arabic-qcm.ts",
     "extract:qcm:download": "node --import tsx scripts/extract-arabic-qcm.ts /Users/hadikoub/Downloads/exam-questions.pdf",
     "extract:qcm:csv": "node --import tsx scripts/convert-csv-to-qcm.ts",
-    "extract:qcm:csv:file": "node --import tsx scripts/convert-csv-to-qcm.ts /Users/hadikoub/Documents/driving-test/answers-driving-exams-parsed.csv"
+    "extract:qcm:csv:file": "node --import tsx scripts/convert-csv-to-qcm.ts /Users/hadikoub/Documents/driving-test/answers-driving-exams-parsed.csv",
+    "extract:signs": "node --import tsx scripts/convert-signs-csv.ts",
+    "extract:signs:file": "node --import tsx scripts/convert-signs-csv.ts /Users/hadikoub/Documents/driving-test/Road_Signs_Quiz_FlashCard.csv /Users/hadikoub/Documents/driving-test/Road_Signs_Quiz_Version.csv"
   },
   "dependencies": {
     "react": "^18.3.1",

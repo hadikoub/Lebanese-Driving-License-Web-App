@@ -59,6 +59,12 @@ export function HomePage(): JSX.Element {
             <Link className="button-link" to="/quiz/exam">
               بدء الامتحان
             </Link>
+            <Link className="button-link" to="/signs/flashcards">
+              Signs Flashcards
+            </Link>
+            <Link className="button-link" to="/signs/quiz">
+              Signs Quiz
+            </Link>
             <Link className="button-link" to="/story">
               Story Mode
             </Link>

@@ -1,0 +1,14 @@
+{
+  "flashcardsCsvPath": "/Users/hadikoub/Documents/driving-test/Road_Signs_Quiz_FlashCard.csv",
+  "quizCsvPath": "/Users/hadikoub/Documents/driving-test/Road_Signs_Quiz_Version.csv",
+  "generatedAt": "2026-02-15T21:03:48.603Z",
+  "flashcardsTotalRows": 141,
+  "flashcardsExtracted": 141,
+  "flashcardsSkipped": 0,
+  "quizTotalRows": 141,
+  "quizExtracted": 141,
+  "quizSkipped": 0,
+  "unresolvedQuizAnswers": 0,
+  "missingImageCount": 0,
+  "imagesSynced": true
+}

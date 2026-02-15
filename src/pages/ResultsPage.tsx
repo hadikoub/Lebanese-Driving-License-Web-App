@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { useAppState } from "../AppState";
+import { SignImage } from "../components/SignImage";
 import { formatDuration } from "../lib/quiz";
 
 export function ResultsPage(): JSX.Element {
@@ -74,7 +75,7 @@ export function ResultsPage(): JSX.Element {
             <h4>{question.promptAr}</h4>
             {question.signPath && (
               <figure className="question-sign small">
-                <img src={question.signPath} alt="إشارة مرورية مرتبطة بالسؤال" loading="lazy" />
+                <SignImage src={question.signPath} alt="إشارة مرورية مرتبطة بالسؤال" loading="lazy" />
               </figure>
             )}
             <p>اختيارك: {selected ?? "لم يتم الاختيار"}</p>

@@ -1,0 +1,1842 @@
+{
+  "id": "road-signs-quiz-ar-v1",
+  "titleAr": "اختبار إشارات السير",
+  "language": "ar",
+  "direction": "rtl",
+  "questions": [
+    {
+      "id": "sq-0001",
+      "sourceId": 1,
+      "type": "Warning",
+      "imagePath": "/assets/sign_images_by_id/001.png",
+      "optionsAr": [
+        "منعطف لليمين",
+        "لافتة متقدمة للدلالة على مخارج",
+        "تقاطع - إفسح المجال للسيارات القادمة من اليمين"
+      ],
+      "correctOptionIndex": 0,
+      "correctAnswerAr": "منعطف لليمين"
+    },
+    {
+      "id": "sq-0002",
+      "sourceId": 2,
+      "type": "Warning",
+      "imagePath": "/assets/sign_images_by_id/002.png",
+      "optionsAr": [
+        "ممنوع دخول المركبات التي تحمل مواد متفجرة...",
+        "منعطف لليسار",
+        "لافتة اتجاه على الطريق السريع"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswerAr": "منعطف لليسار"
+    },
+    {
+      "id": "sq-0003",
+      "sourceId": 3,
+      "type": "Warning",
+      "imagePath": "/assets/sign_images_by_id/003.png",
+      "optionsAr": [
+        "محطة وقود",
+        "تقاطع مع طريق بدون أفضلية",
+        "منعطفان من اليمين إلى اليسار"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswerAr": "منعطفان من اليمين إلى اليسار"
+    },
+    {
+      "id": "sq-0004",
+      "sourceId": 4,
+      "type": "Warning",
+      "imagePath": "/assets/sign_images_by_id/004.png",
+      "optionsAr": [
+        "منعطفان من اليسار إلى اليمين",
+        "وقوف مقابل بدل",
+        "ممنوع التجاوز"
+      ],
+      "correctOptionIndex": 0,
+      "correctAnswerAr": "منعطفان من اليسار إلى اليمين"
+    },
+    {
+      "id": "sq-0005",
+      "sourceId": 5,
+      "type": "Warning",
+      "imagePath": "/assets/sign_images_by_id/005.png",
+      "optionsAr": [
+        "مسار إلزامي للمشاة",
+        "اتجاه سير اجباري إلى اليسار",
+        "انخفاضات"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswerAr": "انخفاضات"
+    },
+    {
+      "id": "sq-0006",
+      "sourceId": 6,
+      "type": "Warning",
+      "imagePath": "/assets/sign_images_by_id/006.png",
+      "optionsAr": [
+        "ممنوع التجاوز",
+        "مخرج الى طريق رقم",
+        "مطب تخفيض سرعة"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswerAr": "مطب تخفيض سرعة"
+    },
+    {
+      "id": "sq-0007",
+      "sourceId": 7,
+      "type": "Warning",
+      "imagePath": "/assets/sign_images_by_id/007.png",
+      "optionsAr": [
+        "الطريق يضيق من اليسار",
+        "علامات تحديد رؤوس الجزر باللون الأصفر...",
+        "ممنوع دخول العربات التي تقطرها الحيوانات"
+      ],
+      "correctOptionIndex": 0,
+      "correctAnswerAr": "الطريق يضيق من اليسار"
+    },
+    {
+      "id": "sq-0008",
+      "sourceId": 8,
+      "type": "Warning",
+      "imagePath": "/assets/sign_images_by_id/008.png",
+      "optionsAr": [
+        "الطريق يضيق من الجانبين",
+        "الزم اليسار",
+        "مسار إلزامي للمشاة"
+      ],
+      "correctOptionIndex": 0,
+      "correctAnswerAr": "الطريق يضيق من الجانبين"
+    },
+    {
+      "id": "sq-0009",
+      "sourceId": 9,
+      "type": "Warning",
+      "imagePath": "/assets/sign_images_by_id/009.png",
+      "optionsAr": [
+        "اتجاه اجباري الى اليمين",
+        "الطريق يضيق من اليمين",
+        "هاتف عمومي"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswerAr": "الطريق يضيق من اليمين"
+    },
+    {
+      "id": "sq-0010",
+      "sourceId": 10,
+      "type": "Warning",
+      "imagePath": "/assets/sign_images_by_id/010.png",
+      "optionsAr": [
+        "مقهى",
+        "إشارات كهربائية",
+        "خطر انهيارات"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswerAr": "إشارات كهربائية"
+    },
+    {
+      "id": "sq-0011",
+      "sourceId": 11,
+      "type": "Warning",
+      "imagePath": "/assets/sign_images_by_id/011.png",
+      "optionsAr": [
+        "حركة سير في كلا الاتجاهين",
+        "الزم اليسار",
+        "هاتف عمومي"
+      ],
+      "correctOptionIndex": 0,
+      "correctAnswerAr": "حركة سير في كلا الاتجاهين"
+    },
+    {
+      "id": "sq-0012",
+      "sourceId": 12,
+      "type": "Warning",
+      "imagePath": "/assets/sign_images_by_id/012.png",
+      "optionsAr": [
+        "الزم اليسار",
+        "خطر انهيارات",
+        "نهاية الاستعمال الاجباري للسلاسل المعدنية"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswerAr": "خطر انهيارات"
+    },
+    {
+      "id": "sq-0013",
+      "sourceId": 13,
+      "type": "Warning",
+      "imagePath": "/assets/sign_images_by_id/013.png",
+      "optionsAr": [
+        "نهاية ممر الفروسية الإلزامي",
+        "تحليق منخفض للطائرات",
+        "اتجاه سير اجباري إلى اليمين"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswerAr": "تحليق منخفض للطائرات"
+    },
+    {
+      "id": "sq-0014",
+      "sourceId": 14,
+      "type": "Warning",
+      "imagePath": "/assets/sign_images_by_id/014.png",
+      "optionsAr": [
+        "اتجاه سير اجباري إلى اليسار",
+        "إنحدار خطر",
+        "ممنوع مرور المركبات التي يزيد وزنها المحوري عن الرقم المحدد"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswerAr": "إنحدار خطر"
+    },
+    {
+      "id": "sq-0015",
+      "sourceId": 15,
+      "type": "Warning",
+      "imagePath": "/assets/sign_images_by_id/015.png",
+      "optionsAr": [
+        "رياح جانبية",
+        "اتجاه اجباري إلى اليسار",
+        "اتجاه اجباري مستقيم أو إلى اليسار"
+      ],
+      "correctOptionIndex": 0,
+      "correctAnswerAr": "رياح جانبية"
+    },
+    {
+      "id": "sq-0016",
+      "sourceId": 16,
+      "type": "Warning",
+      "imagePath": "/assets/sign_images_by_id/016.png",
+      "optionsAr": [
+        "موقع تخييم (قوافل)",
+        "عبور حيوانات",
+        "ممنوع مرور المركبات التي يزيد وزنها المحوري عن الرقم المحدد"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswerAr": "عبور حيوانات"
+    },
+    {
+      "id": "sq-0017",
+      "sourceId": 17,
+      "type": "Warning",
+      "imagePath": "/assets/sign_images_by_id/017.png",
+      "optionsAr": [
+        "تقاطع مع طريق بدون أفضلية",
+        "علامات المنعطفات للطرق الثلجية",
+        "عبور دراجات"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswerAr": "عبور دراجات"
+    },
+    {
+      "id": "sq-0018",
+      "sourceId": 18,
+      "type": "Warning",
+      "imagePath": "/assets/sign_images_by_id/018.png",
+      "optionsAr": [
+        "منعطفان من اليسار إلى اليمين",
+        "موقف سيارات أجرة",
+        "أشغال"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswerAr": "أشغال"
+    },
+    {
+      "id": "sq-0019",
+      "sourceId": 19,
+      "type": "Warning",
+      "imagePath": "/assets/sign_images_by_id/019.png",
+      "optionsAr": [
+        "ممر أو طريق للدراجات الهوائية",
+        "طريق منزلق",
+        "ممر سكة حديد"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswerAr": "ممر سكة حديد"
+    },
+    {
+      "id": "sq-0020",
+      "sourceId": 20,
+      "type": "Warning",
+      "imagePath": "/assets/sign_images_by_id/020.png",
+      "optionsAr": [
+        "ممنوع دخول الشاحنات",
+        "انتهاء قيود منع تجاوز الشاحنات",
+        "طريق منزلق"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswerAr": "طريق منزلق"
+    },
+    {
+      "id": "sq-0021",
+      "sourceId": 21,
+      "type": "Warning",
+      "imagePath": "/assets/sign_images_by_id/021.png",
+      "optionsAr": [
+        "نهاية طريق أفضلية",
+        "تقاطع سكة حديد مجهز بحواجز",
+        "موقف سيارات أجرة"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswerAr": "تقاطع سكة حديد مجهز بحواجز"
+    },
+    {
+      "id": "sq-0022",
+      "sourceId": 22,
+      "type": "Warning",
+      "imagePath": "/assets/sign_images_by_id/022.png",
+      "optionsAr": [
+        "اتجاه سير اجباري إلى اليمين",
+        "تقاطع سكة حديد دون حواجز",
+        "لافتة متقدمة تدل على اتجاهات الحركة..."
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswerAr": "تقاطع سكة حديد دون حواجز"
+    },
+    {
+      "id": "sq-0023",
+      "sourceId": 23,
+      "type": "Warning",
+      "imagePath": "/assets/sign_images_by_id/023.png",
+      "optionsAr": [
+        "ممر أطفال / أولاد",
+        "مطب تخفيض سرعة",
+        "منطقة موقف مجاني"
+      ],
+      "correctOptionIndex": 0,
+      "correctAnswerAr": "ممر أطفال / أولاد"
+    },
+    {
+      "id": "sq-0024",
+      "sourceId": 24,
+      "type": "Warning",
+      "imagePath": "/assets/sign_images_by_id/024.png",
+      "optionsAr": [
+        "انتهاء الحد الأدنى للسرعة",
+        "مخرج الى طريق رقم",
+        "انتبه مدرسة"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswerAr": "انتبه مدرسة"
+    },
+    {
+      "id": "sq-0025",
+      "sourceId": 25,
+      "type": "Warning",
+      "imagePath": "/assets/sign_images_by_id/025.png",
+      "optionsAr": [
+        "ممر مشاة",
+        "نهاية الممر المخصص للباصات",
+        "توقف عند التقاطع"
+      ],
+      "correctOptionIndex": 0,
+      "correctAnswerAr": "ممر مشاة"
+    },
+    {
+      "id": "sq-0026",
+      "sourceId": 26,
+      "type": "Warning",
+      "imagePath": "/assets/sign_images_by_id/026.png",
+      "optionsAr": [
+        "السلاسل المعدنية الزامية",
+        "موقع تخييم (خيام)",
+        "خطر غير محدد"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswerAr": "خطر غير محدد"
+    },
+    {
+      "id": "sq-0027",
+      "sourceId": 27,
+      "type": "Intersection",
+      "imagePath": "/assets/sign_images_by_id/027.png",
+      "optionsAr": [
+        "انخفاضات",
+        "توقف عند التقاطع",
+        "بداية طريق سريع"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswerAr": "توقف عند التقاطع"
+    },
+    {
+      "id": "sq-0028",
+      "sourceId": 28,
+      "type": "Intersection",
+      "imagePath": "/assets/sign_images_by_id/028.png",
+      "optionsAr": [
+        "هاتف عمومي",
+        "ممنوع دخول المركبات التي تحمل مواد ملوثة",
+        "افسح الطريق"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswerAr": "افسح الطريق"
+    },
+    {
+      "id": "sq-0029",
+      "sourceId": 29,
+      "type": "Intersection",
+      "imagePath": "/assets/sign_images_by_id/029.png",
+      "optionsAr": [
+        "حركة سير دائرية - مستديرة",
+        "لافتة تأكيد الإتجاه على الطريق السريع",
+        "انتهاء منع قيود التجاوز"
+      ],
+      "correctOptionIndex": 0,
+      "correctAnswerAr": "حركة سير دائرية - مستديرة"
+    },
+    {
+      "id": "sq-0030",
+      "sourceId": 30,
+      "type": "Intersection",
+      "imagePath": "/assets/sign_images_by_id/030.png",
+      "optionsAr": [
+        "تقاطع - إفسح المجال للسيارات القادمة من اليمين",
+        "عبور حيوانات",
+        "اتجاه اجباري إلى اليسار"
+      ],
+      "correctOptionIndex": 0,
+      "correctAnswerAr": "تقاطع - إفسح المجال للسيارات القادمة من اليمين"
+    },
+    {
+      "id": "sq-0031",
+      "sourceId": 31,
+      "type": "Intersection",
+      "imagePath": "/assets/sign_images_by_id/031.png",
+      "optionsAr": [
+        "لافتة متقدمة تدل على اتجاهات الحركة...",
+        "تقاطع مع طريق بدون أفضلية",
+        "ممنوع مرور المركبات التي يزيد وزنها المحوري عن الرقم المحدد"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswerAr": "تقاطع مع طريق بدون أفضلية"
+    },
+    {
+      "id": "sq-0032",
+      "sourceId": 32,
+      "type": "Intersection",
+      "imagePath": "/assets/sign_images_by_id/032.png",
+      "optionsAr": [
+        "نهاية الاستعمال الاجباري للسلاسل المعدنية",
+        "طريق أفضلية",
+        "وقوف مقابل بدل"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswerAr": "طريق أفضلية"
+    },
+    {
+      "id": "sq-0033",
+      "sourceId": 33,
+      "type": "Intersection",
+      "imagePath": "/assets/sign_images_by_id/033.png",
+      "optionsAr": [
+        "انتبه مدرسة",
+        "نهاية طريق أفضلية",
+        "ممنوع مرور المركبات التي يزيد ارتفاعها عن الرقم المحدد"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswerAr": "نهاية طريق أفضلية"
+    },
+    {
+      "id": "sq-0034",
+      "sourceId": 34,
+      "type": "Prohibition",
+      "imagePath": "/assets/sign_images_by_id/034.png",
+      "optionsAr": [
+        "ممنوع الوقوف",
+        "لافتة لمخرج الطريق السريع",
+        "ممنوع مرور عموم المركبات في الاتجاهين"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswerAr": "ممنوع مرور عموم المركبات في الاتجاهين"
+    },
+    {
+      "id": "sq-0035",
+      "sourceId": 35,
+      "type": "Prohibition",
+      "imagePath": "/assets/sign_images_by_id/035.png",
+      "optionsAr": [
+        "ممنوع دخول العربات التي تجر باليد",
+        "السلاسل المعدنية الزامية",
+        "ممنوع الدخول"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswerAr": "ممنوع الدخول"
+    },
+    {
+      "id": "sq-0036",
+      "sourceId": 36,
+      "type": "Prohibition",
+      "imagePath": "/assets/sign_images_by_id/036.png",
+      "optionsAr": [
+        "السرعة المقترحة",
+        "ممنوع الاتجاه لليسار",
+        "نهاية طريق سريع"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswerAr": "ممنوع الاتجاه لليسار"
+    },
+    {
+      "id": "sq-0037",
+      "sourceId": 37,
+      "type": "Prohibition",
+      "imagePath": "/assets/sign_images_by_id/037.png",
+      "optionsAr": [
+        "ممنوع الاتجاه لليمين",
+        "انتهاء الحد الأدنى للسرعة",
+        "اتجاه اجباري إلى اليسار"
+      ],
+      "correctOptionIndex": 0,
+      "correctAnswerAr": "ممنوع الاتجاه لليمين"
+    },
+    {
+      "id": "sq-0038",
+      "sourceId": 38,
+      "type": "Prohibition",
+      "imagePath": "/assets/sign_images_by_id/038.png",
+      "optionsAr": [
+        "موقف باصات",
+        "منعطفان من اليمين إلى اليسار",
+        "ممنوع الالتفاف"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswerAr": "ممنوع الالتفاف"
+    },
+    {
+      "id": "sq-0039",
+      "sourceId": 39,
+      "type": "Prohibition",
+      "imagePath": "/assets/sign_images_by_id/039.png",
+      "optionsAr": [
+        "ممنوع التجاوز",
+        "تقاطع - إفسح المجال للسيارات القادمة من اليمين",
+        "علامات المنعطفات"
+      ],
+      "correctOptionIndex": 0,
+      "correctAnswerAr": "ممنوع التجاوز"
+    },
+    {
+      "id": "sq-0040",
+      "sourceId": 40,
+      "type": "Prohibition",
+      "imagePath": "/assets/sign_images_by_id/040.png",
+      "optionsAr": [
+        "أدنى سرعة الزامية",
+        "ممنوع التجاوز السيارات النقل",
+        "مطب تخفيض سرعة"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswerAr": "ممنوع التجاوز السيارات النقل"
+    },
+    {
+      "id": "sq-0041",
+      "sourceId": 41,
+      "type": "Prohibition",
+      "imagePath": "/assets/sign_images_by_id/041.png",
+      "optionsAr": [
+        "خطر غير محدد",
+        "ممنوع دخول السيارات والدراجات الآلية",
+        "ممر سكة حديد"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswerAr": "ممنوع دخول السيارات والدراجات الآلية"
+    },
+    {
+      "id": "sq-0042",
+      "sourceId": 42,
+      "type": "Prohibition",
+      "imagePath": "/assets/sign_images_by_id/042.png",
+      "optionsAr": [
+        "ممنوع دخول الشاحنات",
+        "منعطف لليسار",
+        "موقف"
+      ],
+      "correctOptionIndex": 0,
+      "correctAnswerAr": "ممنوع دخول الشاحنات"
+    },
+    {
+      "id": "sq-0043",
+      "sourceId": 43,
+      "type": "Prohibition",
+      "imagePath": "/assets/sign_images_by_id/043.png",
+      "optionsAr": [
+        "ممنوع دخول المشاة",
+        "الزم اليمين",
+        "نهاية الممر الإجباري للمشاة"
+      ],
+      "correctOptionIndex": 0,
+      "correctAnswerAr": "ممنوع دخول المشاة"
+    },
+    {
+      "id": "sq-0044",
+      "sourceId": 44,
+      "type": "Prohibition",
+      "imagePath": "/assets/sign_images_by_id/044.png",
+      "optionsAr": [
+        "السلاسل المعدنية الزامية",
+        "فندق",
+        "ممنوع دخول الدراجات الهوائية"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswerAr": "ممنوع دخول الدراجات الهوائية"
+    },
+    {
+      "id": "sq-0045",
+      "sourceId": 45,
+      "type": "Prohibition",
+      "imagePath": "/assets/sign_images_by_id/045.png",
+      "optionsAr": [
+        "إنحدار خطر",
+        "أدنى سرعة الزامية",
+        "ممنوع دخول العربات التي تقطرها الحيوانات"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswerAr": "ممنوع دخول العربات التي تقطرها الحيوانات"
+    },
+    {
+      "id": "sq-0046",
+      "sourceId": 46,
+      "type": "Prohibition",
+      "imagePath": "/assets/sign_images_by_id/046.png",
+      "optionsAr": [
+        "ممنوع دخول المركبات الزراعية",
+        "تسهيلات للمعوقين",
+        "ممنوع دخول الشاحنات"
+      ],
+      "correctOptionIndex": 0,
+      "correctAnswerAr": "ممنوع دخول المركبات الزراعية"
+    },
+    {
+      "id": "sq-0047",
+      "sourceId": 47,
+      "type": "Prohibition",
+      "imagePath": "/assets/sign_images_by_id/047.png",
+      "optionsAr": [
+        "ممنوع دخول العربات التي تجر باليد",
+        "علامات حدود الطريق",
+        "محطة وقود"
+      ],
+      "correctOptionIndex": 0,
+      "correctAnswerAr": "ممنوع دخول العربات التي تجر باليد"
+    },
+    {
+      "id": "sq-0048",
+      "sourceId": 48,
+      "type": "Prohibition",
+      "imagePath": "/assets/sign_images_by_id/048.png",
+      "optionsAr": [
+        "إنحدار خطر",
+        "ممنوع دخول باصات النقل العام",
+        "انتهاء منع استعمال المنبه"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswerAr": "ممنوع دخول باصات النقل العام"
+    },
+    {
+      "id": "sq-0049",
+      "sourceId": 49,
+      "type": "Prohibition",
+      "imagePath": "/assets/sign_images_by_id/049.png",
+      "optionsAr": [
+        "ممنوع دخول الدراجات الآلية",
+        "انتهاء منع قيود التجاوز",
+        "مطب تخفيض سرعة"
+      ],
+      "correctOptionIndex": 0,
+      "correctAnswerAr": "ممنوع دخول الدراجات الآلية"
+    },
+    {
+      "id": "sq-0050",
+      "sourceId": 50,
+      "type": "Prohibition",
+      "imagePath": "/assets/sign_images_by_id/050.png",
+      "optionsAr": [
+        "تحليق منخفض للطائرات",
+        "ممنوع مرور المركبات التي يزيد طولها عن الرقم المحدد",
+        "نهاية ممر أو طريق للدراجات الهوائية"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswerAr": "ممنوع مرور المركبات التي يزيد طولها عن الرقم المحدد"
+    },
+    {
+      "id": "sq-0051",
+      "sourceId": 51,
+      "type": "Prohibition",
+      "imagePath": "/assets/sign_images_by_id/051.png",
+      "optionsAr": [
+        "مخرج الى طريق رقم",
+        "لافتة متقدمة للدلالة على المسارب",
+        "ممنوع مرور المركبات التي يزيد عرضها عن الرقم المحدد"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswerAr": "ممنوع مرور المركبات التي يزيد عرضها عن الرقم المحدد"
+    },
+    {
+      "id": "sq-0052",
+      "sourceId": 52,
+      "type": "Prohibition",
+      "imagePath": "/assets/sign_images_by_id/052.png",
+      "optionsAr": [
+        "إسعافات أولية",
+        "منعطف لليمين",
+        "ممنوع مرور المركبات التي يزيد ارتفاعها عن الرقم المحدد"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswerAr": "ممنوع مرور المركبات التي يزيد ارتفاعها عن الرقم المحدد"
+    },
+    {
+      "id": "sq-0053",
+      "sourceId": 53,
+      "type": "Prohibition",
+      "imagePath": "/assets/sign_images_by_id/053.png",
+      "optionsAr": [
+        "اتجاه اجباري الى اليمين",
+        "ممنوع مرور المركبات التي يزيد وزنها عن الرقم المحدد",
+        "ممر أو طريق للدراجات الهوائية"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswerAr": "ممنوع مرور المركبات التي يزيد وزنها عن الرقم المحدد"
+    },
+    {
+      "id": "sq-0054",
+      "sourceId": 54,
+      "type": "Prohibition",
+      "imagePath": "/assets/sign_images_by_id/054.png",
+      "optionsAr": [
+        "ممنوع مرور المركبات التي يزيد وزنها المحوري عن الرقم المحدد",
+        "ممنوع دخول العربات التي تجر باليد",
+        "فندق"
+      ],
+      "correctOptionIndex": 0,
+      "correctAnswerAr": "ممنوع مرور المركبات التي يزيد وزنها المحوري عن الرقم المحدد"
+    },
+    {
+      "id": "sq-0055",
+      "sourceId": 55,
+      "type": "Prohibition",
+      "imagePath": "/assets/sign_images_by_id/055.png",
+      "optionsAr": [
+        "ممر سكة حديد",
+        "أقصى سرعة مسموح بها",
+        "مركز تصليح"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswerAr": "أقصى سرعة مسموح بها"
+    },
+    {
+      "id": "sq-0056",
+      "sourceId": 56,
+      "type": "Prohibition",
+      "imagePath": "/assets/sign_images_by_id/056.png",
+      "optionsAr": [
+        "أفضلية المرور للسيارات القادمة من الجهة المقابلة",
+        "منعطف لليسار",
+        "أدنى سرعة الزامية"
+      ],
+      "correctOptionIndex": 0,
+      "correctAnswerAr": "أفضلية المرور للسيارات القادمة من الجهة المقابلة"
+    },
+    {
+      "id": "sq-0057",
+      "sourceId": 57,
+      "type": "Prohibition",
+      "imagePath": "/assets/sign_images_by_id/057.png",
+      "optionsAr": [
+        "لافتة مطار",
+        "ممنوع استعمال المنبه",
+        "أدنى سرعة الزامية"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswerAr": "ممنوع استعمال المنبه"
+    },
+    {
+      "id": "sq-0058",
+      "sourceId": 58,
+      "type": "Prohibition",
+      "imagePath": "/assets/sign_images_by_id/058.png",
+      "optionsAr": [
+        "ممنوع استعمال المنبه",
+        "ممنوع دخول المركبات التي تحمل مواد ملوثة",
+        "خطر غير محدد"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswerAr": "ممنوع دخول المركبات التي تحمل مواد ملوثة"
+    },
+    {
+      "id": "sq-0059",
+      "sourceId": 59,
+      "type": "Prohibition",
+      "imagePath": "/assets/sign_images_by_id/059.png",
+      "optionsAr": [
+        "ممنوع دخول باصات النقل العام",
+        "ممر سكة حديد",
+        "ممنوع دخول المركبات التي تحمل مواد متفجرة..."
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswerAr": "ممنوع دخول المركبات التي تحمل مواد متفجرة..."
+    },
+    {
+      "id": "sq-0060",
+      "sourceId": 60,
+      "type": "Prohibition",
+      "imagePath": "/assets/sign_images_by_id/060.png",
+      "optionsAr": [
+        "ممنوع دخول المركبات التي تحمل مواد خطرة",
+        "ممنوع دخول باصات النقل العام",
+        "طريق غير نافذ"
+      ],
+      "correctOptionIndex": 0,
+      "correctAnswerAr": "ممنوع دخول المركبات التي تحمل مواد خطرة"
+    },
+    {
+      "id": "sq-0061",
+      "sourceId": 61,
+      "type": "Parking",
+      "imagePath": "/assets/sign_images_by_id/061.png",
+      "optionsAr": [
+        "مقهى",
+        "طريق غير نافذ",
+        "ممنوع الوقوف"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswerAr": "ممنوع الوقوف"
+    },
+    {
+      "id": "sq-0062",
+      "sourceId": 62,
+      "type": "Parking",
+      "imagePath": "/assets/sign_images_by_id/062.png",
+      "optionsAr": [
+        "موقف سيارات أجرة",
+        "ممنوع التوقف والوقوف",
+        "ممر مخصص للفروسية"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswerAr": "ممنوع التوقف والوقوف"
+    },
+    {
+      "id": "sq-0063",
+      "sourceId": 63,
+      "type": "Parking",
+      "imagePath": "/assets/sign_images_by_id/063.png",
+      "optionsAr": [
+        "الطريق يضيق من الجانبين",
+        "ممنوع التجاوز السيارات النقل",
+        "بداية منطقة موقف بدل دفع"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswerAr": "بداية منطقة موقف بدل دفع"
+    },
+    {
+      "id": "sq-0064",
+      "sourceId": 64,
+      "type": "Mandatory",
+      "imagePath": "/assets/sign_images_by_id/064.png",
+      "optionsAr": [
+        "انخفاضات",
+        "اتجاه سير اجباري إلى اليمين",
+        "ممنوع مرور عموم المركبات في الاتجاهين"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswerAr": "اتجاه سير اجباري إلى اليمين"
+    },
+    {
+      "id": "sq-0065",
+      "sourceId": 65,
+      "type": "Mandatory",
+      "imagePath": "/assets/sign_images_by_id/065.png",
+      "optionsAr": [
+        "علامات لتقاطعات الطرق",
+        "مركز تصليح",
+        "اتجاه سير اجباري إلى اليسار"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswerAr": "اتجاه سير اجباري إلى اليسار"
+    },
+    {
+      "id": "sq-0066",
+      "sourceId": 66,
+      "type": "Mandatory",
+      "imagePath": "/assets/sign_images_by_id/066.png",
+      "optionsAr": [
+        "ممنوع الدخول",
+        "الزم اليمين",
+        "ممنوع التجاوز السيارات النقل"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswerAr": "الزم اليمين"
+    },
+    {
+      "id": "sq-0067",
+      "sourceId": 67,
+      "type": "Mandatory",
+      "imagePath": "/assets/sign_images_by_id/067.png",
+      "optionsAr": [
+        "علامات لتقاطعات الطرق",
+        "الطريق يضيق من الجانبين",
+        "الزم اليسار"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswerAr": "الزم اليسار"
+    },
+    {
+      "id": "sq-0068",
+      "sourceId": 68,
+      "type": "Mandatory",
+      "imagePath": "/assets/sign_images_by_id/068.png",
+      "optionsAr": [
+        "ممنوع التجاوز السيارات النقل",
+        "انتهاء منع قيود التجاوز",
+        "اتجاه اجباري مستقيم"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswerAr": "اتجاه اجباري مستقيم"
+    },
+    {
+      "id": "sq-0069",
+      "sourceId": 69,
+      "type": "Mandatory",
+      "imagePath": "/assets/sign_images_by_id/069.png",
+      "optionsAr": [
+        "انتهاء قيود منع تجاوز الشاحنات",
+        "منعطف لليمين",
+        "اتجاه اجباري الى اليمين"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswerAr": "اتجاه اجباري الى اليمين"
+    },
+    {
+      "id": "sq-0070",
+      "sourceId": 70,
+      "type": "Mandatory",
+      "imagePath": "/assets/sign_images_by_id/070.png",
+      "optionsAr": [
+        "اتجاه اجباري مستقيم أو إلى اليسار",
+        "اتجاه اجباري إلى اليسار",
+        "تقاطع - إفسح المجال للسيارات القادمة من اليمين"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswerAr": "اتجاه اجباري إلى اليسار"
+    },
+    {
+      "id": "sq-0071",
+      "sourceId": 71,
+      "type": "Mandatory",
+      "imagePath": "/assets/sign_images_by_id/071.png",
+      "optionsAr": [
+        "اتجاه اجباري مستقيم أو إلى اليمين",
+        "ممنوع التجاوز السيارات النقل",
+        "ممنوع دخول السيارات والدراجات الآلية"
+      ],
+      "correctOptionIndex": 0,
+      "correctAnswerAr": "اتجاه اجباري مستقيم أو إلى اليمين"
+    },
+    {
+      "id": "sq-0072",
+      "sourceId": 72,
+      "type": "Mandatory",
+      "imagePath": "/assets/sign_images_by_id/072.png",
+      "optionsAr": [
+        "مطعم",
+        "مسار إلزامي للمشاة",
+        "اتجاه اجباري مستقيم أو إلى اليسار"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswerAr": "اتجاه اجباري مستقيم أو إلى اليسار"
+    },
+    {
+      "id": "sq-0073",
+      "sourceId": 73,
+      "type": "Mandatory",
+      "imagePath": "/assets/sign_images_by_id/073.png",
+      "optionsAr": [
+        "دمج مسارب السير",
+        "مسار إلزامي للمشاة",
+        "اتجاه اجباري الى اليمين أو الى اليسار"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswerAr": "اتجاه اجباري الى اليمين أو الى اليسار"
+    },
+    {
+      "id": "sq-0074",
+      "sourceId": 74,
+      "type": "Mandatory",
+      "imagePath": "/assets/sign_images_by_id/074.png",
+      "optionsAr": [
+        "ممر أو طريق للدراجات الهوائية",
+        "ممنوع دخول المركبات التي تحمل مواد خطرة",
+        "طريق غير نافذ"
+      ],
+      "correctOptionIndex": 0,
+      "correctAnswerAr": "ممر أو طريق للدراجات الهوائية"
+    },
+    {
+      "id": "sq-0075",
+      "sourceId": 75,
+      "type": "Mandatory",
+      "imagePath": "/assets/sign_images_by_id/075.png",
+      "optionsAr": [
+        "عبور حيوانات",
+        "مخرج الى طريق رقم",
+        "مسار إلزامي للمشاة"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswerAr": "مسار إلزامي للمشاة"
+    },
+    {
+      "id": "sq-0076",
+      "sourceId": 76,
+      "type": "Mandatory",
+      "imagePath": "/assets/sign_images_by_id/076.png",
+      "optionsAr": [
+        "ممنوع الاتجاه لليمين",
+        "لافتة متقدمة تدل على اتجاهات الحركة...",
+        "ممر مخصص للفروسية"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswerAr": "ممر مخصص للفروسية"
+    },
+    {
+      "id": "sq-0077",
+      "sourceId": 77,
+      "type": "Mandatory",
+      "imagePath": "/assets/sign_images_by_id/077.png",
+      "optionsAr": [
+        "هاتف عمومي",
+        "اتجاه اجباري الى اليمين أو الى اليسار",
+        "أدنى سرعة الزامية"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswerAr": "أدنى سرعة الزامية"
+    },
+    {
+      "id": "sq-0078",
+      "sourceId": 78,
+      "type": "Mandatory",
+      "imagePath": "/assets/sign_images_by_id/078.png",
+      "optionsAr": [
+        "انتهاء قيود منع تجاوز الشاحنات",
+        "الزم اليمين",
+        "السلاسل المعدنية الزامية"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswerAr": "السلاسل المعدنية الزامية"
+    },
+    {
+      "id": "sq-0079",
+      "sourceId": 79,
+      "type": "Mandatory",
+      "imagePath": "/assets/sign_images_by_id/079.png",
+      "optionsAr": [
+        "منعطفان من اليسار إلى اليمين",
+        "مسرب مخصص للباصات",
+        "ممنوع دخول المركبات الزراعية"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswerAr": "مسرب مخصص للباصات"
+    },
+    {
+      "id": "sq-0080",
+      "sourceId": 80,
+      "type": "End Prohibition",
+      "imagePath": "/assets/sign_images_by_id/080.png",
+      "optionsAr": [
+        "انتهاء جميع القيود السابقة على حركة السير",
+        "مقهى",
+        "ممنوع استعمال المنبه"
+      ],
+      "correctOptionIndex": 0,
+      "correctAnswerAr": "انتهاء جميع القيود السابقة على حركة السير"
+    },
+    {
+      "id": "sq-0081",
+      "sourceId": 81,
+      "type": "End Prohibition",
+      "imagePath": "/assets/sign_images_by_id/081.png",
+      "optionsAr": [
+        "تسهيلات للمعوقين",
+        "مخرج الى طريق رقم",
+        "انتهاء حد السرعة"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswerAr": "انتهاء حد السرعة"
+    },
+    {
+      "id": "sq-0082",
+      "sourceId": 82,
+      "type": "End Prohibition",
+      "imagePath": "/assets/sign_images_by_id/082.png",
+      "optionsAr": [
+        "ممنوع التوقف والوقوف",
+        "أشغال",
+        "انتهاء منع قيود التجاوز"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswerAr": "انتهاء منع قيود التجاوز"
+    },
+    {
+      "id": "sq-0083",
+      "sourceId": 83,
+      "type": "End Prohibition",
+      "imagePath": "/assets/sign_images_by_id/083.png",
+      "optionsAr": [
+        "انتهاء حد السرعة",
+        "إشارات كهربائية",
+        "انتهاء قيود منع تجاوز الشاحنات"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswerAr": "انتهاء قيود منع تجاوز الشاحنات"
+    },
+    {
+      "id": "sq-0084",
+      "sourceId": 84,
+      "type": "End Prohibition",
+      "imagePath": "/assets/sign_images_by_id/084.png",
+      "optionsAr": [
+        "الزم اليسار",
+        "ممنوع دخول الشاحنات",
+        "انتهاء منع استعمال المنبه"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswerAr": "انتهاء منع استعمال المنبه"
+    },
+    {
+      "id": "sq-0085",
+      "sourceId": 85,
+      "type": "End Mandatory",
+      "imagePath": "/assets/sign_images_by_id/085.png",
+      "optionsAr": [
+        "موقع تخييم (خيام)",
+        "ممنوع مرور المركبات التي يزيد وزنها المحوري عن الرقم المحدد",
+        "نهاية ممر أو طريق للدراجات الهوائية"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswerAr": "نهاية ممر أو طريق للدراجات الهوائية"
+    },
+    {
+      "id": "sq-0086",
+      "sourceId": 86,
+      "type": "End Mandatory",
+      "imagePath": "/assets/sign_images_by_id/086.png",
+      "optionsAr": [
+        "نهاية الممر الإجباري للمشاة",
+        "السرعة المقترحة",
+        "خطر انهيارات"
+      ],
+      "correctOptionIndex": 0,
+      "correctAnswerAr": "نهاية الممر الإجباري للمشاة"
+    },
+    {
+      "id": "sq-0087",
+      "sourceId": 87,
+      "type": "End Mandatory",
+      "imagePath": "/assets/sign_images_by_id/087.png",
+      "optionsAr": [
+        "موقع تخييم (قوافل)",
+        "اتجاه اجباري مستقيم أو إلى اليسار",
+        "نهاية ممر الفروسية الإلزامي"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswerAr": "نهاية ممر الفروسية الإلزامي"
+    },
+    {
+      "id": "sq-0088",
+      "sourceId": 88,
+      "type": "End Mandatory",
+      "imagePath": "/assets/sign_images_by_id/088.png",
+      "optionsAr": [
+        "الطريق يضيق من اليمين",
+        "انتهاء الحد الأدنى للسرعة",
+        "علامات المنعطفات"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswerAr": "انتهاء الحد الأدنى للسرعة"
+    },
+    {
+      "id": "sq-0089",
+      "sourceId": 89,
+      "type": "End Mandatory",
+      "imagePath": "/assets/sign_images_by_id/089.png",
+      "optionsAr": [
+        "محطة وقود",
+        "نهاية الممر المخصص للباصات",
+        "لافتة تأكيد الإتجاه على الطريق السريع"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswerAr": "نهاية الممر المخصص للباصات"
+    },
+    {
+      "id": "sq-0090",
+      "sourceId": 90,
+      "type": "End Mandatory",
+      "imagePath": "/assets/sign_images_by_id/090.png",
+      "optionsAr": [
+        "نهاية الاستعمال الاجباري للسلاسل المعدنية",
+        "تقاطع سكة حديد دون حواجز",
+        "ممنوع دخول الدراجات الهوائية"
+      ],
+      "correctOptionIndex": 0,
+      "correctAnswerAr": "نهاية الاستعمال الاجباري للسلاسل المعدنية"
+    },
+    {
+      "id": "sq-0091",
+      "sourceId": 91,
+      "type": "Information",
+      "imagePath": "/assets/sign_images_by_id/091.png",
+      "optionsAr": [
+        "موقف",
+        "حركة سير دائرية - مستديرة",
+        "انتهاء الحد الأدنى للسرعة"
+      ],
+      "correctOptionIndex": 0,
+      "correctAnswerAr": "موقف"
+    },
+    {
+      "id": "sq-0092",
+      "sourceId": 92,
+      "type": "Information",
+      "imagePath": "/assets/sign_images_by_id/092.png",
+      "optionsAr": [
+        "أفضلية المرور للسيارات القادمة من الجهة المقابلة",
+        "منطقة موقف مجاني",
+        "ممر مخصص للفروسية"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswerAr": "منطقة موقف مجاني"
+    },
+    {
+      "id": "sq-0093",
+      "sourceId": 93,
+      "type": "Information",
+      "imagePath": "/assets/sign_images_by_id/093.png",
+      "optionsAr": [
+        "نفق طوله أكثر من ٥٠٠ م",
+        "وقوف مقابل بدل",
+        "اتجاه السير اجباري الى الأمام"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswerAr": "وقوف مقابل بدل"
+    },
+    {
+      "id": "sq-0094",
+      "sourceId": 94,
+      "type": "Information",
+      "imagePath": "/assets/sign_images_by_id/094.png",
+      "optionsAr": [
+        "ممنوع مرور المركبات التي يزيد ارتفاعها عن الرقم المحدد",
+        "السرعة المقترحة",
+        "انتهاء الحد الأدنى للسرعة"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswerAr": "السرعة المقترحة"
+    },
+    {
+      "id": "sq-0095",
+      "sourceId": 95,
+      "type": "Information",
+      "imagePath": "/assets/sign_images_by_id/095.png",
+      "optionsAr": [
+        "نهاية حدود السرعة المقترحة",
+        "توقف عند التقاطع",
+        "ممنوع مرور المركبات التي يزيد وزنها المحوري عن الرقم المحدد"
+      ],
+      "correctOptionIndex": 0,
+      "correctAnswerAr": "نهاية حدود السرعة المقترحة"
+    },
+    {
+      "id": "sq-0096",
+      "sourceId": 96,
+      "type": "Information",
+      "imagePath": "/assets/sign_images_by_id/096.png",
+      "optionsAr": [
+        "موقع تخييم (قوافل)",
+        "ممنوع مرور المركبات التي يزيد عرضها عن الرقم المحدد",
+        "موقف سيارات أجرة"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswerAr": "موقف سيارات أجرة"
+    },
+    {
+      "id": "sq-0097",
+      "sourceId": 97,
+      "type": "Information",
+      "imagePath": "/assets/sign_images_by_id/097.png",
+      "optionsAr": [
+        "منعطفان من اليمين إلى اليسار",
+        "موقف باصات",
+        "حركة سير دائرية - مستديرة"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswerAr": "موقف باصات"
+    },
+    {
+      "id": "sq-0098",
+      "sourceId": 98,
+      "type": "Information",
+      "imagePath": "/assets/sign_images_by_id/098.png",
+      "optionsAr": [
+        "ممر سكة حديد",
+        "موقف تراموي",
+        "اتجاه اجباري إلى اليسار"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswerAr": "موقف تراموي"
+    },
+    {
+      "id": "sq-0099",
+      "sourceId": 99,
+      "type": "Information",
+      "imagePath": "/assets/sign_images_by_id/099.png",
+      "optionsAr": [
+        "ممنوع دخول المشاة",
+        "اتجاه السير اجباري الى الأمام",
+        "أدنى سرعة الزامية"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswerAr": "اتجاه السير اجباري الى الأمام"
+    },
+    {
+      "id": "sq-0100",
+      "sourceId": 100,
+      "type": "Information",
+      "imagePath": "/assets/sign_images_by_id/100.png",
+      "optionsAr": [
+        "ممنوع مرور المركبات التي يزيد ارتفاعها عن الرقم المحدد",
+        "تقاطع سكة حديد مجهز بحواجز",
+        "طريق غير نافذ"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswerAr": "طريق غير نافذ"
+    },
+    {
+      "id": "sq-0101",
+      "sourceId": 101,
+      "type": "Information",
+      "imagePath": "/assets/sign_images_by_id/101.png",
+      "optionsAr": [
+        "لافتة متقدمة تدل على منطقة معينة",
+        "عبور دراجات",
+        "طريق غير نافذ"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswerAr": "طريق غير نافذ"
+    },
+    {
+      "id": "sq-0102",
+      "sourceId": 102,
+      "type": "Information",
+      "imagePath": "/assets/sign_images_by_id/102.png",
+      "optionsAr": [
+        "ممر مشاة",
+        "أفضلية على السيارات القادمة من الجهة المقابلة",
+        "محطة وقود"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswerAr": "أفضلية على السيارات القادمة من الجهة المقابلة"
+    },
+    {
+      "id": "sq-0103",
+      "sourceId": 103,
+      "type": "Information",
+      "imagePath": "/assets/sign_images_by_id/103.png",
+      "optionsAr": [
+        "إسعافات أولية",
+        "ممر مشاة",
+        "تقاطع سكة حديد دون حواجز"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswerAr": "ممر مشاة"
+    },
+    {
+      "id": "sq-0104",
+      "sourceId": 104,
+      "type": "Information",
+      "imagePath": "/assets/sign_images_by_id/104.png",
+      "optionsAr": [
+        "تحديد اتجاهات المسارب",
+        "ممنوع دخول العربات التي تجر باليد",
+        "ممنوع دخول المركبات التي تحمل مواد متفجرة..."
+      ],
+      "correctOptionIndex": 0,
+      "correctAnswerAr": "تحديد اتجاهات المسارب"
+    },
+    {
+      "id": "sq-0105",
+      "sourceId": 105,
+      "type": "Information",
+      "imagePath": "/assets/sign_images_by_id/105.png",
+      "optionsAr": [
+        "دمج مسارب السير",
+        "ممنوع دخول باصات النقل العام",
+        "لافتة متقدمة للدلالة على المسارب"
+      ],
+      "correctOptionIndex": 0,
+      "correctAnswerAr": "دمج مسارب السير"
+    },
+    {
+      "id": "sq-0106",
+      "sourceId": 106,
+      "type": "Information",
+      "imagePath": "/assets/sign_images_by_id/106.png",
+      "optionsAr": [
+        "ممنوع دخول العربات التي تقطرها الحيوانات",
+        "بداية طريق سريع",
+        "لافتة تأكيد الإتجاه على الطريق السريع"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswerAr": "بداية طريق سريع"
+    },
+    {
+      "id": "sq-0107",
+      "sourceId": 107,
+      "type": "Information",
+      "imagePath": "/assets/sign_images_by_id/107.png",
+      "optionsAr": [
+        "حركة سير في كلا الاتجاهين",
+        "ممنوع دخول السيارات والدراجات الآلية",
+        "نهاية طريق سريع"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswerAr": "نهاية طريق سريع"
+    },
+    {
+      "id": "sq-0108",
+      "sourceId": 108,
+      "type": "Information",
+      "imagePath": "/assets/sign_images_by_id/108.png",
+      "optionsAr": [
+        "اتجاه اجباري مستقيم",
+        "نهاية الاستعمال الاجباري للسلاسل المعدنية",
+        "مستشفى"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswerAr": "مستشفى"
+    },
+    {
+      "id": "sq-0109",
+      "sourceId": 109,
+      "type": "Information",
+      "imagePath": "/assets/sign_images_by_id/109.png",
+      "optionsAr": [
+        "فندق",
+        "انتبه مدرسة",
+        "نفق طوله أكثر من ٥٠٠ م"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswerAr": "نفق طوله أكثر من ٥٠٠ م"
+    },
+    {
+      "id": "sq-0110",
+      "sourceId": 110,
+      "type": "Information",
+      "imagePath": "/assets/sign_images_by_id/110.png",
+      "optionsAr": [
+        "ممنوع دخول الشاحنات",
+        "انتهاء جميع القيود السابقة على حركة السير",
+        "لافتة رادار المراقبة السرعة"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswerAr": "لافتة رادار المراقبة السرعة"
+    },
+    {
+      "id": "sq-0111",
+      "sourceId": 111,
+      "type": "Service",
+      "imagePath": "/assets/sign_images_by_id/111.png",
+      "optionsAr": [
+        "إسعافات أولية",
+        "لافتة متقدمة للدلالة على مخارج",
+        "موقف تراموي"
+      ],
+      "correctOptionIndex": 0,
+      "correctAnswerAr": "إسعافات أولية"
+    },
+    {
+      "id": "sq-0112",
+      "sourceId": 112,
+      "type": "Service",
+      "imagePath": "/assets/sign_images_by_id/112.png",
+      "optionsAr": [
+        "مكتب إستعلامات",
+        "موقف تراموي",
+        "لافتة متقدمة للدلالة على المسارب"
+      ],
+      "correctOptionIndex": 0,
+      "correctAnswerAr": "مكتب إستعلامات"
+    },
+    {
+      "id": "sq-0113",
+      "sourceId": 113,
+      "type": "Service",
+      "imagePath": "/assets/sign_images_by_id/113.png",
+      "optionsAr": [
+        "إسعافات أولية",
+        "نهاية الاستعمال الاجباري للسلاسل المعدنية",
+        "تقاطع - إفسح المجال للسيارات القادمة من اليمين"
+      ],
+      "correctOptionIndex": 0,
+      "correctAnswerAr": "إسعافات أولية"
+    },
+    {
+      "id": "sq-0114",
+      "sourceId": 114,
+      "type": "Service",
+      "imagePath": "/assets/sign_images_by_id/114.png",
+      "optionsAr": [
+        "هاتف للطوارىء",
+        "اتجاه اجباري مستقيم أو إلى اليمين",
+        "ممنوع مرور المركبات التي يزيد طولها عن الرقم المحدد"
+      ],
+      "correctOptionIndex": 0,
+      "correctAnswerAr": "هاتف للطوارىء"
+    },
+    {
+      "id": "sq-0115",
+      "sourceId": 115,
+      "type": "Service",
+      "imagePath": "/assets/sign_images_by_id/115.png",
+      "optionsAr": [
+        "انتبه مدرسة",
+        "نهاية حدود السرعة المقترحة",
+        "هاتف عمومي"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswerAr": "هاتف عمومي"
+    },
+    {
+      "id": "sq-0116",
+      "sourceId": 116,
+      "type": "Service",
+      "imagePath": "/assets/sign_images_by_id/116.png",
+      "optionsAr": [
+        "ممر سكة حديد",
+        "مراحيض عامة",
+        "أفضلية المرور للسيارات القادمة من الجهة المقابلة"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswerAr": "مراحيض عامة"
+    },
+    {
+      "id": "sq-0117",
+      "sourceId": 117,
+      "type": "Service",
+      "imagePath": "/assets/sign_images_by_id/117.png",
+      "optionsAr": [
+        "منعطف لليسار",
+        "تسهيلات للمعوقين",
+        "اتجاه اجباري الى اليمين"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswerAr": "تسهيلات للمعوقين"
+    },
+    {
+      "id": "sq-0118",
+      "sourceId": 118,
+      "type": "Service",
+      "imagePath": "/assets/sign_images_by_id/118.png",
+      "optionsAr": [
+        "مطعم",
+        "الزم اليسار",
+        "منعطف لليسار"
+      ],
+      "correctOptionIndex": 0,
+      "correctAnswerAr": "مطعم"
+    },
+    {
+      "id": "sq-0119",
+      "sourceId": 119,
+      "type": "Service",
+      "imagePath": "/assets/sign_images_by_id/119.png",
+      "optionsAr": [
+        "توقف عند التقاطع",
+        "لافتة متقدمة للدلالة على المسارب",
+        "مقهى"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswerAr": "مقهى"
+    },
+    {
+      "id": "sq-0120",
+      "sourceId": 120,
+      "type": "Service",
+      "imagePath": "/assets/sign_images_by_id/120.png",
+      "optionsAr": [
+        "نهاية الممر المخصص للباصات",
+        "محطة وقود",
+        "ممر مخصص للفروسية"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswerAr": "محطة وقود"
+    },
+    {
+      "id": "sq-0121",
+      "sourceId": 121,
+      "type": "Service",
+      "imagePath": "/assets/sign_images_by_id/121.png",
+      "optionsAr": [
+        "مكتب إستعلامات",
+        "فندق",
+        "منعطف لليمين"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswerAr": "فندق"
+    },
+    {
+      "id": "sq-0122",
+      "sourceId": 122,
+      "type": "Service",
+      "imagePath": "/assets/sign_images_by_id/122.png",
+      "optionsAr": [
+        "ممنوع دخول الشاحنات",
+        "موقع تخييم (خيام)",
+        "تسهيلات للمعوقين"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswerAr": "موقع تخييم (خيام)"
+    },
+    {
+      "id": "sq-0123",
+      "sourceId": 123,
+      "type": "Service",
+      "imagePath": "/assets/sign_images_by_id/123.png",
+      "optionsAr": [
+        "تحليق منخفض للطائرات",
+        "موقع تخييم (قوافل)",
+        "الزم اليسار"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswerAr": "موقع تخييم (قوافل)"
+    },
+    {
+      "id": "sq-0124",
+      "sourceId": 124,
+      "type": "Service",
+      "imagePath": "/assets/sign_images_by_id/124.png",
+      "optionsAr": [
+        "هاتف عمومي",
+        "محطة وقود",
+        "نزل للشباب"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswerAr": "نزل للشباب"
+    },
+    {
+      "id": "sq-0125",
+      "sourceId": 125,
+      "type": "Service",
+      "imagePath": "/assets/sign_images_by_id/125.png",
+      "optionsAr": [
+        "مركز تصليح",
+        "إنحدار خطر",
+        "نهاية طريق سريع"
+      ],
+      "correctOptionIndex": 0,
+      "correctAnswerAr": "مركز تصليح"
+    },
+    {
+      "id": "sq-0126",
+      "sourceId": 126,
+      "type": "Directional",
+      "imagePath": "/assets/sign_images_by_id/126.png",
+      "optionsAr": [
+        "الزم اليسار",
+        "لافتة متقدمة للدلالة على مخارج",
+        "لافتة اتجاه مع المسافة"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswerAr": "لافتة اتجاه مع المسافة"
+    },
+    {
+      "id": "sq-0127",
+      "sourceId": 127,
+      "type": "Directional",
+      "imagePath": "/assets/sign_images_by_id/127.png",
+      "optionsAr": [
+        "خطر انهيارات",
+        "لافتة متقدمة للدلالة على مخارج",
+        "لافتة رادار المراقبة السرعة"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswerAr": "لافتة متقدمة للدلالة على مخارج"
+    },
+    {
+      "id": "sq-0128",
+      "sourceId": 128,
+      "type": "Directional",
+      "imagePath": "/assets/sign_images_by_id/128.png",
+      "optionsAr": [
+        "ممنوع دخول المركبات الزراعية",
+        "لافتة اتجاه مع المسافة",
+        "لافتة متقدمة تدل على منطقة معينة"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswerAr": "لافتة متقدمة تدل على منطقة معينة"
+    },
+    {
+      "id": "sq-0129",
+      "sourceId": 129,
+      "type": "Directional",
+      "imagePath": "/assets/sign_images_by_id/129.png",
+      "optionsAr": [
+        "مركز تصليح",
+        "لافتة متقدمة للدلالة على المسارب",
+        "علامات المنعطفات للطرق الثلجية"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswerAr": "لافتة متقدمة للدلالة على المسارب"
+    },
+    {
+      "id": "sq-0130",
+      "sourceId": 130,
+      "type": "Directional",
+      "imagePath": "/assets/sign_images_by_id/130.png",
+      "optionsAr": [
+        "لافتة اتجاه على الطريق السريع",
+        "أقصى سرعة مسموح بها",
+        "ممنوع الالتفاف"
+      ],
+      "correctOptionIndex": 0,
+      "correctAnswerAr": "لافتة اتجاه على الطريق السريع"
+    },
+    {
+      "id": "sq-0131",
+      "sourceId": 131,
+      "type": "Directional",
+      "imagePath": "/assets/sign_images_by_id/131.png",
+      "optionsAr": [
+        "طريق أفضلية",
+        "تقاطع سكة حديد دون حواجز",
+        "لافتة متقدمة تدل على اتجاهات الحركة..."
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswerAr": "لافتة متقدمة تدل على اتجاهات الحركة..."
+    },
+    {
+      "id": "sq-0132",
+      "sourceId": 132,
+      "type": "Directional",
+      "imagePath": "/assets/sign_images_by_id/132.png",
+      "optionsAr": [
+        "إشارات كهربائية",
+        "السرعة المقترحة",
+        "لافتة لمخرج الطريق السريع"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswerAr": "لافتة لمخرج الطريق السريع"
+    },
+    {
+      "id": "sq-0133",
+      "sourceId": 133,
+      "type": "Directional",
+      "imagePath": "/assets/sign_images_by_id/133.png",
+      "optionsAr": [
+        "ممنوع التجاوز",
+        "مخرج الى طريق رقم",
+        "عبور دراجات"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswerAr": "مخرج الى طريق رقم"
+    },
+    {
+      "id": "sq-0134",
+      "sourceId": 134,
+      "type": "Directional",
+      "imagePath": "/assets/sign_images_by_id/134.png",
+      "optionsAr": [
+        "ممنوع الاتجاه لليمين",
+        "ممنوع الوقوف",
+        "لافتة تأكيد الإتجاه على الطريق السريع"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswerAr": "لافتة تأكيد الإتجاه على الطريق السريع"
+    },
+    {
+      "id": "sq-0135",
+      "sourceId": 135,
+      "type": "Directional",
+      "imagePath": "/assets/sign_images_by_id/135.png",
+      "optionsAr": [
+        "موقع تخييم (خيام)",
+        "لافتة مطار",
+        "انتهاء منع استعمال المنبه"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswerAr": "لافتة مطار"
+    },
+    {
+      "id": "sq-0136",
+      "sourceId": 136,
+      "type": "Delineators",
+      "imagePath": "/assets/sign_images_by_id/136.png",
+      "optionsAr": [
+        "موقف سيارات أجرة",
+        "علامات المنعطفات",
+        "اتجاه اجباري مستقيم أو إلى اليمين"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswerAr": "علامات المنعطفات"
+    },
+    {
+      "id": "sq-0137",
+      "sourceId": 137,
+      "type": "Delineators",
+      "imagePath": "/assets/sign_images_by_id/137.png",
+      "optionsAr": [
+        "علامات المنعطفات للطرق الثلجية",
+        "ممنوع الالتفاف",
+        "نفق طوله أكثر من ٥٠٠ م"
+      ],
+      "correctOptionIndex": 0,
+      "correctAnswerAr": "علامات المنعطفات للطرق الثلجية"
+    },
+    {
+      "id": "sq-0138",
+      "sourceId": 138,
+      "type": "Delineators",
+      "imagePath": "/assets/sign_images_by_id/138.png",
+      "optionsAr": [
+        "تحديد اتجاهات المسارب",
+        "محطة وقود",
+        "علامات لتقاطعات الطرق"
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswerAr": "علامات لتقاطعات الطرق"
+    },
+    {
+      "id": "sq-0139",
+      "sourceId": 139,
+      "type": "Delineators",
+      "imagePath": "/assets/sign_images_by_id/139.png",
+      "optionsAr": [
+        "علامات المنعطفات",
+        "لافتة رادار المراقبة السرعة",
+        "بداية طريق سريع"
+      ],
+      "correctOptionIndex": 0,
+      "correctAnswerAr": "علامات المنعطفات"
+    },
+    {
+      "id": "sq-0140",
+      "sourceId": 140,
+      "type": "Delineators",
+      "imagePath": "/assets/sign_images_by_id/140.png",
+      "optionsAr": [
+        "علامات لتقاطعات الطرق",
+        "علامات حدود الطريق",
+        "مركز تصليح"
+      ],
+      "correctOptionIndex": 1,
+      "correctAnswerAr": "علامات حدود الطريق"
+    },
+    {
+      "id": "sq-0141",
+      "sourceId": 141,
+      "type": "Delineators",
+      "imagePath": "/assets/sign_images_by_id/141.png",
+      "optionsAr": [
+        "اتجاه السير اجباري الى الأمام",
+        "تقاطع سكة حديد دون حواجز",
+        "علامات تحديد رؤوس الجزر باللون الأصفر..."
+      ],
+      "correctOptionIndex": 2,
+      "correctAnswerAr": "علامات تحديد رؤوس الجزر باللون الأصفر..."
+    }
+  ],
+  "importedAt": "2026-02-15T21:03:48.603Z"
+}
