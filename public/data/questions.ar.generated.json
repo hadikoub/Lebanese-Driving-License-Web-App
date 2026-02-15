@@ -813,7 +813,7 @@
           "textAr": "تتابع السير إلى المكان الذي تقصد"
         }
       ],
-      "correctChoiceId": "B",
+      "correctChoiceId": "A",
       "sourcePage": 0,
       "sourceNumber": 34,
       "needsReview": false,
@@ -2805,7 +2805,7 @@
           "textAr": "0.3"
         }
       ],
-      "correctChoiceId": "C",
+      "correctChoiceId": "A",
       "sourcePage": 0,
       "sourceNumber": 117,
       "needsReview": false,
@@ -2952,7 +2952,7 @@
           "textAr": "إنتبه منعطفان أولهما يمين"
         }
       ],
-      "correctChoiceId": "C",
+      "correctChoiceId": "A",
       "sourcePage": 0,
       "sourceNumber": 123,
       "needsReview": false,
@@ -3877,7 +3877,7 @@
           "textAr": "ممنوع مرور الشاحنات التي تزيد حمولتها عن 6,5 طن"
         }
       ],
-      "correctChoiceId": "B",
+      "correctChoiceId": "C",
       "sourcePage": 0,
       "sourceNumber": 160,
       "needsReview": false,
