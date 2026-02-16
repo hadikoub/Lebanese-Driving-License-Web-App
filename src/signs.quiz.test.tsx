@@ -56,7 +56,7 @@ describe("signs quiz page", () => {
 
     await screen.findByRole("heading", { name: /Signs Quiz/i });
     await userEvent.click(screen.getByRole("button", { name: /بدء التدريب/i }));
-    await userEvent.click(await screen.findByRole("button", { name: /B منعطف لليسار/i }));
+    await userEvent.click(await screen.findByRole("button", { name: /منعطف لليسار/i }));
 
     expect(screen.getByText(/إجابة غير صحيحة/i)).toBeInTheDocument();
     expect(screen.getByText(/الصحيح: منعطف لليمين/i)).toBeInTheDocument();
@@ -68,7 +68,7 @@ describe("signs quiz page", () => {
     await screen.findByRole("heading", { name: /Signs Quiz/i });
     await userEvent.selectOptions(screen.getByLabelText("الوضع"), "exam");
     await userEvent.click(screen.getByRole("button", { name: /بدء الامتحان/i }));
-    await userEvent.click(await screen.findByRole("button", { name: /B منعطف لليسار/i }));
+    await userEvent.click(await screen.findByRole("button", { name: /منعطف لليسار/i }));
 
     expect(screen.queryByText(/إجابة غير صحيحة/i)).not.toBeInTheDocument();
 

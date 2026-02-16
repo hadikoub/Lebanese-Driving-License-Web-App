@@ -55,6 +55,23 @@ function calculateScore(questions: SignQuizQuestion[], answers: Record<string, n
   }, 0);
 }
 
+function shuffleQuestionOptions(question: SignQuizQuestion): SignQuizQuestion {
+  const indexedOptions = question.optionsAr.map((text, originalIndex) => ({
+    text,
+    originalIndex
+  }));
+  const shuffledOptions = shuffleItems(indexedOptions);
+  const correctOptionIndex = shuffledOptions.findIndex(
+    (option) => option.originalIndex === question.correctOptionIndex
+  );
+
+  return {
+    ...question,
+    optionsAr: shuffledOptions.map((option) => option.text),
+    correctOptionIndex: correctOptionIndex >= 0 ? correctOptionIndex : question.correctOptionIndex
+  };
+}
+
 export function SignsQuizPage(): JSX.Element {
   const [quizSet, setQuizSet] = useState<SignQuizSet | null>(null);
   const [loading, setLoading] = useState(true);
@@ -165,7 +182,7 @@ export function SignsQuizPage(): JSX.Element {
     }
 
     const count = Math.max(1, Math.min(config.questionCount, filtered.length));
-    const selectedQuestions = shuffleItems(filtered).slice(0, count);
+    const selectedQuestions = shuffleItems(filtered).slice(0, count).map(shuffleQuestionOptions);
     setQuestions(selectedQuestions);
     setActive(true);
     setIndex(0);

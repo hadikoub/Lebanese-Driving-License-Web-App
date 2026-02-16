@@ -110,16 +110,21 @@ export function QuizPage(): JSX.Element {
       return;
     }
 
+    const questionsWithShuffledChoices = chosenQuestions.map((question) => ({
+      ...question,
+      choices: shuffleItems(question.choices)
+    }));
+
     const startedAt = new Date().toISOString();
     setSession({
       mode,
       answers: {},
       startedAt,
       finishedAt: null,
-      questionIds: chosenQuestions.map((question) => question.id),
+      questionIds: questionsWithShuffledChoices.map((question) => question.id),
       config: setupConfig
     });
-    setQuizQuestions(chosenQuestions);
+    setQuizQuestions(questionsWithShuffledChoices);
     setFeedback(null);
     setFeedbackTone(null);
     setIndex(0);
