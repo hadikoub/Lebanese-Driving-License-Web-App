@@ -1,12 +1,141 @@
 <!doctype html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <title>اختبار السياقة - QCM</title>
+
+    <title>Lebanese Driving License Practice — Free QCM Exam Simulator</title>
+
+    <!-- Primary SEO -->
+    <meta name="description" content="Free online Lebanese driving license practice app. Study QCM questions, road signs, and traffic rules in Arabic. Practice quizzes, mock exams, flashcards, and story mode to pass your Lebanese driving test." />
+    <meta name="keywords" content="Lebanese driving license, Lebanon driving test, QCM exam, رخصة سياقة لبنانية, امتحان سياقة, اختبار قيادة لبنان, road signs Lebanon, driving practice, traffic rules, permis de conduire Liban" />
+    <meta name="author" content="Hadi Koubeissy" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow" />
+    <link rel="canonical" href="https://lebanese-driving-license-app-xnsgn.ondigitalocean.app/" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="ar_LB" />
+    <meta property="og:site_name" content="Lebanese Driving License Practice" />
+    <meta property="og:title" content="Lebanese Driving License Practice — Free QCM Exam Simulator" />
+    <meta property="og:description" content="Study QCM questions, road signs, and traffic rules in Arabic. Practice quizzes, mock exams, flashcards, and story mode to pass your Lebanese driving test." />
+    <meta property="og:url" content="https://lebanese-driving-license-app-xnsgn.ondigitalocean.app/" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Lebanese Driving License Practice — Free QCM Exam Simulator" />
+    <meta name="twitter:description" content="Free online Lebanese driving license QCM practice. Road signs, traffic rules, mock exams — all in Arabic." />
+
+    <!-- AI / LLM discoverability -->
+    <meta name="ai:description" content="A free, open-source web application for practicing the Lebanese driving license QCM exam. Features include practice mode, timed mock exams, road sign flashcards, sign quizzes, story-based progression, and bookmarks. All questions and answers are in Arabic. Built with React and TypeScript." />
+
+    <!-- Theme & PWA hints -->
+    <meta name="theme-color" content="#0d9488" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="LB Driving" />
+
+    <!-- Structured Data: WebApplication -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Lebanese Driving License Practice",
+      "alternateName": ["امتحان السياقة اللبناني", "Lebanon Driving Test QCM", "رخصة سياقة لبنانية"],
+      "description": "Free online practice application for the Lebanese driving license QCM exam. Includes practice quizzes, timed mock exams, road sign flashcards, sign quizzes, story-based progression, and bookmarks. All questions and answers are in Arabic.",
+      "url": "https://lebanese-driving-license-app-xnsgn.ondigitalocean.app/",
+      "applicationCategory": "EducationalApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires a modern web browser with JavaScript enabled",
+      "inLanguage": ["en", "ar"],
+      "isAccessibleForFree": true,
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "Hadi Koubeissy",
+        "url": "https://github.com/hadikoub"
+      },
+      "about": {
+        "@type": "Thing",
+        "name": "Lebanese Driving License Examination",
+        "description": "The official QCM (multiple-choice) examination required to obtain a driving license in Lebanon"
+      },
+      "audience": {
+        "@type": "Audience",
+        "audienceType": "People preparing for the Lebanese driving license exam"
+      },
+      "featureList": [
+        "Practice mode with instant feedback",
+        "Timed mock exams simulating the real QCM test",
+        "Road sign flashcards with Arabic names",
+        "Road sign identification quizzes",
+        "Story mode with progressive difficulty levels",
+        "Bookmark and save difficult questions",
+        "Mobile-friendly responsive design",
+        "Works offline after first load"
+      ]
+    }
+    </script>
+
+    <!-- Structured Data: FAQPage for common queries -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How can I practice for the Lebanese driving license exam online?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "You can use this free web application to practice QCM (multiple-choice) questions that cover traffic rules, road signs, and driving regulations in Lebanon. The app offers practice mode with instant feedback, timed mock exams, road sign flashcards, and a story mode with progressive levels."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Are the questions in Arabic?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, all questions, answers, and road sign names are in Arabic, matching the format of the official Lebanese driving license QCM exam. The user interface is in English for ease of navigation."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is this app free to use?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, this application is completely free to use. There are no subscriptions, ads, or hidden fees."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What topics does the Lebanese driving exam cover?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The Lebanese driving license QCM exam covers traffic laws, road signs (warning, regulatory, informational), right of way rules, vehicle safety, and general driving knowledge. This app includes questions across all these categories."
+          }
+        }
+      ]
+    }
+    </script>
   </head>
   <body>
     <div id="root"></div>
+    <noscript>
+      <div style="max-width:600px;margin:40px auto;padding:20px;font-family:sans-serif;text-align:center">
+        <h1>Lebanese Driving License Practice</h1>
+        <p>Free online practice for the Lebanese driving license QCM exam. Study traffic rules, road signs, and driving regulations in Arabic.</p>
+        <p><strong>Features:</strong> Practice quizzes with instant feedback, timed mock exams, road sign flashcards, sign identification quizzes, story mode with progressive levels, and question bookmarks.</p>
+        <p>Please enable JavaScript to use this application.</p>
+      </div>
+    </noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

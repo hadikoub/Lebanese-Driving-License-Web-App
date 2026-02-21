@@ -6,7 +6,7 @@ import { formatDuration } from "../lib/quiz";
 import type { Question } from "../types/qcm";
 
 function formatChoiceWithText(question: Question, choiceId: string | null | undefined): string {
-  if (!choiceId) return "غير محدد";
+  if (!choiceId) return "Not set";
   const matched = question.choices.find((choice) => choice.id === choiceId);
   if (!matched) return choiceId;
   return matched.textAr;
@@ -24,7 +24,7 @@ export function ResultsPage(): JSX.Element {
       .map((question) => {
         const selected = lastResult.answers[question.id] ?? null;
         const isCorrect = !!question.correctChoiceId && selected === question.correctChoiceId;
-        const selectedText = selected ? formatChoiceWithText(question, selected) : "لم يتم الاختيار";
+        const selectedText = selected ? formatChoiceWithText(question, selected) : "Not answered";
         const correctText = formatChoiceWithText(question, question.correctChoiceId);
 
         return {
@@ -39,62 +39,94 @@ export function ResultsPage(): JSX.Element {
   }, [questionSet, lastResult]);
 
   if (!questionSet || !lastResult) {
-    return <section className="panel">لا توجد نتيجة محفوظة بعد.</section>;
+    return (
+      <section className="panel empty-state">
+        <p>No results saved yet.</p>
+      </section>
+    );
   }
 
   const percentage = Math.round((lastResult.score / Math.max(lastResult.total, 1)) * 100);
   const answeredCount = Object.keys(lastResult.answers).length;
   const unansweredCount = Math.max(lastResult.total - answeredCount, 0);
+  const passed = percentage >= 70;
 
   return (
-    <section className="panel">
-      <header className="title-row">
-        <h2>نتيجة الاختبار</h2>
-        <span>{lastResult.mode === "practice" ? "تدريب" : "امتحان"}</span>
-      </header>
+    <>
+      <section className="panel">
+        <header className="title-row">
+          <h2>Quiz Results</h2>
+          <span>{lastResult.mode === "practice" ? "Practice" : "Exam"}</span>
+        </header>
 
-      <div className="score-card">
-        <strong>
-          {lastResult.score} / {lastResult.total}
-        </strong>
-        <span>{percentage}%</span>
-      </div>
+        <div className="score-card" style={{
+          background: passed
+            ? "linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%)"
+            : "linear-gradient(135deg, #fef2f2 0%, #fecaca 100%)",
+          borderColor: passed ? "#a7f3d0" : "#fecaca"
+        }}>
+          <strong style={{ color: passed ? "#166534" : "#991b1b" }}>
+            {lastResult.score} / {lastResult.total}
+          </strong>
+          <span style={{
+            color: passed ? "#15803d" : "#b91c1c",
+            background: "rgba(255,255,255,0.6)"
+          }}>
+            {percentage}%
+          </span>
+        </div>
 
-      <p className="muted">
-        الإجابات المنجزة: {answeredCount} | غير المجاب عنها: {unansweredCount}
-      </p>
-      <p className="muted">الوقت المستغرق: {formatDuration(lastResult.elapsedSeconds)}</p>
-      {lastResult.timedOut && <p className="error-box">انتهى الوقت وتم إنهاء الاختبار تلقائياً.</p>}
-      {lastResult.storyLevelId && <p className="muted">نتيجة مستوى القصة: {lastResult.storyLevelId}</p>}
-
-      <div className="actions-row">
-        <Link className="button-link" to="/quiz/practice">
-          إعادة التدريب
-        </Link>
-        <Link className="button-link" to="/quiz/exam">
-          إعادة الامتحان
-        </Link>
-        <Link className="button-link" to="/story">
-          العودة إلى Story Mode
-        </Link>
-      </div>
-
-      <h3>مراجعة الإجابات</h3>
-      {reviewRows.length === 0 && <p className="muted">لا توجد إجابات منجزة لعرض التصحيح.</p>}
-      <div className="question-list">
-        {reviewRows.map(({ question, isCorrect, selectedText, correctText }) => (
-          <article key={question.id} className={`result-item ${isCorrect ? "ok" : "bad"}`}>
-            <h4>{question.promptAr}</h4>
-            {question.signPath && (
-              <figure className="question-sign small">
-                <SignImage src={question.signPath} alt="إشارة مرورية مرتبطة بالسؤال" loading="lazy" />
-              </figure>
-            )}
-            <p>اختيارك: {selectedText}</p>
-            <p>الصحيح: {correctText}</p>
+        <div className="stats-grid" style={{ marginBottom: 16 }}>
+          <article>
+            <h3>Answered</h3>
+            <strong>{answeredCount}</strong>
           </article>
-        ))}
-      </div>
-    </section>
+          <article>
+            <h3>Skipped</h3>
+            <strong>{unansweredCount}</strong>
+          </article>
+          <article>
+            <h3>Time</h3>
+            <strong style={{ fontSize: "1.1rem" }}>{formatDuration(lastResult.elapsedSeconds)}</strong>
+          </article>
+        </div>
+
+        {lastResult.timedOut && <p className="error-box">Time ran out and the quiz was automatically ended.</p>}
+        {lastResult.storyLevelId && <p className="muted">Story level result: {lastResult.storyLevelId}</p>}
+
+        <div className="actions-row">
+          <Link className="button-link" to="/quiz/practice" style={{ flex: 1 }}>
+            Retry Practice
+          </Link>
+          <Link className="button-link" to="/quiz/exam" style={{ flex: 1 }}>
+            Retry Exam
+          </Link>
+        </div>
+        <div className="actions-row">
+          <Link className="button-link btn-ghost" to="/story" style={{ flex: 1 }}>
+            Back to Story Mode
+          </Link>
+        </div>
+      </section>
+
+      <section className="panel">
+        <h3>Answer Review</h3>
+        {reviewRows.length === 0 && <p className="muted">No completed answers to review.</p>}
+        <div className="question-list">
+          {reviewRows.map(({ question, isCorrect, selectedText, correctText }) => (
+            <article key={question.id} className={`result-item ${isCorrect ? "ok" : "bad"}`}>
+              <h4 className="ar">{question.promptAr}</h4>
+              {question.signPath && (
+                <figure className="question-sign small">
+                  <SignImage src={question.signPath} alt="Traffic sign related to the question" loading="lazy" />
+                </figure>
+              )}
+              <p>Your answer: <span className="ar">{selectedText}</span></p>
+              <p>Correct: <span className="ar">{correctText}</span></p>
+            </article>
+          ))}
+        </div>
+      </section>
+    </>
   );
 }

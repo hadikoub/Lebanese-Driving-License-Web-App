@@ -1,0 +1,5 @@
+# Lebanese Driving License Practice Application
+
+> A free, open-source web application for practicing the Lebanese driving license QCM (multiple-choice) exam.
+
+For full details, see: https://lebanese-driving-license-app-xnsgn.ondigitalocean.app/com/llms.txt

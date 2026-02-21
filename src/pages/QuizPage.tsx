@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useAppState } from "../AppState";
+import { ConfirmModal } from "../components/Modal";
 import { SignImage } from "../components/SignImage";
-import { confirmAction } from "../lib/confirm";
 import {
   buildQuestionsForQuiz,
   calculateScore,
@@ -41,7 +41,7 @@ function findChoiceText(question: Question, choiceId: string | null | undefined)
 }
 
 function formatChoiceWithText(question: Question, choiceId: string | null | undefined): string {
-  if (!choiceId) return "غير محدد";
+  if (!choiceId) return "Not set";
   const text = findChoiceText(question, choiceId);
   if (!text) return choiceId;
   return text;
@@ -103,6 +103,9 @@ export function QuizPage(): JSX.Element {
   const [brokenSignIds, setBrokenSignIds] = useState<Record<string, boolean>>({});
   const [remainingSeconds, setRemainingSeconds] = useState<number>(0);
 
+  const [showFinishConfirm, setShowFinishConfirm] = useState(false);
+  const [showExitConfirm, setShowExitConfirm] = useState(false);
+
   useEffect(() => {
     if (!setupConfig) return;
     setQuestionCountInput(String(setupConfig.questionCount));
@@ -132,7 +135,7 @@ export function QuizPage(): JSX.Element {
     }
 
     if (isStoryMode && !storyLevel) {
-      setSetupError("تعذر تحميل هذا المستوى. الرجاء العودة إلى Story Mode.");
+      setSetupError("Failed to load this level. Please go back to Story Mode.");
       return;
     }
 
@@ -149,7 +152,7 @@ export function QuizPage(): JSX.Element {
       chosenQuestions = shuffleItems(scoped);
     } else {
       if (setupConfig.bookmarkedOnly && bookmarkedQuestionIds.length === 0) {
-        setSetupError("لا توجد أسئلة محفوظة بعد.");
+        setSetupError("No saved questions yet.");
         return;
       }
       chosenQuestions = buildQuestionsForQuiz(
@@ -160,7 +163,7 @@ export function QuizPage(): JSX.Element {
     }
 
     if (chosenQuestions.length === 0) {
-      setSetupError("لا توجد أسئلة مطابقة للإعدادات المختارة.");
+      setSetupError("No questions match the selected settings.");
       return;
     }
 
@@ -244,38 +247,37 @@ export function QuizPage(): JSX.Element {
   }, [session?.startedAt, session?.config.timerEnabled, finishQuiz]);
 
   if (!questionSet || !mode || !setupConfig) {
-    return <section className="panel">لا توجد جلسة اختبار جاهزة.</section>;
+    return <section className="panel">No quiz session ready.</section>;
   }
 
   if (!session) {
     return (
       <section className="panel">
         <header className="title-row">
-          <h2>{mode === "practice" ? "إعداد وضع التدريب" : "إعداد وضع الامتحان"}</h2>
-          <span>إجمالي الأسئلة المتاحة: {allQuestions.length}</span>
+          <h2>{mode === "practice" ? "Practice Setup" : "Exam Setup"}</h2>
+          <span>{allQuestions.length} questions</span>
         </header>
 
         {isStoryMode ? (
           <div className="story-intro">
             <p>
-              مستوى القصة: <strong>{storyLevelId}</strong>
+              Story Level: <strong>{storyLevelId}</strong>
             </p>
             <p>
-              العنوان: <strong>{storyLevel?.label ?? "-"}</strong>
+              Title: <strong>{storyLevel?.label ?? "-"}</strong>
             </p>
             <p>
-              النوع: <strong>{storyLevel?.type ?? "-"}</strong>
+              Type: <strong>{storyLevel?.type ?? "-"}</strong>
             </p>
             <p className="muted">
-              سيتم بدء المستوى تلقائياً: {storyLevel?.questionCount ?? DEFAULT_QUESTION_COUNT} سؤال +
-              مؤقت 30 دقيقة.
+              Level will start automatically: {storyLevel?.questionCount ?? DEFAULT_QUESTION_COUNT} questions + 30 min timer.
             </p>
           </div>
         ) : (
           <>
             <div className="setup-grid">
               <label>
-                عدد الأسئلة
+                Number of Questions
                 <input
                   type="text"
                   inputMode="numeric"
@@ -318,12 +320,12 @@ export function QuizPage(): JSX.Element {
                     setSetupConfig((current) => (current ? { ...current, timerEnabled } : current));
                   }}
                 />
-                تفعيل المؤقت
+                Enable Timer
               </label>
 
               {setupConfig.timerEnabled && (
                 <label>
-                  مدة المؤقت (دقائق)
+                  Timer Duration (minutes)
                   <input
                     type="text"
                     inputMode="numeric"
@@ -356,7 +358,7 @@ export function QuizPage(): JSX.Element {
             </div>
 
             <div className="setup-block">
-              <h3>اختيار نوع الأسئلة</h3>
+              <h3>Question Type</h3>
               <label className="inline-checkbox">
                 <input
                   type="radio"
@@ -374,7 +376,7 @@ export function QuizPage(): JSX.Element {
                     );
                   }}
                 />
-                كل الأنواع (مختلط)
+                All Types (Mixed)
               </label>
 
               <label className="inline-checkbox">
@@ -394,7 +396,7 @@ export function QuizPage(): JSX.Element {
                     );
                   }}
                 />
-                اختيار أنواع محددة
+                Specific Types
               </label>
 
               {setupConfig.typeMode === "selected" && (
@@ -435,7 +437,7 @@ export function QuizPage(): JSX.Element {
 
             {mode === "practice" && (
               <div className="setup-block">
-                <h3>المحفوظات</h3>
+                <h3>Bookmarks</h3>
                 <label className="inline-checkbox">
                   <input
                     type="checkbox"
@@ -445,14 +447,14 @@ export function QuizPage(): JSX.Element {
                       setSetupConfig((current) => (current ? { ...current, bookmarkedOnly } : current));
                     }}
                   />
-                  تدريب على الأسئلة المحفوظة فقط
+                  Practice saved questions only
                 </label>
-                <p className="muted">عدد الأسئلة المحفوظة: {bookmarkedQuestionIds.length}</p>
+                <p className="muted">Saved questions: {bookmarkedQuestionIds.length}</p>
               </div>
             )}
 
             <div className="setup-block">
-              <h3>الفئات</h3>
+              <h3>Categories</h3>
               <div className="setup-categories">
                 {categories.map((category) => {
                   const selected = setupConfig.selectedCategories.includes(category);
@@ -485,11 +487,9 @@ export function QuizPage(): JSX.Element {
               </div>
             </div>
 
-            <div className="actions-row">
-              <button type="button" onClick={startQuiz}>
-                بدء {mode === "practice" ? "التدريب" : "الامتحان"}
-              </button>
-            </div>
+            <button type="button" className="btn-block" onClick={startQuiz}>
+              Start {mode === "practice" ? "Practice" : "Exam"}
+            </button>
           </>
         )}
 
@@ -500,7 +500,7 @@ export function QuizPage(): JSX.Element {
 
   const current = quizQuestions[index];
   if (!current) {
-    return <section className="panel">لا توجد أسئلة متاحة.</section>;
+    return <section className="panel">No questions available.</section>;
   }
 
   function selectChoice(choiceId: string): void {
@@ -514,14 +514,14 @@ export function QuizPage(): JSX.Element {
 
     if (mode === "practice") {
       if (!current.correctChoiceId) {
-        setFeedback("لا توجد إجابة صحيحة محددة لهذا السؤال");
+        setFeedback("No correct answer is set for this question.");
         setFeedbackTone("info");
       } else if (choiceId === current.correctChoiceId) {
-        setFeedback(`إجابة صحيحة: ${formatChoiceWithText(current, choiceId)}`);
+        setFeedback(`Correct! ${formatChoiceWithText(current, choiceId)}`);
         setFeedbackTone("success");
       } else {
         setFeedback(
-          `إجابة غير صحيحة. اختيارك: ${formatChoiceWithText(current, choiceId)} | الصحيح: ${formatChoiceWithText(current, current.correctChoiceId)}`
+          `Wrong. Your answer: ${formatChoiceWithText(current, choiceId)} | Correct: ${formatChoiceWithText(current, current.correctChoiceId)}`
         );
         setFeedbackTone("error");
       }
@@ -535,9 +535,7 @@ export function QuizPage(): JSX.Element {
     setFeedback(null);
     setFeedbackTone(null);
     if (index >= quizQuestions.length - 1) {
-      const confirmed = confirmAction("هل أنت متأكد من إنهاء الاختبار وعرض النتيجة؟");
-      if (!confirmed) return;
-      finishQuiz(false);
+      setShowFinishConfirm(true);
       return;
     }
     setIndex((currentIndex) => currentIndex + 1);
@@ -546,38 +544,41 @@ export function QuizPage(): JSX.Element {
   const unanswered = firstUnansweredIndex(quizQuestions, session.answers);
   const selectedChoice = session.answers[current.id];
   const isBookmarked = bookmarkedQuestionIds.includes(current.id);
+  const progressPercent = Math.round(((index + 1) / quizQuestions.length) * 100);
 
   return (
     <section className="panel">
       <header className="title-row">
-        <h2>{mode === "practice" ? "وضع التدريب" : "وضع الامتحان"}</h2>
-        <span>
-          السؤال {index + 1} من {quizQuestions.length}
-        </span>
+        <h2>{mode === "practice" ? "Practice" : "Exam"}</h2>
+        <span>{index + 1} / {quizQuestions.length}</span>
       </header>
 
+      <div className="progress-bar">
+        <div className="progress-bar-fill" style={{ width: `${progressPercent}%` }} />
+      </div>
+
       <div className="quiz-meta-row">
-        <span>النوع: {getEffectiveQuestionType(current)}</span>
-        <span>الفئة: {current.category ?? "-"}</span>
-        {session.config.timerEnabled && <strong>الوقت المتبقي: {formatDuration(remainingSeconds)}</strong>}
+        <span>{getEffectiveQuestionType(current)}</span>
+        <span>{current.category ?? "-"}</span>
+        {session.config.timerEnabled && <strong>{formatDuration(remainingSeconds)}</strong>}
       </div>
 
       <article className="quiz-card">
         <div className="quiz-card-header">
-          <h3 className="quiz-title">{current.promptAr}</h3>
+          <h3 className="quiz-title ar">{current.promptAr}</h3>
           <button
             type="button"
             className={`bookmark-toggle ${isBookmarked ? "active" : ""}`}
             onClick={() => toggleQuestionBookmark(current.id)}
           >
-            {isBookmarked ? "محفوظ" : "حفظ السؤال"}
+            {isBookmarked ? "⭐ Saved" : "Save"}
           </button>
         </div>
         {current.signPath && !brokenSignIds[current.id] && (
           <figure className="question-sign">
             <SignImage
               src={current.signPath}
-              alt="إشارة مرورية مرتبطة بالسؤال"
+              alt="Traffic sign related to the question"
               loading="lazy"
               onExhausted={() => {
                 setBrokenSignIds((state) => ({
@@ -589,7 +590,7 @@ export function QuizPage(): JSX.Element {
           </figure>
         )}
         {current.signPath && brokenSignIds[current.id] && (
-          <p className="muted">تعذر تحميل صورة الإشارة لهذا السؤال.</p>
+          <p className="muted">Failed to load the sign image for this question.</p>
         )}
 
         <div className="choices-column">
@@ -613,17 +614,17 @@ export function QuizPage(): JSX.Element {
                 onClick={() => selectChoice(choice.id)}
               >
                 <strong>{getChoiceLabel(choiceIndex)}</strong>
-                <span>{choice.textAr}</span>
+                <span className="ar">{choice.textAr}</span>
               </button>
             );
           })}
         </div>
 
-        {feedback && <p className={`feedback-box ${feedbackTone ?? ""}`}>{feedback}</p>}
+        {feedback && <p className={`feedback-box ar ${feedbackTone ?? ""}`}>{feedback}</p>}
 
         <div className="actions-row primary-actions">
-          <button type="button" onClick={nextQuestion}>
-            {index >= quizQuestions.length - 1 ? "إنهاء" : "التالي"}
+          <button type="button" className="btn-block" onClick={nextQuestion}>
+            {index >= quizQuestions.length - 1 ? "Finish Quiz" : "Next Question"}
           </button>
         </div>
 
@@ -631,20 +632,46 @@ export function QuizPage(): JSX.Element {
           <button
             type="button"
             className="danger-button"
-            onClick={() => {
-              const confirmed = confirmAction("هل تريد إنهاء الاختبار الآن؟ سيتم حفظ الإجابات الحالية.");
-              if (!confirmed) return;
-              finishQuiz(false);
-            }}
+            onClick={() => setShowExitConfirm(true)}
           >
-            إنهاء الاختبار الآن
+            End Quiz Now
           </button>
         </div>
       </article>
 
       {mode === "exam" && unanswered !== null && (
-        <p className="muted">أول سؤال غير مجاب: {unanswered + 1}</p>
+        <p className="muted" style={{ textAlign: "center", marginTop: 8 }}>
+          First unanswered question: {unanswered + 1}
+        </p>
       )}
+
+      <ConfirmModal
+        open={showFinishConfirm}
+        title="Finish Quiz"
+        message="Are you sure you want to finish the quiz and see your results? This cannot be undone."
+        confirmLabel="Yes, Finish"
+        cancelLabel="Continue"
+        variant="primary"
+        onConfirm={() => {
+          setShowFinishConfirm(false);
+          finishQuiz(false);
+        }}
+        onCancel={() => setShowFinishConfirm(false)}
+      />
+
+      <ConfirmModal
+        open={showExitConfirm}
+        title="End Early"
+        message="Are you sure you want to end the quiz now? Only your current answers will be saved and scored."
+        confirmLabel="Yes, End Now"
+        cancelLabel="Cancel"
+        variant="danger"
+        onConfirm={() => {
+          setShowExitConfirm(false);
+          finishQuiz(false);
+        }}
+        onCancel={() => setShowExitConfirm(false)}
+      />
     </section>
   );
 }

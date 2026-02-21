@@ -1,10 +1,9 @@
 import { useMemo, useState } from "react";
-import { Link } from "react-router-dom";
 import { useAppState } from "../AppState";
 import { SignImage } from "../components/SignImage";
 
 export function ReviewPage(): JSX.Element {
-  const { questionSet, updateQuestion, isAdmin } = useAppState();
+  const { questionSet, updateQuestion } = useAppState();
   const [showOnlyNeedsReview, setShowOnlyNeedsReview] = useState(false);
 
   const visibleQuestions = useMemo(() => {
@@ -14,38 +13,25 @@ export function ReviewPage(): JSX.Element {
   }, [questionSet, showOnlyNeedsReview]);
 
   if (!questionSet) {
-    return <section className="panel">لا توجد بيانات حالياً. ارجع للرئيسية للاستيراد.</section>;
-  }
-
-  if (!isAdmin) {
-    return (
-      <section className="panel">
-        <h2>هذه الصفحة للمشرف فقط</h2>
-        <p className="muted">قم بتفعيل Admin Mode لتعديل الأسئلة.</p>
-        <Link className="button-link" to="/admin">
-          الذهاب إلى Admin Mode
-        </Link>
-      </section>
-    );
+    return <section className="panel">No data available. Go back to home to import.</section>;
   }
 
   return (
     <section className="panel">
       <div className="title-row">
-        <h2>مراجعة الأسئلة</h2>
+        <h2>Review Questions</h2>
         <label className="inline-checkbox">
           <input
             type="checkbox"
             checked={showOnlyNeedsReview}
             onChange={(event) => setShowOnlyNeedsReview(event.target.checked)}
           />
-          عرض الأسئلة التي تحتاج مراجعة فقط
+          Show needs review only
         </label>
       </div>
 
       <p className="muted">
-        عدّل نص السؤال والخيارات، ثم اختر الإجابة الصحيحة. أي سؤال يحتاج تدقيق اتركه مع خيار
-        "يحتاج مراجعة".
+        Edit question text and choices, then select the correct answer. Leave "Needs Review" checked for questions that need verification.
       </p>
 
       <div className="question-list">
@@ -53,7 +39,7 @@ export function ReviewPage(): JSX.Element {
           <article className="question-editor" key={question.id}>
             <header>
               <h3>
-                سؤال {question.sourceNumber ?? "؟"} - صفحة {question.sourcePage}
+                Question {question.sourceNumber ?? "?"} - Page {question.sourcePage}
               </h3>
               <label className="inline-checkbox">
                 <input
@@ -66,13 +52,15 @@ export function ReviewPage(): JSX.Element {
                     }));
                   }}
                 />
-                يحتاج مراجعة
+                Needs Review
               </label>
             </header>
 
             <label>
-              نص السؤال
+              Question Text
               <textarea
+                dir="rtl"
+                className="ar"
                 value={question.promptAr}
                 onChange={(event) => {
                   updateQuestion(question.id, (current) => ({
@@ -85,12 +73,12 @@ export function ReviewPage(): JSX.Element {
 
             {question.signPath && (
               <figure className="question-sign small">
-                <SignImage src={question.signPath} alt="إشارة مرورية مرتبطة بالسؤال" loading="lazy" />
+                <SignImage src={question.signPath} alt="Traffic sign related to the question" loading="lazy" />
               </figure>
             )}
 
             <label>
-              مسار صورة الإشارة (اختياري)
+              Sign Image Path (optional)
               <input
                 value={question.signPath ?? ""}
                 onChange={(event) => {
@@ -104,10 +92,12 @@ export function ReviewPage(): JSX.Element {
             </label>
 
             <div className="choices-grid">
-              {question.choices.map((choice, index) => (
+              {question.choices.map((choice, choiceIndex) => (
                 <label key={choice.id}>
-                  الخيار {index + 1} ({choice.id})
+                  Choice {choiceIndex + 1} ({choice.id})
                   <input
+                    dir="rtl"
+                    className="ar"
                     value={choice.textAr}
                     onChange={(event) => {
                       updateQuestion(question.id, (current) => ({
@@ -125,7 +115,7 @@ export function ReviewPage(): JSX.Element {
             </div>
 
             <label>
-              الإجابة الصحيحة
+              Correct Answer
               <select
                 value={question.correctChoiceId ?? ""}
                 onChange={(event) => {
@@ -136,7 +126,7 @@ export function ReviewPage(): JSX.Element {
                   }));
                 }}
               >
-                <option value="">غير محددة</option>
+                <option value="">Not set</option>
                 {question.choices.map((choice) => (
                   <option key={choice.id} value={choice.id}>
                     {choice.id}

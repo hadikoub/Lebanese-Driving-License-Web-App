@@ -1,6 +1,5 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { Layout } from "./components/Layout";
-import { AdminPage } from "./pages/AdminPage";
 import { BookmarksPage } from "./pages/BookmarksPage";
 import { HomePage } from "./pages/HomePage";
 import { NotFoundPage } from "./pages/NotFoundPage";
@@ -16,7 +15,6 @@ export default function App(): JSX.Element {
     <Routes>
       <Route element={<Layout />}>
         <Route path="/" element={<HomePage />} />
-        <Route path="/admin" element={<AdminPage />} />
         <Route path="/review" element={<ReviewPage />} />
         <Route path="/quiz/:mode" element={<QuizPage />} />
         <Route path="/bookmarks" element={<BookmarksPage />} />

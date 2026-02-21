@@ -1,0 +1,53 @@
+# Lebanese Driving License Practice Application
+
+> A free, open-source web application for practicing the Lebanese driving license QCM (multiple-choice) exam.
+
+## About
+
+This application helps people prepare for the official Lebanese driving license examination. All questions and answers are in Arabic, matching the real exam format. The user interface is in English.
+
+## Features
+
+- **Practice Mode**: Answer QCM questions with instant feedback showing correct/incorrect answers
+- **Mock Exam Mode**: Timed exams simulating real test conditions (configurable question count and timer)
+- **Road Sign Flashcards**: Browse traffic signs with their Arabic names
+- **Road Sign Quiz**: Test your knowledge of Lebanese road signs
+- **Story Mode**: Progressive difficulty levels — score 70%+ to unlock the next level
+- **Bookmarks**: Save difficult questions for later review
+- **Question Review**: Edit and review the question bank
+
+## Content Coverage
+
+- Traffic laws and regulations specific to Lebanon
+- Road signs: warning, regulatory, informational, and directional
+- Right of way rules
+- Vehicle safety and maintenance
+- General driving knowledge and best practices
+
+## Technical Details
+
+- Built with React 18 and TypeScript
+- Vite build system
+- Client-side only — no server required
+- Data stored in browser localStorage
+- Mobile-first responsive design
+- Works offline after initial load
+
+## URLs
+
+- Home: /
+- Practice Quiz: /quiz/practice
+- Exam Quiz: /quiz/exam
+- Road Sign Flashcards: /signs/flashcards
+- Road Sign Quiz: /signs/quiz
+- Story Mode: /story
+- Bookmarks: /bookmarks
+- Results: /results
+
+## Author
+
+Hadi Koubeissy — https://github.com/hadikoub
+
+## License
+
+Open source

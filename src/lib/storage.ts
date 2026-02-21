@@ -6,16 +6,12 @@ const ACTIVE_PROFILE_KEY = "qcm_ar_active_profile";
 
 const LEGACY_QUESTION_SET_KEY = "qcm_ar_question_set";
 const LEGACY_QUIZ_RESULT_KEY = "qcm_ar_last_result";
-const LEGACY_ADMIN_MODE_KEY = "qcm_ar_admin_mode";
-const LEGACY_ADMIN_PASSCODE_KEY = "qcm_ar_admin_passcode";
 const LEGACY_STORY_PROGRESS_KEY = "qcm_ar_story_progress";
 const LEGACY_BOOKMARKED_QUESTIONS_KEY = "qcm_ar_bookmarked_questions";
 
 type ScopedSuffix =
   | "question_set"
   | "last_result"
-  | "admin_mode"
-  | "admin_passcode"
   | "story_progress"
   | "bookmarked_questions";
 
@@ -149,24 +145,6 @@ export function loadQuizResult(profileId: string): QuizResult | null {
 
 export function clearQuizResult(profileId: string): void {
   localStorage.removeItem(scopedKey(profileId, "last_result"));
-}
-
-export function saveAdminMode(profileId: string, enabled: boolean): void {
-  localStorage.setItem(scopedKey(profileId, "admin_mode"), enabled ? "1" : "0");
-}
-
-export function loadAdminMode(profileId: string): boolean {
-  return loadScopedValue(profileId, "admin_mode", LEGACY_ADMIN_MODE_KEY) === "1";
-}
-
-export function saveAdminPasscode(profileId: string, passcode: string): void {
-  localStorage.setItem(scopedKey(profileId, "admin_passcode"), passcode);
-}
-
-export function loadAdminPasscode(profileId: string): string | null {
-  const value = loadScopedValue(profileId, "admin_passcode", LEGACY_ADMIN_PASSCODE_KEY);
-  if (!value) return null;
-  return value;
 }
 
 export function saveStoryProgress(profileId: string, progress: StoryProgress): void {

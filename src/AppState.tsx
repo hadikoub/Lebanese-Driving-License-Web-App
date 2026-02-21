@@ -14,14 +14,10 @@ import {
   createProfile as createStoredProfile,
   ensureProfiles,
   loadBookmarkedQuestions,
-  loadAdminMode,
-  loadAdminPasscode,
   loadQuestionSet,
   loadQuizResult,
   loadStoryProgress,
   saveActiveProfileId,
-  saveAdminMode,
-  saveAdminPasscode,
   saveBookmarkedQuestions,
   saveQuestionSet,
   saveQuizResult,
@@ -39,59 +35,63 @@ function normalizePrompt(value: string): string {
   return value.replace(/\s+/g, " ").trim();
 }
 
-function enrichQuestionSetMetadata(current: QuestionSet, reference: QuestionSet): QuestionSet {
-  const bySourceNumber = new Map<
-    number,
-    { category?: string | null; questionType?: string | null; signPath?: string | null }
-  >();
-  const byPrompt = new Map<
-    string,
-    { category?: string | null; questionType?: string | null; signPath?: string | null }
-  >();
+function syncWithReference(current: QuestionSet, reference: QuestionSet): QuestionSet {
+  const refById = new Map<string, Question>();
+  const refBySourceNumber = new Map<number, Question>();
+  const refByPrompt = new Map<string, Question>();
 
   for (const question of reference.questions) {
+    refById.set(question.id, question);
     if (question.sourceNumber !== null) {
-      bySourceNumber.set(question.sourceNumber, {
-        category: question.category ?? null,
-        questionType: question.questionType ?? null,
-        signPath: question.signPath ?? null
-      });
+      refBySourceNumber.set(question.sourceNumber, question);
     }
-    byPrompt.set(normalizePrompt(question.promptAr), {
-      category: question.category ?? null,
-      questionType: question.questionType ?? null,
-      signPath: question.signPath ?? null
-    });
+    refByPrompt.set(normalizePrompt(question.promptAr), question);
   }
 
   let changed = false;
   const nextQuestions = current.questions.map((question) => {
-    const hasCategory = Boolean(question.category && question.category.trim().length > 0);
-    const hasType = Boolean(question.questionType && question.questionType.trim().length > 0);
-    const hasSignPath = Boolean(question.signPath && question.signPath.trim().length > 0);
-    if (hasCategory && hasType && hasSignPath) return question;
-
-    const sourceMatch =
-      question.sourceNumber !== null ? bySourceNumber.get(question.sourceNumber) : undefined;
-    const promptMatch = byPrompt.get(normalizePrompt(question.promptAr));
-    const matched = sourceMatch ?? promptMatch;
+    const matched =
+      refById.get(question.id) ??
+      (question.sourceNumber !== null ? refBySourceNumber.get(question.sourceNumber) : undefined) ??
+      refByPrompt.get(normalizePrompt(question.promptAr));
     if (!matched) return question;
 
-    const nextCategory = hasCategory ? question.category ?? null : matched.category ?? null;
-    const nextType = hasType ? question.questionType ?? null : matched.questionType ?? null;
-    const nextSignPath = hasSignPath ? question.signPath ?? null : matched.signPath ?? null;
+    const updates: Partial<Question> = {};
 
-    if ((nextCategory ?? null) !== (question.category ?? null)) changed = true;
-    if ((nextType ?? null) !== (question.questionType ?? null)) changed = true;
-    if ((nextSignPath ?? null) !== (question.signPath ?? null)) changed = true;
+    if (matched.correctChoiceId && matched.correctChoiceId !== question.correctChoiceId) {
+      updates.correctChoiceId = matched.correctChoiceId;
+    }
 
-    return {
-      ...question,
-      category: nextCategory,
-      questionType: nextType,
-      signPath: nextSignPath
-    };
+    if (matched.promptAr !== question.promptAr) {
+      updates.promptAr = matched.promptAr;
+    }
+
+    if (JSON.stringify(matched.choices) !== JSON.stringify(question.choices)) {
+      updates.choices = matched.choices;
+    }
+
+    if ((matched.category ?? null) !== (question.category ?? null) && matched.category) {
+      updates.category = matched.category;
+    }
+    if ((matched.questionType ?? null) !== (question.questionType ?? null) && matched.questionType) {
+      updates.questionType = matched.questionType;
+    }
+    if ((matched.signPath ?? null) !== (question.signPath ?? null) && matched.signPath) {
+      updates.signPath = matched.signPath;
+    }
+
+    if (Object.keys(updates).length === 0) return question;
+
+    changed = true;
+    return { ...question, ...updates };
   });
+
+  const currentIds = new Set(current.questions.map((q) => q.id));
+  const newQuestions = reference.questions.filter((q) => !currentIds.has(q.id));
+  if (newQuestions.length > 0) {
+    changed = true;
+    nextQuestions.push(...newQuestions);
+  }
 
   return changed ? { ...current, questions: nextQuestions } : current;
 }
@@ -100,8 +100,6 @@ interface AppState {
   questionSet: QuestionSet | null;
   loadingDefault: boolean;
   lastResult: QuizResult | null;
-  isAdmin: boolean;
-  hasAdminPasscode: boolean;
   storyProgress: StoryProgress;
   bookmarkedQuestionIds: string[];
   profiles: UserProfile[];
@@ -112,9 +110,6 @@ interface AppState {
   setQuestionSet: (questionSet: QuestionSet) => void;
   updateQuestion: (questionId: string, updater: (question: Question) => Question) => void;
   setLastResult: (result: QuizResult | null) => void;
-  setAdminPasscode: (passcode: string) => boolean;
-  loginAdmin: (passcode: string) => boolean;
-  logoutAdmin: () => void;
   toggleQuestionBookmark: (questionId: string) => void;
   recordStoryResult: (levelId: string, score: number, total: number) => void;
 }
@@ -135,10 +130,6 @@ export function AppStateProvider({ children }: { children: ReactNode }): JSX.Ele
   const [lastResult, setLastResultState] = useState<QuizResult | null>(() =>
     loadQuizResult(initialProfileState.activeProfileId)
   );
-  const [isAdmin, setIsAdmin] = useState<boolean>(() => loadAdminMode(initialProfileState.activeProfileId));
-  const [adminPasscode, setAdminPasscodeState] = useState<string | null>(() =>
-    loadAdminPasscode(initialProfileState.activeProfileId)
-  );
   const [storyProgress, setStoryProgress] = useState<StoryProgress>(() =>
     loadStoryProgress(initialProfileState.activeProfileId) ?? defaultStoryProgress()
   );
@@ -153,7 +144,7 @@ export function AppStateProvider({ children }: { children: ReactNode }): JSX.Ele
 
     async function loadDefaultReference(): Promise<void> {
       try {
-        const response = await fetch("/data/questions.ar.generated.json");
+        const response = await fetch("/data/questions.ar.generated.json", { cache: "no-cache" });
         if (!response.ok) return;
         const data = (await response.json()) as QuestionSet;
         if (!disposed) {
@@ -177,15 +168,11 @@ export function AppStateProvider({ children }: { children: ReactNode }): JSX.Ele
 
     const loadedQuestionSet = loadQuestionSet(activeProfileId);
     const loadedLastResult = loadQuizResult(activeProfileId);
-    const loadedAdminMode = loadAdminMode(activeProfileId);
-    const loadedAdminPasscode = loadAdminPasscode(activeProfileId);
     const loadedStoryProgress = loadStoryProgress(activeProfileId) ?? defaultStoryProgress();
     const loadedBookmarks = loadBookmarkedQuestions(activeProfileId);
 
     setQuestionSetState(loadedQuestionSet);
     setLastResultState(loadedLastResult);
-    setIsAdmin(loadedAdminMode && Boolean(loadedAdminPasscode));
-    setAdminPasscodeState(loadedAdminPasscode);
     setStoryProgress(loadedStoryProgress);
     setBookmarkedQuestionIds(loadedBookmarks);
 
@@ -202,11 +189,11 @@ export function AppStateProvider({ children }: { children: ReactNode }): JSX.Ele
   useEffect(() => {
     if (!questionSet || !referenceQuestionSet) return;
 
-    const enriched = enrichQuestionSetMetadata(questionSet, referenceQuestionSet);
-    if (enriched === questionSet) return;
+    const synced = syncWithReference(questionSet, referenceQuestionSet);
+    if (synced === questionSet) return;
 
-    setQuestionSetState(enriched);
-    saveQuestionSet(activeProfileId, enriched);
+    setQuestionSetState(synced);
+    saveQuestionSet(activeProfileId, synced);
   }, [questionSet, referenceQuestionSet, activeProfileId]);
 
   const setActiveProfile = useCallback(
@@ -264,39 +251,6 @@ export function AppStateProvider({ children }: { children: ReactNode }): JSX.Ele
     [activeProfileId]
   );
 
-  const setAdminPasscode = useCallback(
-    (passcode: string) => {
-      const normalized = passcode.trim();
-      if (normalized.length < 4) return false;
-
-      saveAdminPasscode(activeProfileId, normalized);
-      saveAdminMode(activeProfileId, true);
-      setAdminPasscodeState(normalized);
-      setIsAdmin(true);
-      return true;
-    },
-    [activeProfileId]
-  );
-
-  const loginAdmin = useCallback(
-    (passcode: string) => {
-      if (!adminPasscode) return false;
-
-      const success = passcode.trim() === adminPasscode;
-      if (success) {
-        setIsAdmin(true);
-        saveAdminMode(activeProfileId, true);
-      }
-      return success;
-    },
-    [adminPasscode, activeProfileId]
-  );
-
-  const logoutAdmin = useCallback(() => {
-    setIsAdmin(false);
-    saveAdminMode(activeProfileId, false);
-  }, [activeProfileId]);
-
   const toggleQuestionBookmark = useCallback(
     (questionId: string) => {
       setBookmarkedQuestionIds((current) => {
@@ -350,8 +304,6 @@ export function AppStateProvider({ children }: { children: ReactNode }): JSX.Ele
       questionSet,
       loadingDefault,
       lastResult,
-      isAdmin,
-      hasAdminPasscode: Boolean(adminPasscode),
       storyProgress,
       bookmarkedQuestionIds,
       profiles,
@@ -362,9 +314,6 @@ export function AppStateProvider({ children }: { children: ReactNode }): JSX.Ele
       setQuestionSet,
       updateQuestion,
       setLastResult,
-      setAdminPasscode,
-      loginAdmin,
-      logoutAdmin,
       toggleQuestionBookmark,
       recordStoryResult
     }),
@@ -372,8 +321,6 @@ export function AppStateProvider({ children }: { children: ReactNode }): JSX.Ele
       questionSet,
       loadingDefault,
       lastResult,
-      isAdmin,
-      adminPasscode,
       storyProgress,
       bookmarkedQuestionIds,
       profiles,
@@ -384,9 +331,6 @@ export function AppStateProvider({ children }: { children: ReactNode }): JSX.Ele
       setQuestionSet,
       updateQuestion,
       setLastResult,
-      setAdminPasscode,
-      loginAdmin,
-      logoutAdmin,
       toggleQuestionBookmark,
       recordStoryResult
     ]

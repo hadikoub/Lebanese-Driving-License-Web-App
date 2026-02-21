@@ -1,10 +1,9 @@
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { useAppState } from "../AppState";
-import { downloadJson } from "../lib/file";
 
 export function HomePage(): JSX.Element {
-  const { questionSet, loadingDefault, isAdmin } = useAppState();
+  const { questionSet, loadingDefault } = useAppState();
 
   const stats = useMemo(() => {
     if (!questionSet) return null;
@@ -16,69 +15,69 @@ export function HomePage(): JSX.Element {
     return { total, needsReview, withoutAnswerKey };
   }, [questionSet]);
 
-  function exportCurrentSet(): void {
-    if (!questionSet) return;
-    downloadJson(`${questionSet.id}.json`, questionSet);
-  }
-
   return (
-    <section className="panel">
-      <div className="actions-row">
-        <button type="button" onClick={exportCurrentSet} disabled={!questionSet}>
-          تصدير النسخة الحالية
-        </button>
-      </div>
-
-      {loadingDefault && <p className="muted">جار تحميل البيانات الافتراضية...</p>}
+    <>
+      {loadingDefault && (
+        <section className="panel">
+          <p className="muted">Loading default data...</p>
+        </section>
+      )}
 
       {!questionSet && !loadingDefault && (
-        <p className="error-box">لا توجد بيانات أسئلة حالياً.</p>
+        <section className="panel">
+          <p className="error-box">No question data available.</p>
+        </section>
       )}
 
       {questionSet && stats && (
         <>
-          <div className="stats-grid">
-            <article>
-              <h3>إجمالي الأسئلة</h3>
-              <strong>{stats.total}</strong>
-            </article>
-            <article>
-              <h3>تحتاج مراجعة</h3>
-              <strong>{stats.needsReview}</strong>
-            </article>
-            <article>
-              <h3>بدون إجابة صحيحة</h3>
-              <strong>{stats.withoutAnswerKey}</strong>
-            </article>
-          </div>
+          <section className="panel">
+            <div className="stats-grid">
+              <article>
+                <h3>Questions</h3>
+                <strong>{stats.total}</strong>
+              </article>
+              <article>
+                <h3>Needs Review</h3>
+                <strong>{stats.needsReview}</strong>
+              </article>
+              <article>
+                <h3>No Answer</h3>
+                <strong>{stats.withoutAnswerKey}</strong>
+              </article>
+            </div>
+          </section>
 
-          <div className="actions-row">
-            <Link className="button-link" to="/quiz/practice">
-              بدء التدريب
-            </Link>
-            <Link className="button-link" to="/quiz/exam">
-              بدء الامتحان
-            </Link>
-            <Link className="button-link" to="/bookmarks">
-              عرض الأسئلة المحفوظة
-            </Link>
-            <Link className="button-link" to="/signs/flashcards">
-              Signs Flashcards
-            </Link>
-            <Link className="button-link" to="/signs/quiz">
-              Signs Quiz
-            </Link>
-            <Link className="button-link" to="/story">
-              Story Mode
-            </Link>
-            {isAdmin && (
-              <Link className="button-link" to="/review">
-                مراجعة وتعديل الأسئلة
+          <section className="panel">
+            <div className="dashboard-grid">
+              <Link className="dashboard-card" to="/quiz/practice">
+                <div className="dashboard-card-icon teal">📖</div>
+                <span className="dashboard-card-label">Practice</span>
               </Link>
-            )}
-          </div>
+              <Link className="dashboard-card" to="/quiz/exam">
+                <div className="dashboard-card-icon blue">📝</div>
+                <span className="dashboard-card-label">Exam</span>
+              </Link>
+              <Link className="dashboard-card" to="/bookmarks">
+                <div className="dashboard-card-icon amber">⭐</div>
+                <span className="dashboard-card-label">Saved Questions</span>
+              </Link>
+              <Link className="dashboard-card" to="/story">
+                <div className="dashboard-card-icon purple">⚡</div>
+                <span className="dashboard-card-label">Story Mode</span>
+              </Link>
+              <Link className="dashboard-card" to="/signs/flashcards">
+                <div className="dashboard-card-icon emerald">🪧</div>
+                <span className="dashboard-card-label">Sign Flashcards</span>
+              </Link>
+              <Link className="dashboard-card" to="/signs/quiz">
+                <div className="dashboard-card-icon rose">🚦</div>
+                <span className="dashboard-card-label">Sign Quiz</span>
+              </Link>
+            </div>
+          </section>
         </>
       )}
-    </section>
+    </>
   );
 }

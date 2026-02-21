@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { SignImage } from "../components/SignImage";
-import { confirmAction } from "../lib/confirm";
+import { ConfirmModal } from "../components/Modal";
 import {
   filterSignsQuizByTypes,
   formatDuration,
@@ -104,6 +104,9 @@ export function SignsQuizPage(): JSX.Element {
   const [feedbackTone, setFeedbackTone] = useState<"success" | "error" | null>(null);
   const [result, setResult] = useState<SignsQuizResult | null>(null);
 
+  const [showFinishConfirm, setShowFinishConfirm] = useState(false);
+  const [showExitConfirm, setShowExitConfirm] = useState(false);
+
   useEffect(() => {
     if (!config) return;
     setQuestionCountInput(String(config.questionCount));
@@ -117,14 +120,14 @@ export function SignsQuizPage(): JSX.Element {
 
     async function loadData(): Promise<void> {
       try {
-        const response = await fetch("/data/signs.quiz.ar.generated.json");
+        const response = await fetch("/data/signs.quiz.ar.generated.json", { cache: "no-cache" });
         if (!response.ok) {
-          throw new Error("تعذر تحميل ملف اختبار الإشارات.");
+          throw new Error("Failed to load sign quiz data.");
         }
 
         const payload = (await response.json()) as unknown;
         if (!isSignQuizSet(payload)) {
-          throw new Error("صيغة بيانات اختبار الإشارات غير صحيحة.");
+          throw new Error("Invalid sign quiz data format.");
         }
 
         if (disposed) return;
@@ -139,8 +142,8 @@ export function SignsQuizPage(): JSX.Element {
         setLoadError(null);
       } catch (error) {
         if (disposed) return;
-        const message = error instanceof Error ? error.message : "تعذر تحميل بيانات اختبار الإشارات.";
-        setLoadError(`${message} شغّل الأمر npm run extract:signs ثم أعد المحاولة.`);
+        const message = error instanceof Error ? error.message : "Failed to load sign quiz data.";
+        setLoadError(`${message} Run npm run extract:signs and try again.`);
       } finally {
         if (!disposed) {
           setLoading(false);
@@ -197,7 +200,7 @@ export function SignsQuizPage(): JSX.Element {
 
     const filtered = filterSignsQuizByTypes(quizSet.questions, config.selectedTypes);
     if (filtered.length === 0) {
-      setSetupError("لا توجد أسئلة مطابقة للفلاتر المختارة.");
+      setSetupError("No questions match the selected filters.");
       return;
     }
 
@@ -226,10 +229,10 @@ export function SignsQuizPage(): JSX.Element {
 
     if (config.mode === "practice") {
       if (optionIndex === current.correctOptionIndex) {
-        setFeedback("إجابة صحيحة");
+        setFeedback("Correct!");
         setFeedbackTone("success");
       } else {
-        setFeedback(`إجابة غير صحيحة. الصحيح: ${current.correctAnswerAr}`);
+        setFeedback(`Wrong. Correct answer: ${current.correctAnswerAr}`);
         setFeedbackTone("error");
       }
     } else {
@@ -242,20 +245,18 @@ export function SignsQuizPage(): JSX.Element {
     setFeedback(null);
     setFeedbackTone(null);
     if (index >= questions.length - 1) {
-      const confirmed = confirmAction("هل أنت متأكد من إنهاء الاختبار وعرض النتيجة؟");
-      if (!confirmed) return;
-      finishQuiz(false);
+      setShowFinishConfirm(true);
       return;
     }
     setIndex((current) => current + 1);
   }
 
   if (loading) {
-    return <section className="panel">جار تحميل اختبار الإشارات...</section>;
+    return <section className="panel">Loading sign quiz...</section>;
   }
 
   if (loadError || !quizSet || !config) {
-    return <section className="panel error-box">{loadError ?? "بيانات اختبار الإشارات غير متوفرة."}</section>;
+    return <section className="panel error-box">{loadError ?? "Sign quiz data not available."}</section>;
   }
 
   if (!active) {
@@ -274,13 +275,13 @@ export function SignsQuizPage(): JSX.Element {
     return (
       <section className="panel">
         <header className="title-row">
-          <h2>Signs Quiz</h2>
-          <span>إجمالي الأسئلة: {quizSet.questions.length}</span>
+          <h2>Sign Quiz</h2>
+          <span>{quizSet.questions.length} questions</span>
         </header>
 
         <div className="setup-grid">
           <label>
-            الوضع
+            Mode
             <select
               value={config.mode}
               onChange={(event) => {
@@ -288,13 +289,13 @@ export function SignsQuizPage(): JSX.Element {
                 setConfig((current) => (current ? { ...current, mode: value } : current));
               }}
             >
-              <option value="practice">تدريب (تصحيح فوري)</option>
-              <option value="exam">امتحان (تصحيح نهائي)</option>
+              <option value="practice">Practice (Instant feedback)</option>
+              <option value="exam">Exam (Results at end)</option>
             </select>
           </label>
 
           <label>
-            عدد الأسئلة
+            Number of Questions
             <input
               type="text"
               inputMode="numeric"
@@ -329,7 +330,7 @@ export function SignsQuizPage(): JSX.Element {
           </label>
 
           <label>
-            مدة الاختبار (دقائق)
+            Duration (minutes)
             <input
               type="text"
               inputMode="numeric"
@@ -365,7 +366,7 @@ export function SignsQuizPage(): JSX.Element {
         </div>
 
         <div className="setup-block">
-          <h3>فلترة النوع</h3>
+          <h3>Filter by Type</h3>
           <div className="setup-categories">
             {types.map((type) => {
               const selected = config.selectedTypes.includes(type);
@@ -391,41 +392,38 @@ export function SignsQuizPage(): JSX.Element {
           </div>
         </div>
 
-        <div className="actions-row">
-          <button type="button" onClick={startQuiz}>
-            بدء {config.mode === "practice" ? "التدريب" : "الامتحان"}
-          </button>
-        </div>
+        <button type="button" className="btn-block" onClick={startQuiz}>
+          Start {config.mode === "practice" ? "Practice" : "Exam"}
+        </button>
 
         {setupError && <p className="error-box">{setupError}</p>}
 
         {result && (
           <>
-            <div className="setup-block">
-              <h3>نتيجة آخر جلسة</h3>
-              <p>
-                الدرجة: {result.score} / {result.total}
-              </p>
-              <p>نسبة النجاح: {Math.round((result.score / Math.max(result.total, 1)) * 100)}%</p>
-              <p>الإجابات المنجزة: {answeredCount}</p>
-              <p>غير المجاب عنها: {unansweredCount}</p>
-              <p>الوقت المستغرق: {formatDuration(result.elapsedSeconds)}</p>
-              {result.timedOut && <p className="error-box">انتهى الوقت وتم إنهاء الاختبار تلقائياً.</p>}
+            <div className="setup-block" style={{ marginTop: 16 }}>
+              <h3>Last Session Result</h3>
+              <div className="score-card">
+                <strong>{result.score} / {result.total}</strong>
+                <span>{Math.round((result.score / Math.max(result.total, 1)) * 100)}%</span>
+              </div>
+              <p className="muted">Answered: {answeredCount} | Skipped: {unansweredCount}</p>
+              <p className="muted">Time: {formatDuration(result.elapsedSeconds)}</p>
+              {result.timedOut && <p className="error-box">Time ran out and the quiz was automatically ended.</p>}
             </div>
 
-            <h3>مراجعة الإجابات المنجزة</h3>
-            {reviewRows.length === 0 && <p className="muted">لا توجد إجابات منجزة في الجلسة السابقة.</p>}
+            <h3>Answer Review</h3>
+            {reviewRows.length === 0 && <p className="muted">No completed answers in the previous session.</p>}
             <div className="question-list">
               {reviewRows.map(({ question, selectedIndex }) => {
                 const isCorrect = selectedIndex === question.correctOptionIndex;
                 return (
                   <article key={question.id} className={`result-item ${isCorrect ? "ok" : "bad"}`}>
                     <figure className="question-sign small">
-                      <SignImage src={question.imagePath} alt={`إشارة ${question.sourceId}`} loading="lazy" />
+                      <SignImage src={question.imagePath} alt={`Sign ${question.sourceId}`} loading="lazy" />
                     </figure>
-                    <p>النوع: {question.type}</p>
-                    <p>اختيارك: {selectedIndex !== undefined ? question.optionsAr[selectedIndex] : "-"}</p>
-                    <p>الصحيح: {question.correctAnswerAr}</p>
+                    <p>Type: {question.type}</p>
+                    <p>Your answer: <span className="ar">{selectedIndex !== undefined ? question.optionsAr[selectedIndex] : "-"}</span></p>
+                    <p>Correct: <span className="ar">{question.correctAnswerAr}</span></p>
                   </article>
                 );
               })}
@@ -438,28 +436,31 @@ export function SignsQuizPage(): JSX.Element {
 
   const current = questions[index];
   if (!current) {
-    return <section className="panel">لا توجد أسئلة متاحة.</section>;
+    return <section className="panel">No questions available.</section>;
   }
 
   const selected = answers[current.id];
+  const progressPercent = Math.round(((index + 1) / questions.length) * 100);
 
   return (
     <section className="panel">
       <header className="title-row">
-        <h2>{config.mode === "practice" ? "Signs Quiz - تدريب" : "Signs Quiz - امتحان"}</h2>
-        <span>
-          السؤال {index + 1} من {questions.length}
-        </span>
+        <h2>{config.mode === "practice" ? "Sign Quiz - Practice" : "Sign Quiz - Exam"}</h2>
+        <span>{index + 1} / {questions.length}</span>
       </header>
 
+      <div className="progress-bar">
+        <div className="progress-bar-fill" style={{ width: `${progressPercent}%` }} />
+      </div>
+
       <div className="quiz-meta-row">
-        <span>النوع: {current.type}</span>
-        <strong>الوقت المتبقي: {formatDuration(remainingSeconds)}</strong>
+        <span>{current.type}</span>
+        <strong>{formatDuration(remainingSeconds)}</strong>
       </div>
 
       <article className="quiz-card">
         <figure className="question-sign signs-card-image">
-          <SignImage src={current.imagePath} alt={`إشارة ${current.sourceId}`} loading="lazy" />
+          <SignImage src={current.imagePath} alt={`Sign ${current.sourceId}`} loading="lazy" />
         </figure>
 
         <div className="choices-column">
@@ -478,17 +479,17 @@ export function SignsQuizPage(): JSX.Element {
                 onClick={() => selectAnswer(optionIndex)}
               >
                 <strong>{String.fromCharCode(65 + optionIndex)}</strong>
-                <span>{option}</span>
+                <span className="ar">{option}</span>
               </button>
             );
           })}
         </div>
 
-        {feedback && <p className={`feedback-box ${feedbackTone ?? ""}`}>{feedback}</p>}
+        {feedback && <p className={`feedback-box ar ${feedbackTone ?? ""}`}>{feedback}</p>}
 
         <div className="actions-row primary-actions">
-          <button type="button" onClick={nextQuestion}>
-            {index >= questions.length - 1 ? "إنهاء" : "التالي"}
+          <button type="button" className="btn-block" onClick={nextQuestion}>
+            {index >= questions.length - 1 ? "Finish Quiz" : "Next Question"}
           </button>
         </div>
 
@@ -496,16 +497,40 @@ export function SignsQuizPage(): JSX.Element {
           <button
             type="button"
             className="danger-button"
-            onClick={() => {
-              const confirmed = confirmAction("هل تريد إنهاء الاختبار الآن؟ سيتم حفظ الإجابات الحالية.");
-              if (!confirmed) return;
-              finishQuiz(false);
-            }}
+            onClick={() => setShowExitConfirm(true)}
           >
-            إنهاء الاختبار الآن
+            End Quiz Now
           </button>
         </div>
       </article>
+
+      <ConfirmModal
+        open={showFinishConfirm}
+        title="Finish Quiz"
+        message="Are you sure you want to finish the quiz and see your results?"
+        confirmLabel="Yes, Finish"
+        cancelLabel="Continue"
+        variant="primary"
+        onConfirm={() => {
+          setShowFinishConfirm(false);
+          finishQuiz(false);
+        }}
+        onCancel={() => setShowFinishConfirm(false)}
+      />
+
+      <ConfirmModal
+        open={showExitConfirm}
+        title="End Early"
+        message="Are you sure you want to end the quiz now? Only your current answers will be saved."
+        confirmLabel="Yes, End Now"
+        cancelLabel="Cancel"
+        variant="danger"
+        onConfirm={() => {
+          setShowExitConfirm(false);
+          finishQuiz(false);
+        }}
+        onCancel={() => setShowExitConfirm(false)}
+      />
     </section>
   );
 }

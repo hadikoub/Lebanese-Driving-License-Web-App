@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { SignImage } from "../components/SignImage";
-import { confirmAction } from "../lib/confirm";
+import { ConfirmModal } from "../components/Modal";
 import {
   filterFlashcardsByTypes,
   formatDuration,
@@ -73,6 +73,9 @@ export function SignsFlashcardsPage(): JSX.Element {
   const [viewedCardIds, setViewedCardIds] = useState<Set<string>>(new Set());
   const [result, setResult] = useState<FlashcardsResult | null>(null);
 
+  const [showFinishConfirm, setShowFinishConfirm] = useState(false);
+  const [showExitConfirm, setShowExitConfirm] = useState(false);
+
   useEffect(() => {
     if (!config) return;
     setCardCountInput(String(config.cardCount));
@@ -86,14 +89,14 @@ export function SignsFlashcardsPage(): JSX.Element {
 
     async function loadData(): Promise<void> {
       try {
-        const response = await fetch("/data/signs.flashcards.ar.generated.json");
+        const response = await fetch("/data/signs.flashcards.ar.generated.json", { cache: "no-cache" });
         if (!response.ok) {
-          throw new Error("تعذر تحميل ملف بطاقات الإشارات.");
+          throw new Error("Failed to load sign flashcards data.");
         }
 
         const payload = (await response.json()) as unknown;
         if (!isSignFlashcardSet(payload)) {
-          throw new Error("صيغة بيانات البطاقات غير صحيحة.");
+          throw new Error("Invalid flashcard data format.");
         }
 
         if (disposed) return;
@@ -107,8 +110,8 @@ export function SignsFlashcardsPage(): JSX.Element {
         setLoadError(null);
       } catch (error) {
         if (disposed) return;
-        const message = error instanceof Error ? error.message : "تعذر تحميل بيانات البطاقات.";
-        setLoadError(`${message} شغّل الأمر npm run extract:signs ثم أعد المحاولة.`);
+        const message = error instanceof Error ? error.message : "Failed to load flashcard data.";
+        setLoadError(`${message} Run npm run extract:signs and try again.`);
       } finally {
         if (!disposed) {
           setLoading(false);
@@ -159,7 +162,7 @@ export function SignsFlashcardsPage(): JSX.Element {
 
     const filtered = filterFlashcardsByTypes(flashcardSet.cards, config.selectedTypes);
     if (filtered.length === 0) {
-      setSetupError("لا توجد بطاقات مطابقة للفلاتر المختارة.");
+      setSetupError("No cards match the selected filters.");
       return;
     }
 
@@ -194,24 +197,24 @@ export function SignsFlashcardsPage(): JSX.Element {
   }
 
   if (loading) {
-    return <section className="panel">جار تحميل بطاقات الإشارات...</section>;
+    return <section className="panel">Loading sign flashcards...</section>;
   }
 
   if (loadError || !flashcardSet || !config) {
-    return <section className="panel error-box">{loadError ?? "بيانات البطاقات غير متوفرة."}</section>;
+    return <section className="panel error-box">{loadError ?? "Flashcard data not available."}</section>;
   }
 
   if (!active) {
     return (
       <section className="panel">
         <header className="title-row">
-          <h2>Signs Flashcards</h2>
-          <span>إجمالي البطاقات: {flashcardSet.cards.length}</span>
+          <h2>Sign Flashcards</h2>
+          <span>{flashcardSet.cards.length} cards</span>
         </header>
 
         <div className="setup-grid">
           <label>
-            عدد البطاقات
+            Number of Cards
             <input
               type="text"
               inputMode="numeric"
@@ -245,7 +248,7 @@ export function SignsFlashcardsPage(): JSX.Element {
             />
           </label>
           <label>
-            مدة الجلسة (دقائق)
+            Duration (minutes)
             <input
               type="text"
               inputMode="numeric"
@@ -281,7 +284,7 @@ export function SignsFlashcardsPage(): JSX.Element {
         </div>
 
         <div className="setup-block">
-          <h3>فلترة النوع</h3>
+          <h3>Filter by Type</h3>
           <div className="setup-categories">
             {types.map((type) => {
               const selected = config.selectedTypes.includes(type);
@@ -307,20 +310,18 @@ export function SignsFlashcardsPage(): JSX.Element {
           </div>
         </div>
 
-        <div className="actions-row">
-          <button type="button" onClick={startSession}>
-            بدء البطاقات
-          </button>
-        </div>
+        <button type="button" className="btn-block" onClick={startSession}>
+          Start Flashcards
+        </button>
 
         {setupError && <p className="error-box">{setupError}</p>}
         {result && (
-          <div className="setup-block">
-            <h3>نتيجة آخر جلسة</h3>
-            <p>بطاقات تم تصفحها: {result.viewed}</p>
-            <p>إجمالي البطاقات: {result.total}</p>
-            <p>الوقت المستغرق: {formatDuration(result.elapsedSeconds)}</p>
-            {result.timedOut && <p className="error-box">انتهى الوقت للجلسة السابقة.</p>}
+          <div className="setup-block" style={{ marginTop: 16 }}>
+            <h3>Last Session Result</h3>
+            <p>Cards viewed: {result.viewed}</p>
+            <p>Total cards: {result.total}</p>
+            <p>Time spent: {formatDuration(result.elapsedSeconds)}</p>
+            {result.timedOut && <p className="error-box">Time ran out for the previous session.</p>}
           </div>
         )}
       </section>
@@ -329,54 +330,60 @@ export function SignsFlashcardsPage(): JSX.Element {
 
   const current = sessionCards[index];
   if (!current) {
-    return <section className="panel">لا توجد بطاقات متاحة.</section>;
+    return <section className="panel">No cards available.</section>;
   }
+
+  const progressPercent = Math.round(((index + 1) / sessionCards.length) * 100);
 
   return (
     <section className="panel">
       <header className="title-row">
-        <h2>Signs Flashcards</h2>
-        <span>
-          البطاقة {index + 1} من {sessionCards.length}
-        </span>
+        <h2>Sign Flashcards</h2>
+        <span>{index + 1} / {sessionCards.length}</span>
       </header>
 
+      <div className="progress-bar">
+        <div className="progress-bar-fill" style={{ width: `${progressPercent}%` }} />
+      </div>
+
       <div className="quiz-meta-row">
-        <span>النوع: {current.type}</span>
-        <strong>الوقت المتبقي: {formatDuration(remainingSeconds)}</strong>
+        <span>{current.type}</span>
+        <strong>{formatDuration(remainingSeconds)}</strong>
       </div>
 
       <article className="quiz-card">
         <figure className="question-sign signs-card-image">
-          <SignImage src={current.imagePath} alt={`إشارة ${current.sourceId}`} loading="lazy" />
+          <SignImage src={current.imagePath} alt={`Sign ${current.sourceId}`} loading="lazy" />
         </figure>
 
         {showAnswer ? (
-          <h3 className="sign-answer">{current.nameAr}</h3>
+          <h3 className="sign-answer ar">{current.nameAr}</h3>
         ) : (
-          <p className="muted">اضغط "إظهار الاسم" لعرض اسم الإشارة بالعربية.</p>
+          <p className="muted" style={{ textAlign: "center" }}>Tap to reveal the sign name</p>
         )}
 
         <div className="actions-row primary-actions">
-          <button type="button" onClick={() => setShowAnswer((currentValue) => !currentValue)}>
-            {showAnswer ? "إخفاء الاسم" : "إظهار الاسم"}
+          <button type="button" className="btn-ghost" style={{ flex: 1 }} onClick={() => setShowAnswer((v) => !v)}>
+            {showAnswer ? "Hide" : "Show Name"}
           </button>
-          <button type="button" onClick={() => move(-1)} disabled={index === 0}>
-            السابق
+        </div>
+
+        <div className="actions-row">
+          <button type="button" className="btn-ghost" style={{ flex: 1 }} onClick={() => move(-1)} disabled={index === 0}>
+            Previous
           </button>
           <button
             type="button"
+            style={{ flex: 1 }}
             onClick={() => {
               if (index >= sessionCards.length - 1) {
-                const confirmed = confirmAction("هل أنت متأكد من إنهاء الجلسة؟");
-                if (!confirmed) return;
-                finishSession(false);
+                setShowFinishConfirm(true);
                 return;
               }
               move(1);
             }}
           >
-            {index >= sessionCards.length - 1 ? "إنهاء" : "التالي"}
+            {index >= sessionCards.length - 1 ? "Finish" : "Next"}
           </button>
         </div>
 
@@ -384,16 +391,40 @@ export function SignsFlashcardsPage(): JSX.Element {
           <button
             type="button"
             className="danger-button"
-            onClick={() => {
-              const confirmed = confirmAction("هل تريد إنهاء الجلسة الآن؟");
-              if (!confirmed) return;
-              finishSession(false);
-            }}
+            onClick={() => setShowExitConfirm(true)}
           >
-            إنهاء الجلسة
+            End Session
           </button>
         </div>
       </article>
+
+      <ConfirmModal
+        open={showFinishConfirm}
+        title="Finish Session"
+        message="Are you sure you want to finish the flashcard session?"
+        confirmLabel="Yes, Finish"
+        cancelLabel="Continue"
+        variant="primary"
+        onConfirm={() => {
+          setShowFinishConfirm(false);
+          finishSession(false);
+        }}
+        onCancel={() => setShowFinishConfirm(false)}
+      />
+
+      <ConfirmModal
+        open={showExitConfirm}
+        title="End Early"
+        message="Are you sure you want to end the session now?"
+        confirmLabel="Yes, End Now"
+        cancelLabel="Cancel"
+        variant="danger"
+        onConfirm={() => {
+          setShowExitConfirm(false);
+          finishSession(false);
+        }}
+        onCancel={() => setShowExitConfirm(false)}
+      />
     </section>
   );
 }

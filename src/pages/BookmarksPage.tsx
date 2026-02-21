@@ -1,6 +1,7 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAppState } from "../AppState";
+import { ConfirmModal } from "../components/Modal";
 import { SignImage } from "../components/SignImage";
 import type { Question } from "../types/qcm";
 
@@ -9,13 +10,14 @@ function getChoiceLabel(choiceIndex: number): string {
 }
 
 function getCorrectAnswerText(question: Question): string {
-  if (!question.correctChoiceId) return "غير محدد";
+  if (!question.correctChoiceId) return "Not set";
   const choice = question.choices.find((item) => item.id === question.correctChoiceId);
   return choice?.textAr ?? question.correctChoiceId;
 }
 
 export function BookmarksPage(): JSX.Element {
   const { questionSet, bookmarkedQuestionIds, toggleQuestionBookmark } = useAppState();
+  const [removeTarget, setRemoveTarget] = useState<string | null>(null);
 
   const bookmarkedQuestions = useMemo(() => {
     if (!questionSet || bookmarkedQuestionIds.length === 0) return [];
@@ -24,57 +26,62 @@ export function BookmarksPage(): JSX.Element {
   }, [questionSet, bookmarkedQuestionIds]);
 
   if (!questionSet) {
-    return <section className="panel">لا توجد بيانات أسئلة حالياً.</section>;
+    return <section className="panel">No question data available.</section>;
   }
 
   return (
     <section className="panel">
       <header className="title-row">
-        <h2>الأسئلة المحفوظة</h2>
-        <span>{bookmarkedQuestions.length} سؤال</span>
+        <h2>Saved Questions</h2>
+        <span>{bookmarkedQuestions.length} questions</span>
       </header>
 
-      <div className="actions-row">
-        <Link className="button-link" to="/quiz/practice">
-          التدريب على الأسئلة المحفوظة
-        </Link>
-      </div>
+      {bookmarkedQuestions.length > 0 && (
+        <div className="actions-row">
+          <Link className="button-link btn-block" to="/quiz/practice">
+            Practice Saved Questions
+          </Link>
+        </div>
+      )}
 
       {bookmarkedQuestions.length === 0 && (
-        <p className="muted">لا توجد أسئلة محفوظة بعد. يمكنك حفظ أي سؤال أثناء التدريب أو الامتحان.</p>
+        <div className="empty-state">
+          <p>No saved questions yet.</p>
+          <p className="muted" style={{ fontSize: "0.88rem" }}>You can save any question during practice or exam mode.</p>
+        </div>
       )}
 
       <div className="question-list">
         {bookmarkedQuestions.map((question) => (
           <article key={question.id} className="result-item bookmark-item">
             <div className="bookmark-title-row">
-              <h3>{question.promptAr}</h3>
+              <h3 className="ar">{question.promptAr}</h3>
               <button
                 type="button"
                 className="danger-button"
-                onClick={() => toggleQuestionBookmark(question.id)}
+                onClick={() => setRemoveTarget(question.id)}
               >
-                إزالة من المحفوظات
+                Remove
               </button>
             </div>
 
             {question.signPath && (
               <figure className="question-sign small">
-                <SignImage src={question.signPath} alt="إشارة مرورية مرتبطة بالسؤال" loading="lazy" />
+                <SignImage src={question.signPath} alt="Traffic sign related to the question" loading="lazy" />
               </figure>
             )}
 
             <p>
-              <strong>الإجابة الصحيحة:</strong> {getCorrectAnswerText(question)}
+              <strong>Correct Answer:</strong> <span className="ar">{getCorrectAnswerText(question)}</span>
             </p>
 
             <div className="bookmark-choices">
-              {question.choices.map((choice, index) => {
+              {question.choices.map((choice, choiceIndex) => {
                 const isCorrect = question.correctChoiceId === choice.id;
                 return (
                   <div key={choice.id} className={`bookmark-choice ${isCorrect ? "correct" : ""}`}>
-                    <strong>{getChoiceLabel(index)}</strong>
-                    <span>{choice.textAr}</span>
+                    <strong>{getChoiceLabel(choiceIndex)}</strong>
+                    <span className="ar">{choice.textAr}</span>
                   </div>
                 );
               })}
@@ -82,6 +89,20 @@ export function BookmarksPage(): JSX.Element {
           </article>
         ))}
       </div>
+
+      <ConfirmModal
+        open={removeTarget !== null}
+        title="Remove from Saved"
+        message="Are you sure you want to remove this question from your saved list?"
+        confirmLabel="Yes, Remove"
+        cancelLabel="Cancel"
+        variant="danger"
+        onConfirm={() => {
+          if (removeTarget) toggleQuestionBookmark(removeTarget);
+          setRemoveTarget(null);
+        }}
+        onCancel={() => setRemoveTarget(null)}
+      />
     </section>
   );
 }
