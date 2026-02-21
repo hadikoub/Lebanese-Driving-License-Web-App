@@ -956,17 +956,26 @@ code {
 
 /* ── Result Items ── */
 
+.result-item {
+  direction: rtl;
+  text-align: right;
+}
+
 .result-item.ok {
-  border-left: 4px solid var(--success);
+  border-right: 4px solid var(--success);
+  border-left: none;
 }
 
 .result-item.bad {
-  border-left: 4px solid var(--danger);
+  border-right: 4px solid var(--danger);
+  border-left: none;
 }
 
 .result-item h4 {
   margin: 0 0 8px;
   font-size: 0.95rem;
+  font-family: "Noto Naskh Arabic", "Amiri", serif;
+  line-height: 1.75;
 }
 
 .result-item p {
