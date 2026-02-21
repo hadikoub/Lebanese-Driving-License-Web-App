@@ -13,6 +13,7 @@ import {
   clearQuizResult,
   createProfile as createStoredProfile,
   ensureProfiles,
+  loadBookmarkedQuestions,
   loadAdminMode,
   loadAdminPasscode,
   loadQuestionSet,
@@ -21,6 +22,7 @@ import {
   saveActiveProfileId,
   saveAdminMode,
   saveAdminPasscode,
+  saveBookmarkedQuestions,
   saveQuestionSet,
   saveQuizResult,
   saveStoryProgress,
@@ -101,6 +103,7 @@ interface AppState {
   isAdmin: boolean;
   hasAdminPasscode: boolean;
   storyProgress: StoryProgress;
+  bookmarkedQuestionIds: string[];
   profiles: UserProfile[];
   activeProfileId: string;
   activeProfileName: string;
@@ -112,6 +115,7 @@ interface AppState {
   setAdminPasscode: (passcode: string) => boolean;
   loginAdmin: (passcode: string) => boolean;
   logoutAdmin: () => void;
+  toggleQuestionBookmark: (questionId: string) => void;
   recordStoryResult: (levelId: string, score: number, total: number) => void;
 }
 
@@ -137,6 +141,9 @@ export function AppStateProvider({ children }: { children: ReactNode }): JSX.Ele
   );
   const [storyProgress, setStoryProgress] = useState<StoryProgress>(() =>
     loadStoryProgress(initialProfileState.activeProfileId) ?? defaultStoryProgress()
+  );
+  const [bookmarkedQuestionIds, setBookmarkedQuestionIds] = useState<string[]>(() =>
+    loadBookmarkedQuestions(initialProfileState.activeProfileId)
   );
   const [referenceQuestionSet, setReferenceQuestionSet] = useState<QuestionSet | null>(null);
   const [loadingDefault, setLoadingDefault] = useState<boolean>(() => !loadQuestionSet(initialProfileState.activeProfileId));
@@ -173,12 +180,14 @@ export function AppStateProvider({ children }: { children: ReactNode }): JSX.Ele
     const loadedAdminMode = loadAdminMode(activeProfileId);
     const loadedAdminPasscode = loadAdminPasscode(activeProfileId);
     const loadedStoryProgress = loadStoryProgress(activeProfileId) ?? defaultStoryProgress();
+    const loadedBookmarks = loadBookmarkedQuestions(activeProfileId);
 
     setQuestionSetState(loadedQuestionSet);
     setLastResultState(loadedLastResult);
     setIsAdmin(loadedAdminMode && Boolean(loadedAdminPasscode));
     setAdminPasscodeState(loadedAdminPasscode);
     setStoryProgress(loadedStoryProgress);
+    setBookmarkedQuestionIds(loadedBookmarks);
 
     if (!loadedQuestionSet && referenceQuestionSet) {
       setQuestionSetState(referenceQuestionSet);
@@ -288,6 +297,19 @@ export function AppStateProvider({ children }: { children: ReactNode }): JSX.Ele
     saveAdminMode(activeProfileId, false);
   }, [activeProfileId]);
 
+  const toggleQuestionBookmark = useCallback(
+    (questionId: string) => {
+      setBookmarkedQuestionIds((current) => {
+        const next = current.includes(questionId)
+          ? current.filter((id) => id !== questionId)
+          : [...current, questionId];
+        saveBookmarkedQuestions(activeProfileId, next);
+        return next;
+      });
+    },
+    [activeProfileId]
+  );
+
   const recordStoryResult = useCallback(
     (levelId: string, score: number, total: number) => {
       setStoryProgress((current) => {
@@ -331,6 +353,7 @@ export function AppStateProvider({ children }: { children: ReactNode }): JSX.Ele
       isAdmin,
       hasAdminPasscode: Boolean(adminPasscode),
       storyProgress,
+      bookmarkedQuestionIds,
       profiles,
       activeProfileId,
       activeProfileName,
@@ -342,6 +365,7 @@ export function AppStateProvider({ children }: { children: ReactNode }): JSX.Ele
       setAdminPasscode,
       loginAdmin,
       logoutAdmin,
+      toggleQuestionBookmark,
       recordStoryResult
     }),
     [
@@ -351,6 +375,7 @@ export function AppStateProvider({ children }: { children: ReactNode }): JSX.Ele
       isAdmin,
       adminPasscode,
       storyProgress,
+      bookmarkedQuestionIds,
       profiles,
       activeProfileId,
       activeProfileName,
@@ -362,6 +387,7 @@ export function AppStateProvider({ children }: { children: ReactNode }): JSX.Ele
       setAdminPasscode,
       loginAdmin,
       logoutAdmin,
+      toggleQuestionBookmark,
       recordStoryResult
     ]
   );

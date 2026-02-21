@@ -9,13 +9,15 @@ const LEGACY_QUIZ_RESULT_KEY = "qcm_ar_last_result";
 const LEGACY_ADMIN_MODE_KEY = "qcm_ar_admin_mode";
 const LEGACY_ADMIN_PASSCODE_KEY = "qcm_ar_admin_passcode";
 const LEGACY_STORY_PROGRESS_KEY = "qcm_ar_story_progress";
+const LEGACY_BOOKMARKED_QUESTIONS_KEY = "qcm_ar_bookmarked_questions";
 
 type ScopedSuffix =
   | "question_set"
   | "last_result"
   | "admin_mode"
   | "admin_passcode"
-  | "story_progress";
+  | "story_progress"
+  | "bookmarked_questions";
 
 function scopedKey(profileId: string, suffix: ScopedSuffix): string {
   return `qcm_ar:${profileId}:${suffix}`;
@@ -173,4 +175,16 @@ export function saveStoryProgress(profileId: string, progress: StoryProgress): v
 
 export function loadStoryProgress(profileId: string): StoryProgress | null {
   return parseJson<StoryProgress>(loadScopedValue(profileId, "story_progress", LEGACY_STORY_PROGRESS_KEY));
+}
+
+export function saveBookmarkedQuestions(profileId: string, questionIds: string[]): void {
+  localStorage.setItem(scopedKey(profileId, "bookmarked_questions"), JSON.stringify(questionIds));
+}
+
+export function loadBookmarkedQuestions(profileId: string): string[] {
+  const parsed = parseJson<unknown[]>(
+    loadScopedValue(profileId, "bookmarked_questions", LEGACY_BOOKMARKED_QUESTIONS_KEY)
+  );
+  if (!parsed || !Array.isArray(parsed)) return [];
+  return parsed.filter((value): value is string => typeof value === "string");
 }

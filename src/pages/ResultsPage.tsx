@@ -3,6 +3,14 @@ import { Link } from "react-router-dom";
 import { useAppState } from "../AppState";
 import { SignImage } from "../components/SignImage";
 import { formatDuration } from "../lib/quiz";
+import type { Question } from "../types/qcm";
+
+function formatChoiceWithText(question: Question, choiceId: string | null | undefined): string {
+  if (!choiceId) return "غير محدد";
+  const matched = question.choices.find((choice) => choice.id === choiceId);
+  if (!matched) return choiceId;
+  return matched.textAr;
+}
 
 export function ResultsPage(): JSX.Element {
   const { questionSet, lastResult } = useAppState();
@@ -16,11 +24,15 @@ export function ResultsPage(): JSX.Element {
       .map((question) => {
         const selected = lastResult.answers[question.id] ?? null;
         const isCorrect = !!question.correctChoiceId && selected === question.correctChoiceId;
+        const selectedText = selected ? formatChoiceWithText(question, selected) : "لم يتم الاختيار";
+        const correctText = formatChoiceWithText(question, question.correctChoiceId);
 
         return {
           question,
           selected,
-          isCorrect
+          isCorrect,
+          selectedText,
+          correctText
         };
       })
       .filter((item) => item.selected !== null);
@@ -70,7 +82,7 @@ export function ResultsPage(): JSX.Element {
       <h3>مراجعة الإجابات</h3>
       {reviewRows.length === 0 && <p className="muted">لا توجد إجابات منجزة لعرض التصحيح.</p>}
       <div className="question-list">
-        {reviewRows.map(({ question, selected, isCorrect }) => (
+        {reviewRows.map(({ question, isCorrect, selectedText, correctText }) => (
           <article key={question.id} className={`result-item ${isCorrect ? "ok" : "bad"}`}>
             <h4>{question.promptAr}</h4>
             {question.signPath && (
@@ -78,8 +90,8 @@ export function ResultsPage(): JSX.Element {
                 <SignImage src={question.signPath} alt="إشارة مرورية مرتبطة بالسؤال" loading="lazy" />
               </figure>
             )}
-            <p>اختيارك: {selected ?? "لم يتم الاختيار"}</p>
-            <p>الصحيح: {question.correctChoiceId ?? "غير محدد"}</p>
+            <p>اختيارك: {selectedText}</p>
+            <p>الصحيح: {correctText}</p>
           </article>
         ))}
       </div>

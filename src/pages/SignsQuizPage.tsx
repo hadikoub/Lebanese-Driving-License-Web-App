@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { SignImage } from "../components/SignImage";
+import { confirmAction } from "../lib/confirm";
 import {
   filterSignsQuizByTypes,
   formatDuration,
@@ -10,6 +11,17 @@ import type { SignQuizQuestion, SignQuizSet, SignsQuizMode } from "../types/sign
 
 const DEFAULT_QUESTION_COUNT = 30;
 const DEFAULT_DURATION_MINUTES = 30;
+const MIN_QUESTION_COUNT = 1;
+const MIN_DURATION_MINUTES = 1;
+const MAX_DURATION_MINUTES = 240;
+
+function clampInteger(value: number, min: number, max: number): number {
+  return Math.max(min, Math.min(max, value));
+}
+
+function sanitizeDigits(value: string): string {
+  return value.replace(/[^\d]/g, "");
+}
 
 interface SignsQuizConfig {
   mode: SignsQuizMode;
@@ -79,6 +91,8 @@ export function SignsQuizPage(): JSX.Element {
 
   const [config, setConfig] = useState<SignsQuizConfig | null>(null);
   const [setupError, setSetupError] = useState<string | null>(null);
+  const [questionCountInput, setQuestionCountInput] = useState<string>(String(DEFAULT_QUESTION_COUNT));
+  const [durationInput, setDurationInput] = useState<string>(String(DEFAULT_DURATION_MINUTES));
 
   const [active, setActive] = useState(false);
   const [questions, setQuestions] = useState<SignQuizQuestion[]>([]);
@@ -89,6 +103,12 @@ export function SignsQuizPage(): JSX.Element {
   const [feedback, setFeedback] = useState<string | null>(null);
   const [feedbackTone, setFeedbackTone] = useState<"success" | "error" | null>(null);
   const [result, setResult] = useState<SignsQuizResult | null>(null);
+
+  useEffect(() => {
+    if (!config) return;
+    setQuestionCountInput(String(config.questionCount));
+    setDurationInput(String(config.durationMinutes));
+  }, [config?.questionCount, config?.durationMinutes]);
 
   const types = useMemo(() => getSignTypes(quizSet?.questions ?? []), [quizSet]);
 
@@ -181,7 +201,7 @@ export function SignsQuizPage(): JSX.Element {
       return;
     }
 
-    const count = Math.max(1, Math.min(config.questionCount, filtered.length));
+    const count = clampInteger(config.questionCount, MIN_QUESTION_COUNT, filtered.length);
     const selectedQuestions = shuffleItems(filtered).slice(0, count).map(shuffleQuestionOptions);
     setQuestions(selectedQuestions);
     setActive(true);
@@ -189,7 +209,7 @@ export function SignsQuizPage(): JSX.Element {
     setAnswers({});
     setFeedback(null);
     setFeedbackTone(null);
-    setRemainingSeconds(Math.max(60, config.durationMinutes * 60));
+    setRemainingSeconds(Math.max(60, clampInteger(config.durationMinutes, MIN_DURATION_MINUTES, MAX_DURATION_MINUTES) * 60));
     setStartedAtMs(Date.now());
     setResult(null);
     setSetupError(null);
@@ -222,6 +242,8 @@ export function SignsQuizPage(): JSX.Element {
     setFeedback(null);
     setFeedbackTone(null);
     if (index >= questions.length - 1) {
+      const confirmed = confirmAction("هل أنت متأكد من إنهاء الاختبار وعرض النتيجة؟");
+      if (!confirmed) return;
       finishQuiz(false);
       return;
     }
@@ -274,14 +296,34 @@ export function SignsQuizPage(): JSX.Element {
           <label>
             عدد الأسئلة
             <input
-              type="number"
-              min={1}
-              max={quizSet.questions.length}
-              value={config.questionCount}
+              type="text"
+              inputMode="numeric"
+              pattern="[0-9]*"
+              autoComplete="off"
+              enterKeyHint="done"
+              value={questionCountInput}
               onChange={(event) => {
-                const value = Number.parseInt(event.target.value, 10);
-                if (Number.isNaN(value)) return;
+                const digits = sanitizeDigits(event.target.value);
+                setQuestionCountInput(digits);
+                if (!digits) return;
+                const value = clampInteger(
+                  Number.parseInt(digits, 10),
+                  MIN_QUESTION_COUNT,
+                  Math.max(quizSet.questions.length, MIN_QUESTION_COUNT)
+                );
                 setConfig((current) => (current ? { ...current, questionCount: value } : current));
+              }}
+              onBlur={() => {
+                const digits = sanitizeDigits(questionCountInput);
+                const value = digits
+                  ? clampInteger(
+                      Number.parseInt(digits, 10),
+                      MIN_QUESTION_COUNT,
+                      Math.max(quizSet.questions.length, MIN_QUESTION_COUNT)
+                    )
+                  : config.questionCount;
+                setConfig((current) => (current ? { ...current, questionCount: value } : current));
+                setQuestionCountInput(String(value));
               }}
             />
           </label>
@@ -289,14 +331,34 @@ export function SignsQuizPage(): JSX.Element {
           <label>
             مدة الاختبار (دقائق)
             <input
-              type="number"
-              min={1}
-              max={240}
-              value={config.durationMinutes}
+              type="text"
+              inputMode="numeric"
+              pattern="[0-9]*"
+              autoComplete="off"
+              enterKeyHint="done"
+              value={durationInput}
               onChange={(event) => {
-                const value = Number.parseInt(event.target.value, 10);
-                if (Number.isNaN(value)) return;
+                const digits = sanitizeDigits(event.target.value);
+                setDurationInput(digits);
+                if (!digits) return;
+                const value = clampInteger(
+                  Number.parseInt(digits, 10),
+                  MIN_DURATION_MINUTES,
+                  MAX_DURATION_MINUTES
+                );
                 setConfig((current) => (current ? { ...current, durationMinutes: value } : current));
+              }}
+              onBlur={() => {
+                const digits = sanitizeDigits(durationInput);
+                const value = digits
+                  ? clampInteger(
+                      Number.parseInt(digits, 10),
+                      MIN_DURATION_MINUTES,
+                      MAX_DURATION_MINUTES
+                    )
+                  : config.durationMinutes;
+                setConfig((current) => (current ? { ...current, durationMinutes: value } : current));
+                setDurationInput(String(value));
               }}
             />
           </label>
@@ -424,11 +486,22 @@ export function SignsQuizPage(): JSX.Element {
 
         {feedback && <p className={`feedback-box ${feedbackTone ?? ""}`}>{feedback}</p>}
 
-        <div className="actions-row">
+        <div className="actions-row primary-actions">
           <button type="button" onClick={nextQuestion}>
             {index >= questions.length - 1 ? "إنهاء" : "التالي"}
           </button>
-          <button type="button" onClick={() => finishQuiz(false)}>
+        </div>
+
+        <div className="quiz-danger-zone">
+          <button
+            type="button"
+            className="danger-button"
+            onClick={() => {
+              const confirmed = confirmAction("هل تريد إنهاء الاختبار الآن؟ سيتم حفظ الإجابات الحالية.");
+              if (!confirmed) return;
+              finishQuiz(false);
+            }}
+          >
             إنهاء الاختبار الآن
           </button>
         </div>

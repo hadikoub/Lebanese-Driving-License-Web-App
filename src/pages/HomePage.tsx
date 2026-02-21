@@ -59,6 +59,9 @@ export function HomePage(): JSX.Element {
             <Link className="button-link" to="/quiz/exam">
               بدء الامتحان
             </Link>
+            <Link className="button-link" to="/bookmarks">
+              عرض الأسئلة المحفوظة
+            </Link>
             <Link className="button-link" to="/signs/flashcards">
               Signs Flashcards
             </Link>

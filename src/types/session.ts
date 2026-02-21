@@ -1,12 +1,14 @@
 import type { QuizMode } from "./qcm";
 
-export type QuizTypeMode = "mixed" | "single";
+export type QuizTypeMode = "mixed" | "single" | "selected";
 
 export interface QuizConfig {
   questionCount: number;
   selectedCategories: string[];
   typeMode: QuizTypeMode;
   selectedType: string | null;
+  selectedTypes?: string[];
+  bookmarkedOnly?: boolean;
   timerEnabled: boolean;
   timerMinutes: number;
 }

@@ -71,8 +71,15 @@ function matchesCategory(question: Question, selectedCategories: string[]): bool
 
 function matchesType(question: Question, config: QuizConfig): boolean {
   if (config.typeMode === "mixed") return true;
+  const effectiveType = getEffectiveQuestionType(question);
+  const selectedTypes = config.selectedTypes ?? [];
+
+  if (selectedTypes.length > 0) {
+    return selectedTypes.includes(effectiveType);
+  }
+
   if (!config.selectedType) return false;
-  return getEffectiveQuestionType(question) === config.selectedType;
+  return effectiveType === config.selectedType;
 }
 
 export function filterQuestionsByConfig(questions: Question[], config: QuizConfig): Question[] {
@@ -81,8 +88,16 @@ export function filterQuestionsByConfig(questions: Question[], config: QuizConfi
   );
 }
 
-export function buildQuestionsForQuiz(questions: Question[], config: QuizConfig): Question[] {
-  const filtered = filterQuestionsByConfig(questions, config);
+export function buildQuestionsForQuiz(
+  questions: Question[],
+  config: QuizConfig,
+  bookmarkedQuestionIds?: Set<string>
+): Question[] {
+  const filtered = filterQuestionsByConfig(questions, config).filter((question) => {
+    if (!config.bookmarkedOnly) return true;
+    if (!bookmarkedQuestionIds || bookmarkedQuestionIds.size === 0) return false;
+    return bookmarkedQuestionIds.has(question.id);
+  });
   const shuffled = shuffleItems(filtered);
   const total = Math.max(1, Math.min(config.questionCount, shuffled.length));
   return shuffled.slice(0, total);

@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useAppState } from "../AppState";
 import { SignImage } from "../components/SignImage";
+import { confirmAction } from "../lib/confirm";
 import {
   buildQuestionsForQuiz,
   calculateScore,
@@ -18,6 +19,33 @@ import type { QuizConfig, QuizSession } from "../types/session";
 
 const DEFAULT_QUESTION_COUNT = 30;
 const DEFAULT_TIMER_MINUTES = 30;
+const MIN_QUESTION_COUNT = 1;
+const MIN_TIMER_MINUTES = 1;
+const MAX_TIMER_MINUTES = 240;
+
+function getChoiceLabel(choiceIndex: number): string {
+  return String.fromCharCode(65 + choiceIndex);
+}
+
+function clampInteger(value: number, min: number, max: number): number {
+  return Math.max(min, Math.min(max, value));
+}
+
+function sanitizeDigits(value: string): string {
+  return value.replace(/[^\d]/g, "");
+}
+
+function findChoiceText(question: Question, choiceId: string | null | undefined): string | null {
+  if (!choiceId) return null;
+  return question.choices.find((choice) => choice.id === choiceId)?.textAr ?? null;
+}
+
+function formatChoiceWithText(question: Question, choiceId: string | null | undefined): string {
+  if (!choiceId) return "غير محدد";
+  const text = findChoiceText(question, choiceId);
+  if (!text) return choiceId;
+  return text;
+}
 
 function toQuizMode(value: string | undefined): QuizMode | null {
   if (value === "practice" || value === "exam") return value;
@@ -31,15 +59,23 @@ function buildDefaultConfig(questions: Question[]): QuizConfig {
   return {
     questionCount: DEFAULT_QUESTION_COUNT,
     selectedCategories: categories,
-    typeMode: "mixed",
+    typeMode: "selected",
     selectedType: types[0] ?? null,
+    selectedTypes: types,
+    bookmarkedOnly: false,
     timerEnabled: true,
     timerMinutes: DEFAULT_TIMER_MINUTES
   };
 }
 
 export function QuizPage(): JSX.Element {
-  const { questionSet, setLastResult, recordStoryResult } = useAppState();
+  const {
+    questionSet,
+    setLastResult,
+    recordStoryResult,
+    bookmarkedQuestionIds,
+    toggleQuestionBookmark
+  } = useAppState();
   const { mode: modeParam } = useParams();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -56,6 +92,8 @@ export function QuizPage(): JSX.Element {
 
   const [setupConfig, setSetupConfig] = useState<QuizConfig | null>(null);
   const [setupError, setSetupError] = useState<string | null>(null);
+  const [questionCountInput, setQuestionCountInput] = useState<string>(String(DEFAULT_QUESTION_COUNT));
+  const [timerMinutesInput, setTimerMinutesInput] = useState<string>(String(DEFAULT_TIMER_MINUTES));
 
   const [index, setIndex] = useState(0);
   const [session, setSession] = useState<QuizSession | null>(null);
@@ -64,6 +102,12 @@ export function QuizPage(): JSX.Element {
   const [feedbackTone, setFeedbackTone] = useState<"success" | "error" | "info" | null>(null);
   const [brokenSignIds, setBrokenSignIds] = useState<Record<string, boolean>>({});
   const [remainingSeconds, setRemainingSeconds] = useState<number>(0);
+
+  useEffect(() => {
+    if (!setupConfig) return;
+    setQuestionCountInput(String(setupConfig.questionCount));
+    setTimerMinutesInput(String(setupConfig.timerMinutes));
+  }, [setupConfig?.questionCount, setupConfig?.timerMinutes]);
 
   useEffect(() => {
     if (!mode) {
@@ -79,6 +123,8 @@ export function QuizPage(): JSX.Element {
         selectedCategories: categories,
         typeMode: "single",
         selectedType: storyLevel.type,
+        selectedTypes: [storyLevel.type],
+        bookmarkedOnly: false,
         timerEnabled: true,
         timerMinutes: DEFAULT_TIMER_MINUTES
       });
@@ -102,7 +148,15 @@ export function QuizPage(): JSX.Element {
       const scoped = questionSet.questions.filter((question) => allowedIds.has(question.id));
       chosenQuestions = shuffleItems(scoped);
     } else {
-      chosenQuestions = buildQuestionsForQuiz(questionSet.questions, setupConfig);
+      if (setupConfig.bookmarkedOnly && bookmarkedQuestionIds.length === 0) {
+        setSetupError("لا توجد أسئلة محفوظة بعد.");
+        return;
+      }
+      chosenQuestions = buildQuestionsForQuiz(
+        questionSet.questions,
+        setupConfig,
+        new Set(bookmarkedQuestionIds)
+      );
     }
 
     if (chosenQuestions.length === 0) {
@@ -130,8 +184,8 @@ export function QuizPage(): JSX.Element {
     setIndex(0);
     setSetupError(null);
     setBrokenSignIds({});
-    setRemainingSeconds(Math.max(1, setupConfig.timerMinutes * 60));
-  }, [mode, setupConfig, questionSet, isStoryMode, storyLevel]);
+    setRemainingSeconds(Math.max(1, clampInteger(setupConfig.timerMinutes, MIN_TIMER_MINUTES, MAX_TIMER_MINUTES) * 60));
+  }, [mode, setupConfig, questionSet, isStoryMode, storyLevel, bookmarkedQuestionIds]);
 
   useEffect(() => {
     if (!isStoryMode || !setupConfig || session || !storyLevel) return;
@@ -223,14 +277,34 @@ export function QuizPage(): JSX.Element {
               <label>
                 عدد الأسئلة
                 <input
-                  type="number"
-                  min={1}
-                  max={allQuestions.length}
-                  value={setupConfig.questionCount}
+                  type="text"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
+                  autoComplete="off"
+                  enterKeyHint="done"
+                  value={questionCountInput}
                   onChange={(event) => {
-                    const value = Number.parseInt(event.target.value, 10);
-                    if (Number.isNaN(value)) return;
+                    const digits = sanitizeDigits(event.target.value);
+                    setQuestionCountInput(digits);
+                    if (!digits) return;
+                    const value = clampInteger(
+                      Number.parseInt(digits, 10),
+                      MIN_QUESTION_COUNT,
+                      Math.max(allQuestions.length, MIN_QUESTION_COUNT)
+                    );
                     setSetupConfig((current) => (current ? { ...current, questionCount: value } : current));
+                  }}
+                  onBlur={() => {
+                    const digits = sanitizeDigits(questionCountInput);
+                    const value = digits
+                      ? clampInteger(
+                          Number.parseInt(digits, 10),
+                          MIN_QUESTION_COUNT,
+                          Math.max(allQuestions.length, MIN_QUESTION_COUNT)
+                        )
+                      : setupConfig.questionCount;
+                    setSetupConfig((current) => (current ? { ...current, questionCount: value } : current));
+                    setQuestionCountInput(String(value));
                   }}
                 />
               </label>
@@ -251,21 +325,30 @@ export function QuizPage(): JSX.Element {
                 <label>
                   مدة المؤقت (دقائق)
                   <input
-                    type="number"
-                    min={1}
-                    max={240}
-                    value={setupConfig.timerMinutes}
+                    type="text"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                    autoComplete="off"
+                    enterKeyHint="done"
+                    value={timerMinutesInput}
                     onChange={(event) => {
-                      const value = Number.parseInt(event.target.value, 10);
-                      if (Number.isNaN(value)) return;
-                      setSetupConfig((current) =>
-                        current
-                          ? {
-                              ...current,
-                              timerMinutes: value
-                            }
-                          : current
+                      const digits = sanitizeDigits(event.target.value);
+                      setTimerMinutesInput(digits);
+                      if (!digits) return;
+                      const value = clampInteger(
+                        Number.parseInt(digits, 10),
+                        MIN_TIMER_MINUTES,
+                        MAX_TIMER_MINUTES
                       );
+                      setSetupConfig((current) => (current ? { ...current, timerMinutes: value } : current));
+                    }}
+                    onBlur={() => {
+                      const digits = sanitizeDigits(timerMinutesInput);
+                      const value = digits
+                        ? clampInteger(Number.parseInt(digits, 10), MIN_TIMER_MINUTES, MAX_TIMER_MINUTES)
+                        : setupConfig.timerMinutes;
+                      setSetupConfig((current) => (current ? { ...current, timerMinutes: value } : current));
+                      setTimerMinutesInput(String(value));
                     }}
                   />
                 </label>
@@ -273,7 +356,7 @@ export function QuizPage(): JSX.Element {
             </div>
 
             <div className="setup-block">
-              <h3>اختيار النوع</h3>
+              <h3>اختيار نوع الأسئلة</h3>
               <label className="inline-checkbox">
                 <input
                   type="radio"
@@ -283,59 +366,90 @@ export function QuizPage(): JSX.Element {
                       current
                         ? {
                             ...current,
-                            typeMode: "mixed"
+                            typeMode: "mixed",
+                            selectedTypes: types,
+                            selectedType: types[0] ?? null
                           }
                         : current
                     );
                   }}
                 />
-                مختلط
+                كل الأنواع (مختلط)
               </label>
 
               <label className="inline-checkbox">
                 <input
                   type="radio"
-                  checked={setupConfig.typeMode === "single"}
+                  checked={setupConfig.typeMode === "selected"}
                   onChange={() => {
                     setSetupConfig((current) =>
                       current
                         ? {
                             ...current,
-                            typeMode: "single",
-                            selectedType: current.selectedType ?? types[0] ?? null
+                            typeMode: "selected",
+                            selectedTypes: current.selectedTypes ?? types,
+                            selectedType: (current.selectedTypes ?? types)[0] ?? null
                           }
                         : current
                     );
                   }}
                 />
-                نوع واحد فقط
+                اختيار أنواع محددة
               </label>
 
-              {setupConfig.typeMode === "single" && (
-                <label>
-                  اختر النوع
-                  <select
-                    value={setupConfig.selectedType ?? ""}
-                    onChange={(event) => {
-                      setSetupConfig((current) =>
-                        current
-                          ? {
-                              ...current,
-                              selectedType: event.target.value || null
-                            }
-                          : current
-                      );
-                    }}
-                  >
-                    {types.map((type) => (
-                      <option key={type} value={type}>
+              {setupConfig.typeMode === "selected" && (
+                <div className="setup-categories">
+                  {types.map((type) => {
+                    const selected = (setupConfig.selectedTypes ?? []).includes(type);
+                    return (
+                      <label key={type} className="inline-checkbox">
+                        <input
+                          type="checkbox"
+                          checked={selected}
+                          onChange={(event) => {
+                            setSetupConfig((current) => {
+                              if (!current) return current;
+                              const next = new Set(current.selectedTypes ?? []);
+                              if (event.target.checked) {
+                                next.add(type);
+                              } else {
+                                next.delete(type);
+                              }
+
+                              const selectedTypes = types.filter((item) => next.has(item));
+                              return {
+                                ...current,
+                                selectedTypes,
+                                selectedType: selectedTypes[0] ?? null
+                              };
+                            });
+                          }}
+                        />
                         {type}
-                      </option>
-                    ))}
-                  </select>
-                </label>
+                      </label>
+                    );
+                  })}
+                </div>
               )}
             </div>
+
+            {mode === "practice" && (
+              <div className="setup-block">
+                <h3>المحفوظات</h3>
+                <label className="inline-checkbox">
+                  <input
+                    type="checkbox"
+                    checked={Boolean(setupConfig.bookmarkedOnly)}
+                    onChange={(event) => {
+                      const bookmarkedOnly = event.target.checked;
+                      setSetupConfig((current) => (current ? { ...current, bookmarkedOnly } : current));
+                    }}
+                  />
+                  تدريب على الأسئلة المحفوظة فقط
+                </label>
+                <p className="muted">عدد الأسئلة المحفوظة: {bookmarkedQuestionIds.length}</p>
+              </div>
+            )}
 
             <div className="setup-block">
               <h3>الفئات</h3>
@@ -403,10 +517,12 @@ export function QuizPage(): JSX.Element {
         setFeedback("لا توجد إجابة صحيحة محددة لهذا السؤال");
         setFeedbackTone("info");
       } else if (choiceId === current.correctChoiceId) {
-        setFeedback("إجابة صحيحة");
+        setFeedback(`إجابة صحيحة: ${formatChoiceWithText(current, choiceId)}`);
         setFeedbackTone("success");
       } else {
-        setFeedback(`إجابة غير صحيحة. الصحيح هو: ${current.correctChoiceId}`);
+        setFeedback(
+          `إجابة غير صحيحة. اختيارك: ${formatChoiceWithText(current, choiceId)} | الصحيح: ${formatChoiceWithText(current, current.correctChoiceId)}`
+        );
         setFeedbackTone("error");
       }
     } else {
@@ -419,6 +535,8 @@ export function QuizPage(): JSX.Element {
     setFeedback(null);
     setFeedbackTone(null);
     if (index >= quizQuestions.length - 1) {
+      const confirmed = confirmAction("هل أنت متأكد من إنهاء الاختبار وعرض النتيجة؟");
+      if (!confirmed) return;
       finishQuiz(false);
       return;
     }
@@ -427,6 +545,7 @@ export function QuizPage(): JSX.Element {
 
   const unanswered = firstUnansweredIndex(quizQuestions, session.answers);
   const selectedChoice = session.answers[current.id];
+  const isBookmarked = bookmarkedQuestionIds.includes(current.id);
 
   return (
     <section className="panel">
@@ -444,7 +563,16 @@ export function QuizPage(): JSX.Element {
       </div>
 
       <article className="quiz-card">
-        <h3>{current.promptAr}</h3>
+        <div className="quiz-card-header">
+          <h3 className="quiz-title">{current.promptAr}</h3>
+          <button
+            type="button"
+            className={`bookmark-toggle ${isBookmarked ? "active" : ""}`}
+            onClick={() => toggleQuestionBookmark(current.id)}
+          >
+            {isBookmarked ? "محفوظ" : "حفظ السؤال"}
+          </button>
+        </div>
         {current.signPath && !brokenSignIds[current.id] && (
           <figure className="question-sign">
             <SignImage
@@ -465,7 +593,7 @@ export function QuizPage(): JSX.Element {
         )}
 
         <div className="choices-column">
-          {current.choices.map((choice) => {
+          {current.choices.map((choice, choiceIndex) => {
             let choiceClassName = `choice-btn ${selectedChoice === choice.id ? "selected" : ""}`;
 
             if (mode === "practice" && selectedChoice && current.correctChoiceId) {
@@ -484,7 +612,7 @@ export function QuizPage(): JSX.Element {
                 type="button"
                 onClick={() => selectChoice(choice.id)}
               >
-                <strong>{choice.id}</strong>
+                <strong>{getChoiceLabel(choiceIndex)}</strong>
                 <span>{choice.textAr}</span>
               </button>
             );
@@ -493,11 +621,22 @@ export function QuizPage(): JSX.Element {
 
         {feedback && <p className={`feedback-box ${feedbackTone ?? ""}`}>{feedback}</p>}
 
-        <div className="actions-row">
+        <div className="actions-row primary-actions">
           <button type="button" onClick={nextQuestion}>
             {index >= quizQuestions.length - 1 ? "إنهاء" : "التالي"}
           </button>
-          <button type="button" onClick={() => finishQuiz(false)}>
+        </div>
+
+        <div className="quiz-danger-zone">
+          <button
+            type="button"
+            className="danger-button"
+            onClick={() => {
+              const confirmed = confirmAction("هل تريد إنهاء الاختبار الآن؟ سيتم حفظ الإجابات الحالية.");
+              if (!confirmed) return;
+              finishQuiz(false);
+            }}
+          >
             إنهاء الاختبار الآن
           </button>
         </div>

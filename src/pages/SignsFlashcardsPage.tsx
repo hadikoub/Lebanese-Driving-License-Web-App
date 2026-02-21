@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { SignImage } from "../components/SignImage";
+import { confirmAction } from "../lib/confirm";
 import {
   filterFlashcardsByTypes,
   formatDuration,
@@ -10,6 +11,17 @@ import type { SignFlashcard, SignFlashcardSet } from "../types/signs";
 
 const DEFAULT_CARD_COUNT = 30;
 const DEFAULT_DURATION_MINUTES = 15;
+const MIN_CARD_COUNT = 1;
+const MIN_DURATION_MINUTES = 1;
+const MAX_DURATION_MINUTES = 240;
+
+function clampInteger(value: number, min: number, max: number): number {
+  return Math.max(min, Math.min(max, value));
+}
+
+function sanitizeDigits(value: string): string {
+  return value.replace(/[^\d]/g, "");
+}
 
 interface FlashcardsConfig {
   selectedTypes: string[];
@@ -49,6 +61,8 @@ export function SignsFlashcardsPage(): JSX.Element {
 
   const [config, setConfig] = useState<FlashcardsConfig | null>(null);
   const [setupError, setSetupError] = useState<string | null>(null);
+  const [cardCountInput, setCardCountInput] = useState<string>(String(DEFAULT_CARD_COUNT));
+  const [durationInput, setDurationInput] = useState<string>(String(DEFAULT_DURATION_MINUTES));
 
   const [sessionCards, setSessionCards] = useState<SignFlashcard[]>([]);
   const [active, setActive] = useState(false);
@@ -58,6 +72,12 @@ export function SignsFlashcardsPage(): JSX.Element {
   const [startedAtMs, setStartedAtMs] = useState<number | null>(null);
   const [viewedCardIds, setViewedCardIds] = useState<Set<string>>(new Set());
   const [result, setResult] = useState<FlashcardsResult | null>(null);
+
+  useEffect(() => {
+    if (!config) return;
+    setCardCountInput(String(config.cardCount));
+    setDurationInput(String(config.durationMinutes));
+  }, [config?.cardCount, config?.durationMinutes]);
 
   const types = useMemo(() => getSignTypes(flashcardSet?.cards ?? []), [flashcardSet]);
 
@@ -143,14 +163,14 @@ export function SignsFlashcardsPage(): JSX.Element {
       return;
     }
 
-    const limitedCount = Math.max(1, Math.min(config.cardCount, filtered.length));
+    const limitedCount = clampInteger(config.cardCount, MIN_CARD_COUNT, filtered.length);
     const cards = shuffleItems(filtered).slice(0, limitedCount);
     setSessionCards(cards);
     setActive(true);
     setResult(null);
     setIndex(0);
     setShowAnswer(false);
-    setRemainingSeconds(Math.max(60, config.durationMinutes * 60));
+    setRemainingSeconds(Math.max(60, clampInteger(config.durationMinutes, MIN_DURATION_MINUTES, MAX_DURATION_MINUTES) * 60));
     setStartedAtMs(Date.now());
     setViewedCardIds(new Set([cards[0].id]));
     setSetupError(null);
@@ -193,28 +213,68 @@ export function SignsFlashcardsPage(): JSX.Element {
           <label>
             عدد البطاقات
             <input
-              type="number"
-              min={1}
-              max={flashcardSet.cards.length}
-              value={config.cardCount}
+              type="text"
+              inputMode="numeric"
+              pattern="[0-9]*"
+              autoComplete="off"
+              enterKeyHint="done"
+              value={cardCountInput}
               onChange={(event) => {
-                const value = Number.parseInt(event.target.value, 10);
-                if (Number.isNaN(value)) return;
+                const digits = sanitizeDigits(event.target.value);
+                setCardCountInput(digits);
+                if (!digits) return;
+                const value = clampInteger(
+                  Number.parseInt(digits, 10),
+                  MIN_CARD_COUNT,
+                  Math.max(flashcardSet.cards.length, MIN_CARD_COUNT)
+                );
                 setConfig((current) => (current ? { ...current, cardCount: value } : current));
+              }}
+              onBlur={() => {
+                const digits = sanitizeDigits(cardCountInput);
+                const value = digits
+                  ? clampInteger(
+                      Number.parseInt(digits, 10),
+                      MIN_CARD_COUNT,
+                      Math.max(flashcardSet.cards.length, MIN_CARD_COUNT)
+                    )
+                  : config.cardCount;
+                setConfig((current) => (current ? { ...current, cardCount: value } : current));
+                setCardCountInput(String(value));
               }}
             />
           </label>
           <label>
             مدة الجلسة (دقائق)
             <input
-              type="number"
-              min={1}
-              max={240}
-              value={config.durationMinutes}
+              type="text"
+              inputMode="numeric"
+              pattern="[0-9]*"
+              autoComplete="off"
+              enterKeyHint="done"
+              value={durationInput}
               onChange={(event) => {
-                const value = Number.parseInt(event.target.value, 10);
-                if (Number.isNaN(value)) return;
+                const digits = sanitizeDigits(event.target.value);
+                setDurationInput(digits);
+                if (!digits) return;
+                const value = clampInteger(
+                  Number.parseInt(digits, 10),
+                  MIN_DURATION_MINUTES,
+                  MAX_DURATION_MINUTES
+                );
                 setConfig((current) => (current ? { ...current, durationMinutes: value } : current));
+              }}
+              onBlur={() => {
+                const digits = sanitizeDigits(durationInput);
+                const value = digits
+                  ? clampInteger(
+                      Number.parseInt(digits, 10),
+                      MIN_DURATION_MINUTES,
+                      MAX_DURATION_MINUTES
+                    )
+                  : config.durationMinutes;
+                setConfig((current) => (current ? { ...current, durationMinutes: value } : current));
+                setDurationInput(String(value));
               }}
             />
           </label>
@@ -297,7 +357,7 @@ export function SignsFlashcardsPage(): JSX.Element {
           <p className="muted">اضغط "إظهار الاسم" لعرض اسم الإشارة بالعربية.</p>
         )}
 
-        <div className="actions-row">
+        <div className="actions-row primary-actions">
           <button type="button" onClick={() => setShowAnswer((currentValue) => !currentValue)}>
             {showAnswer ? "إخفاء الاسم" : "إظهار الاسم"}
           </button>
@@ -308,6 +368,8 @@ export function SignsFlashcardsPage(): JSX.Element {
             type="button"
             onClick={() => {
               if (index >= sessionCards.length - 1) {
+                const confirmed = confirmAction("هل أنت متأكد من إنهاء الجلسة؟");
+                if (!confirmed) return;
                 finishSession(false);
                 return;
               }
@@ -316,7 +378,18 @@ export function SignsFlashcardsPage(): JSX.Element {
           >
             {index >= sessionCards.length - 1 ? "إنهاء" : "التالي"}
           </button>
-          <button type="button" onClick={() => finishSession(false)}>
+        </div>
+
+        <div className="quiz-danger-zone">
+          <button
+            type="button"
+            className="danger-button"
+            onClick={() => {
+              const confirmed = confirmAction("هل تريد إنهاء الجلسة الآن؟");
+              if (!confirmed) return;
+              finishSession(false);
+            }}
+          >
             إنهاء الجلسة
           </button>
         </div>
