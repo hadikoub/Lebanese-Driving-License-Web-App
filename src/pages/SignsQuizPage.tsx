@@ -490,7 +490,16 @@ export function SignsQuizPage(): JSX.Element {
         {feedback && <p className={`feedback-box ar ${feedbackTone ?? ""}`}>{feedback}</p>}
 
         <div className="actions-row primary-actions">
-          <button type="button" className="btn-block" onClick={nextQuestion}>
+          <button
+            type="button"
+            className="btn-ghost"
+            style={{ flex: 1 }}
+            disabled={index === 0}
+            onClick={() => { setFeedback(null); setFeedbackTone(null); setIndex((i) => i - 1); }}
+          >
+            {t("previous")}
+          </button>
+          <button type="button" style={{ flex: 2 }} onClick={nextQuestion}>
             {index >= questions.length - 1 ? t("finishQuiz") : t("nextQuestion")}
           </button>
         </div>
