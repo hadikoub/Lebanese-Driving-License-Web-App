@@ -107,15 +107,39 @@ a {
   border-radius: 50%;
 }
 
+.header-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  position: relative;
+}
+
 .header-flag {
   width: 56px;
   height: auto;
   border-radius: 4px;
   overflow: hidden;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
-  margin-bottom: 10px;
-  position: relative;
   flex-shrink: 0;
+}
+
+.lang-toggle {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  color: #ffffff;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.lang-toggle:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: none;
+  box-shadow: none;
 }
 
 .app-header h1 {
@@ -393,6 +417,23 @@ button:disabled {
 .btn-primary {
   background: var(--accent);
   color: #ffffff;
+}
+
+.btn-back {
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 4px 0;
+  margin-bottom: 12px;
+  cursor: pointer;
+}
+
+.btn-back:hover {
+  color: var(--accent-dark);
+  transform: none;
+  box-shadow: none;
 }
 
 .btn-ghost {
@@ -866,6 +907,14 @@ code {
   background: var(--warning-bg);
   border-color: var(--warning-border);
   color: var(--warning);
+}
+
+.question-id {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--muted);
+  font-family: "Inter", -apple-system, sans-serif;
+  direction: ltr;
 }
 
 .quiz-card-header {

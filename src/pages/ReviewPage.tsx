@@ -1,8 +1,10 @@
 import { useMemo, useState } from "react";
 import { useAppState } from "../AppState";
 import { SignImage } from "../components/SignImage";
+import { useI18n } from "../i18n";
 
 export function ReviewPage(): JSX.Element {
+  const { t } = useI18n();
   const { questionSet, updateQuestion } = useAppState();
   const [showOnlyNeedsReview, setShowOnlyNeedsReview] = useState(false);
 
@@ -13,25 +15,25 @@ export function ReviewPage(): JSX.Element {
   }, [questionSet, showOnlyNeedsReview]);
 
   if (!questionSet) {
-    return <section className="panel">No data available. Go back to home to import.</section>;
+    return <section className="panel">{t("noDataImport")}</section>;
   }
 
   return (
     <section className="panel">
       <div className="title-row">
-        <h2>Review Questions</h2>
+        <h2>{t("reviewQuestions")}</h2>
         <label className="inline-checkbox">
           <input
             type="checkbox"
             checked={showOnlyNeedsReview}
             onChange={(event) => setShowOnlyNeedsReview(event.target.checked)}
           />
-          Show needs review only
+          {t("showNeedsReviewOnly")}
         </label>
       </div>
 
       <p className="muted">
-        Edit question text and choices, then select the correct answer. Leave "Needs Review" checked for questions that need verification.
+        {t("reviewInstructions")}
       </p>
 
       <div className="question-list">
@@ -39,7 +41,7 @@ export function ReviewPage(): JSX.Element {
           <article className="question-editor" key={question.id}>
             <header>
               <h3>
-                Question {question.sourceNumber ?? "?"} - Page {question.sourcePage}
+                {t("question")} {question.sourceNumber ?? "?"} - {t("page")} {question.sourcePage}
               </h3>
               <label className="inline-checkbox">
                 <input
@@ -52,12 +54,12 @@ export function ReviewPage(): JSX.Element {
                     }));
                   }}
                 />
-                Needs Review
+                {t("needsReview")}
               </label>
             </header>
 
             <label>
-              Question Text
+              {t("questionText")}
               <textarea
                 dir="rtl"
                 className="ar"
@@ -78,7 +80,7 @@ export function ReviewPage(): JSX.Element {
             )}
 
             <label>
-              Sign Image Path (optional)
+              {t("signImagePath")}
               <input
                 value={question.signPath ?? ""}
                 onChange={(event) => {
@@ -94,7 +96,7 @@ export function ReviewPage(): JSX.Element {
             <div className="choices-grid">
               {question.choices.map((choice, choiceIndex) => (
                 <label key={choice.id}>
-                  Choice {choiceIndex + 1} ({choice.id})
+                  {t("choice")} {choiceIndex + 1} ({choice.id})
                   <input
                     dir="rtl"
                     className="ar"
@@ -115,7 +117,7 @@ export function ReviewPage(): JSX.Element {
             </div>
 
             <label>
-              Correct Answer
+              {t("correctAnswerLabel")}
               <select
                 value={question.correctChoiceId ?? ""}
                 onChange={(event) => {
@@ -126,7 +128,7 @@ export function ReviewPage(): JSX.Element {
                   }));
                 }}
               >
-                <option value="">Not set</option>
+                <option value="">{t("notSet")}</option>
                 {question.choices.map((choice) => (
                   <option key={choice.id} value={choice.id}>
                     {choice.id}

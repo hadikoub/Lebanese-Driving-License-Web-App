@@ -1,5 +1,6 @@
 import { useState, useCallback } from "react";
 import { NavLink, Outlet, useLocation } from "react-router-dom";
+import { useI18n } from "../i18n";
 
 function HomeIcon(): JSX.Element {
   return (
@@ -90,6 +91,7 @@ function QuizSignsIcon(): JSX.Element {
 export function Layout(): JSX.Element {
   const [moreOpen, setMoreOpen] = useState(false);
   const location = useLocation();
+  const { lang, setLang, t } = useI18n();
 
   const closeMore = useCallback(() => setMoreOpen(false), []);
 
@@ -100,9 +102,19 @@ export function Layout(): JSX.Element {
   return (
     <div className="app-shell">
       <header className="app-header">
-        <img className="header-flag" src="/assets/flag-lebanon.svg" alt="Lebanese flag" width="56" height="37" />
+        <div className="header-top-row">
+          <img className="header-flag" src="/assets/flag-lebanon.svg" alt="Lebanese flag" width="56" height="37" />
+          <button
+            type="button"
+            className="lang-toggle"
+            onClick={() => setLang(lang === "en" ? "ar" : "en")}
+            aria-label="Toggle language"
+          >
+            {lang === "en" ? "عربي" : "EN"}
+          </button>
+        </div>
         <h1>Lebanese Driving License</h1>
-        <p>Practice, train & pass your QCM exam</p>
+        <p>{t("subtitle")}</p>
         <a className="dev-credit" href="https://github.com/hadikoub" target="_blank" rel="noopener noreferrer">
           Developed by Hadi Koubeissy
         </a>
@@ -115,19 +127,19 @@ export function Layout(): JSX.Element {
       <nav className="bottom-nav" aria-label="Main navigation">
         <NavLink to="/" onClick={closeMore}>
           <HomeIcon />
-          <span>Home</span>
+          <span>{t("home")}</span>
         </NavLink>
         <NavLink to="/quiz/practice" onClick={closeMore}>
           <PracticeIcon />
-          <span>Practice</span>
+          <span>{t("practice")}</span>
         </NavLink>
         <NavLink to="/quiz/exam" onClick={closeMore}>
           <ExamIcon />
-          <span>Exam</span>
+          <span>{t("exam")}</span>
         </NavLink>
         <NavLink to="/bookmarks" onClick={closeMore}>
           <BookmarkIcon />
-          <span>Saved</span>
+          <span>{t("saved")}</span>
         </NavLink>
         <button
           type="button"
@@ -135,7 +147,7 @@ export function Layout(): JSX.Element {
           onClick={() => setMoreOpen((v) => !v)}
         >
           <MoreIcon />
-          <span>More</span>
+          <span>{t("more")}</span>
         </button>
       </nav>
 
@@ -145,19 +157,19 @@ export function Layout(): JSX.Element {
           <div className="nav-more-menu">
             <NavLink to="/signs/flashcards" onClick={closeMore}>
               <SignIcon />
-              <span>Sign Flashcards</span>
+              <span>{t("signFlashcards")}</span>
             </NavLink>
             <NavLink to="/signs/quiz" onClick={closeMore}>
               <QuizSignsIcon />
-              <span>Sign Quiz</span>
+              <span>{t("signQuiz")}</span>
             </NavLink>
             <NavLink to="/story" onClick={closeMore}>
               <StoryIcon />
-              <span>Story Mode</span>
+              <span>{t("storyMode")}</span>
             </NavLink>
             <NavLink to="/results" onClick={closeMore}>
               <ResultsIcon />
-              <span>Results</span>
+              <span>{t("results")}</span>
             </NavLink>
           </div>
         </>

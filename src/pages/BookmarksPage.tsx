@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useAppState } from "../AppState";
 import { ConfirmModal } from "../components/Modal";
 import { SignImage } from "../components/SignImage";
+import { useI18n } from "../i18n";
 import type { Question } from "../types/qcm";
 
 function getChoiceLabel(choiceIndex: number): string {
@@ -16,6 +17,7 @@ function getCorrectAnswerText(question: Question): string {
 }
 
 export function BookmarksPage(): JSX.Element {
+  const { t } = useI18n();
   const { questionSet, bookmarkedQuestionIds, toggleQuestionBookmark } = useAppState();
   const [removeTarget, setRemoveTarget] = useState<string | null>(null);
 
@@ -26,34 +28,35 @@ export function BookmarksPage(): JSX.Element {
   }, [questionSet, bookmarkedQuestionIds]);
 
   if (!questionSet) {
-    return <section className="panel">No question data available.</section>;
+    return <section className="panel">{t("noDataAvailable")}</section>;
   }
 
   return (
     <section className="panel">
       <header className="title-row">
-        <h2>Saved Questions</h2>
-        <span>{bookmarkedQuestions.length} questions</span>
+        <h2>{t("savedQuestions")}</h2>
+        <span>{bookmarkedQuestions.length} {t("questions")}</span>
       </header>
 
       {bookmarkedQuestions.length > 0 && (
         <div className="actions-row">
           <Link className="button-link btn-block" to="/quiz/practice">
-            Practice Saved Questions
+            {t("practiceSavedQuestions")}
           </Link>
         </div>
       )}
 
       {bookmarkedQuestions.length === 0 && (
         <div className="empty-state">
-          <p>No saved questions yet.</p>
-          <p className="muted" style={{ fontSize: "0.88rem" }}>You can save any question during practice or exam mode.</p>
+          <p>{t("noSavedYet")}</p>
+          <p className="muted" style={{ fontSize: "0.88rem" }}>{t("canSaveDuringQuiz")}</p>
         </div>
       )}
 
       <div className="question-list">
         {bookmarkedQuestions.map((question) => (
           <article key={question.id} className="result-item bookmark-item">
+            <span className="question-id">#{question.sourceNumber ?? question.id}</span>
             <div className="bookmark-title-row">
               <h3 className="ar">{question.promptAr}</h3>
               <button
@@ -61,7 +64,7 @@ export function BookmarksPage(): JSX.Element {
                 className="danger-button"
                 onClick={() => setRemoveTarget(question.id)}
               >
-                Remove
+                {t("remove")}
               </button>
             </div>
 
@@ -72,7 +75,7 @@ export function BookmarksPage(): JSX.Element {
             )}
 
             <p>
-              <strong>Correct Answer:</strong> <span className="ar">{getCorrectAnswerText(question)}</span>
+              <strong>{t("correctAnswer")}:</strong> <span className="ar">{getCorrectAnswerText(question)}</span>
             </p>
 
             <div className="bookmark-choices">
@@ -92,10 +95,10 @@ export function BookmarksPage(): JSX.Element {
 
       <ConfirmModal
         open={removeTarget !== null}
-        title="Remove from Saved"
-        message="Are you sure you want to remove this question from your saved list?"
-        confirmLabel="Yes, Remove"
-        cancelLabel="Cancel"
+        title={t("removeFromSaved")}
+        message={t("removeConfirmMsg")}
+        confirmLabel={t("yesRemove")}
+        cancelLabel={t("cancel")}
         variant="danger"
         onConfirm={() => {
           if (removeTarget) toggleQuestionBookmark(removeTarget);

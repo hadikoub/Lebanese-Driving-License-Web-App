@@ -3,6 +3,7 @@ import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useAppState } from "../AppState";
 import { ConfirmModal } from "../components/Modal";
 import { SignImage } from "../components/SignImage";
+import { useI18n } from "../i18n";
 import {
   buildQuestionsForQuiz,
   calculateScore,
@@ -76,6 +77,7 @@ export function QuizPage(): JSX.Element {
     bookmarkedQuestionIds,
     toggleQuestionBookmark
   } = useAppState();
+  const { t } = useI18n();
   const { mode: modeParam } = useParams();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -135,7 +137,7 @@ export function QuizPage(): JSX.Element {
     }
 
     if (isStoryMode && !storyLevel) {
-      setSetupError("Failed to load this level. Please go back to Story Mode.");
+      setSetupError(t("failedLoadLevel"));
       return;
     }
 
@@ -152,7 +154,7 @@ export function QuizPage(): JSX.Element {
       chosenQuestions = shuffleItems(scoped);
     } else {
       if (setupConfig.bookmarkedOnly && bookmarkedQuestionIds.length === 0) {
-        setSetupError("No saved questions yet.");
+        setSetupError(t("noSavedYet"));
         return;
       }
       chosenQuestions = buildQuestionsForQuiz(
@@ -163,7 +165,7 @@ export function QuizPage(): JSX.Element {
     }
 
     if (chosenQuestions.length === 0) {
-      setSetupError("No questions match the selected settings.");
+      setSetupError(t("noMatchSettings"));
       return;
     }
 
@@ -247,37 +249,41 @@ export function QuizPage(): JSX.Element {
   }, [session?.startedAt, session?.config.timerEnabled, finishQuiz]);
 
   if (!questionSet || !mode || !setupConfig) {
-    return <section className="panel">No quiz session ready.</section>;
+    return <section className="panel">{t("noQuizReady")}</section>;
   }
 
   if (!session) {
     return (
       <section className="panel">
         <header className="title-row">
-          <h2>{mode === "practice" ? "Practice Setup" : "Exam Setup"}</h2>
-          <span>{allQuestions.length} questions</span>
+          <h2>{mode === "practice" ? t("practiceSetup") : t("examSetup")}</h2>
+          <span>{allQuestions.length} {t("questions")}</span>
         </header>
+
+        <button type="button" className="btn-back" onClick={() => navigate("/")}>
+          {t("back")}
+        </button>
 
         {isStoryMode ? (
           <div className="story-intro">
             <p>
-              Story Level: <strong>{storyLevelId}</strong>
+              {t("storyLevel")}: <strong>{storyLevelId}</strong>
             </p>
             <p>
-              Title: <strong>{storyLevel?.label ?? "-"}</strong>
+              {t("title")}: <strong>{storyLevel?.label ?? "-"}</strong>
             </p>
             <p>
-              Type: <strong>{storyLevel?.type ?? "-"}</strong>
+              {t("type")}: <strong>{storyLevel?.type ?? "-"}</strong>
             </p>
             <p className="muted">
-              Level will start automatically: {storyLevel?.questionCount ?? DEFAULT_QUESTION_COUNT} questions + 30 min timer.
+              {t("levelAutoStart")}: {storyLevel?.questionCount ?? DEFAULT_QUESTION_COUNT} {t("questions")} + 30 min.
             </p>
           </div>
         ) : (
           <>
             <div className="setup-grid">
               <label>
-                Number of Questions
+                {t("numQuestions")}
                 <input
                   type="text"
                   inputMode="numeric"
@@ -320,12 +326,12 @@ export function QuizPage(): JSX.Element {
                     setSetupConfig((current) => (current ? { ...current, timerEnabled } : current));
                   }}
                 />
-                Enable Timer
+                {t("enableTimer")}
               </label>
 
               {setupConfig.timerEnabled && (
                 <label>
-                  Timer Duration (minutes)
+                  {t("timerDuration")}
                   <input
                     type="text"
                     inputMode="numeric"
@@ -358,7 +364,7 @@ export function QuizPage(): JSX.Element {
             </div>
 
             <div className="setup-block">
-              <h3>Question Type</h3>
+              <h3>{t("questionType")}</h3>
               <label className="inline-checkbox">
                 <input
                   type="radio"
@@ -376,7 +382,7 @@ export function QuizPage(): JSX.Element {
                     );
                   }}
                 />
-                All Types (Mixed)
+                {t("allTypesMixed")}
               </label>
 
               <label className="inline-checkbox">
@@ -396,7 +402,7 @@ export function QuizPage(): JSX.Element {
                     );
                   }}
                 />
-                Specific Types
+                {t("specificTypes")}
               </label>
 
               {setupConfig.typeMode === "selected" && (
@@ -437,7 +443,7 @@ export function QuizPage(): JSX.Element {
 
             {mode === "practice" && (
               <div className="setup-block">
-                <h3>Bookmarks</h3>
+                <h3>{t("bookmarks")}</h3>
                 <label className="inline-checkbox">
                   <input
                     type="checkbox"
@@ -447,14 +453,14 @@ export function QuizPage(): JSX.Element {
                       setSetupConfig((current) => (current ? { ...current, bookmarkedOnly } : current));
                     }}
                   />
-                  Practice saved questions only
+                  {t("practiceSavedOnly")}
                 </label>
-                <p className="muted">Saved questions: {bookmarkedQuestionIds.length}</p>
+                <p className="muted">{t("savedQuestionsCount")}: {bookmarkedQuestionIds.length}</p>
               </div>
             )}
 
             <div className="setup-block">
-              <h3>Categories</h3>
+              <h3>{t("categories")}</h3>
               <div className="setup-categories">
                 {categories.map((category) => {
                   const selected = setupConfig.selectedCategories.includes(category);
@@ -488,7 +494,7 @@ export function QuizPage(): JSX.Element {
             </div>
 
             <button type="button" className="btn-block" onClick={startQuiz}>
-              Start {mode === "practice" ? "Practice" : "Exam"}
+              {mode === "practice" ? t("startPractice") : t("startExam")}
             </button>
           </>
         )}
@@ -500,7 +506,7 @@ export function QuizPage(): JSX.Element {
 
   const current = quizQuestions[index];
   if (!current) {
-    return <section className="panel">No questions available.</section>;
+    return <section className="panel">{t("noQuestionsAvailable")}</section>;
   }
 
   function selectChoice(choiceId: string): void {
@@ -549,7 +555,7 @@ export function QuizPage(): JSX.Element {
   return (
     <section className="panel">
       <header className="title-row">
-        <h2>{mode === "practice" ? "Practice" : "Exam"}</h2>
+        <h2>{mode === "practice" ? t("practice") : t("exam")}</h2>
         <span>{index + 1} / {quizQuestions.length}</span>
       </header>
 
@@ -558,6 +564,7 @@ export function QuizPage(): JSX.Element {
       </div>
 
       <div className="quiz-meta-row">
+        <span className="question-id">#{current.sourceNumber ?? current.id}</span>
         <span>{getEffectiveQuestionType(current)}</span>
         <span>{current.category ?? "-"}</span>
         {session.config.timerEnabled && <strong>{formatDuration(remainingSeconds)}</strong>}
@@ -571,7 +578,7 @@ export function QuizPage(): JSX.Element {
             className={`bookmark-toggle ${isBookmarked ? "active" : ""}`}
             onClick={() => toggleQuestionBookmark(current.id)}
           >
-            {isBookmarked ? "⭐ Saved" : "Save"}
+            {isBookmarked ? t("savedStar") : t("save")}
           </button>
         </div>
         {current.signPath && !brokenSignIds[current.id] && (
@@ -590,7 +597,7 @@ export function QuizPage(): JSX.Element {
           </figure>
         )}
         {current.signPath && brokenSignIds[current.id] && (
-          <p className="muted">Failed to load the sign image for this question.</p>
+          <p className="muted">{t("failedLoadSign")}</p>
         )}
 
         <div className="choices-column">
@@ -623,8 +630,17 @@ export function QuizPage(): JSX.Element {
         {feedback && <p className={`feedback-box ar ${feedbackTone ?? ""}`}>{feedback}</p>}
 
         <div className="actions-row primary-actions">
-          <button type="button" className="btn-block" onClick={nextQuestion}>
-            {index >= quizQuestions.length - 1 ? "Finish Quiz" : "Next Question"}
+          <button
+            type="button"
+            className="btn-ghost"
+            style={{ flex: 1 }}
+            disabled={index === 0}
+            onClick={() => { setFeedback(null); setFeedbackTone(null); setIndex((i) => i - 1); }}
+          >
+            {t("previous")}
+          </button>
+          <button type="button" style={{ flex: 2 }} onClick={nextQuestion}>
+            {index >= quizQuestions.length - 1 ? t("finishQuiz") : t("nextQuestion")}
           </button>
         </div>
 
@@ -634,23 +650,23 @@ export function QuizPage(): JSX.Element {
             className="danger-button"
             onClick={() => setShowExitConfirm(true)}
           >
-            End Quiz Now
+            {t("endQuizNow")}
           </button>
         </div>
       </article>
 
       {mode === "exam" && unanswered !== null && (
         <p className="muted" style={{ textAlign: "center", marginTop: 8 }}>
-          First unanswered question: {unanswered + 1}
+          {t("firstUnanswered")}: {unanswered + 1}
         </p>
       )}
 
       <ConfirmModal
         open={showFinishConfirm}
-        title="Finish Quiz"
-        message="Are you sure you want to finish the quiz and see your results? This cannot be undone."
-        confirmLabel="Yes, Finish"
-        cancelLabel="Continue"
+        title={t("finishQuizTitle")}
+        message={t("finishQuizMsg")}
+        confirmLabel={t("yesFinish")}
+        cancelLabel={t("continue")}
         variant="primary"
         onConfirm={() => {
           setShowFinishConfirm(false);
@@ -661,10 +677,10 @@ export function QuizPage(): JSX.Element {
 
       <ConfirmModal
         open={showExitConfirm}
-        title="End Early"
-        message="Are you sure you want to end the quiz now? Only your current answers will be saved and scored."
-        confirmLabel="Yes, End Now"
-        cancelLabel="Cancel"
+        title={t("endEarly")}
+        message={t("endEarlyMsg")}
+        confirmLabel={t("yesEndNow")}
+        cancelLabel={t("cancel")}
         variant="danger"
         onConfirm={() => {
           setShowExitConfirm(false);

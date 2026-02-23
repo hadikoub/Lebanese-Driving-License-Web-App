@@ -1,12 +1,14 @@
 import { Link } from "react-router-dom";
+import { useI18n } from "../i18n";
 
 export function NotFoundPage(): JSX.Element {
+  const { t } = useI18n();
   return (
     <section className="panel empty-state">
-      <h2>Page Not Found</h2>
-      <p className="muted">The page you are looking for does not exist.</p>
+      <h2>{t("pageNotFound")}</h2>
+      <p className="muted">{t("pageNotFoundMsg")}</p>
       <Link className="button-link" to="/">
-        Back to Home
+        {t("backToHome")}
       </Link>
     </section>
   );

@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { useI18n } from "../i18n";
 import { SignImage } from "../components/SignImage";
 import { ConfirmModal } from "../components/Modal";
 import {
@@ -55,6 +56,7 @@ function isSignFlashcardSet(value: unknown): value is SignFlashcardSet {
 }
 
 export function SignsFlashcardsPage(): JSX.Element {
+  const { t } = useI18n();
   const [flashcardSet, setFlashcardSet] = useState<SignFlashcardSet | null>(null);
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState<string | null>(null);
@@ -208,13 +210,13 @@ export function SignsFlashcardsPage(): JSX.Element {
     return (
       <section className="panel">
         <header className="title-row">
-          <h2>Sign Flashcards</h2>
-          <span>{flashcardSet.cards.length} cards</span>
+          <h2>{t("signFlashcards")}</h2>
+          <span>{flashcardSet.cards.length} {t("cards")}</span>
         </header>
 
         <div className="setup-grid">
           <label>
-            Number of Cards
+            {t("numCards")}
             <input
               type="text"
               inputMode="numeric"
@@ -248,7 +250,7 @@ export function SignsFlashcardsPage(): JSX.Element {
             />
           </label>
           <label>
-            Duration (minutes)
+            {t("duration")}
             <input
               type="text"
               inputMode="numeric"
@@ -284,7 +286,7 @@ export function SignsFlashcardsPage(): JSX.Element {
         </div>
 
         <div className="setup-block">
-          <h3>Filter by Type</h3>
+          <h3>{t("filterByType")}</h3>
           <div className="setup-categories">
             {types.map((type) => {
               const selected = config.selectedTypes.includes(type);
@@ -311,17 +313,17 @@ export function SignsFlashcardsPage(): JSX.Element {
         </div>
 
         <button type="button" className="btn-block" onClick={startSession}>
-          Start Flashcards
+          {t("startFlashcards")}
         </button>
 
         {setupError && <p className="error-box">{setupError}</p>}
         {result && (
           <div className="setup-block" style={{ marginTop: 16 }}>
-            <h3>Last Session Result</h3>
-            <p>Cards viewed: {result.viewed}</p>
-            <p>Total cards: {result.total}</p>
-            <p>Time spent: {formatDuration(result.elapsedSeconds)}</p>
-            {result.timedOut && <p className="error-box">Time ran out for the previous session.</p>}
+            <h3>{t("lastSessionResult")}</h3>
+            <p>{t("cardsViewed")}: {result.viewed}</p>
+            <p>{t("totalCards")}: {result.total}</p>
+            <p>{t("timeSpent")}: {formatDuration(result.elapsedSeconds)}</p>
+            {result.timedOut && <p className="error-box">{t("timeRanOut")}</p>}
           </div>
         )}
       </section>
@@ -338,7 +340,7 @@ export function SignsFlashcardsPage(): JSX.Element {
   return (
     <section className="panel">
       <header className="title-row">
-        <h2>Sign Flashcards</h2>
+        <h2>{t("signFlashcards")}</h2>
         <span>{index + 1} / {sessionCards.length}</span>
       </header>
 
@@ -359,18 +361,18 @@ export function SignsFlashcardsPage(): JSX.Element {
         {showAnswer ? (
           <h3 className="sign-answer ar">{current.nameAr}</h3>
         ) : (
-          <p className="muted" style={{ textAlign: "center" }}>Tap to reveal the sign name</p>
+          <p className="muted" style={{ textAlign: "center" }}>{t("tapToReveal")}</p>
         )}
 
         <div className="actions-row primary-actions">
           <button type="button" className="btn-ghost" style={{ flex: 1 }} onClick={() => setShowAnswer((v) => !v)}>
-            {showAnswer ? "Hide" : "Show Name"}
+            {showAnswer ? t("hide") : t("showName")}
           </button>
         </div>
 
         <div className="actions-row">
           <button type="button" className="btn-ghost" style={{ flex: 1 }} onClick={() => move(-1)} disabled={index === 0}>
-            Previous
+            {t("previous")}
           </button>
           <button
             type="button"
@@ -383,7 +385,7 @@ export function SignsFlashcardsPage(): JSX.Element {
               move(1);
             }}
           >
-            {index >= sessionCards.length - 1 ? "Finish" : "Next"}
+            {index >= sessionCards.length - 1 ? t("finish") : t("next")}
           </button>
         </div>
 
@@ -393,17 +395,17 @@ export function SignsFlashcardsPage(): JSX.Element {
             className="danger-button"
             onClick={() => setShowExitConfirm(true)}
           >
-            End Session
+            {t("endSession")}
           </button>
         </div>
       </article>
 
       <ConfirmModal
         open={showFinishConfirm}
-        title="Finish Session"
-        message="Are you sure you want to finish the flashcard session?"
-        confirmLabel="Yes, Finish"
-        cancelLabel="Continue"
+        title={t("finishSession")}
+        message={t("finishSessionMsg")}
+        confirmLabel={t("yesFinish")}
+        cancelLabel={t("continue")}
         variant="primary"
         onConfirm={() => {
           setShowFinishConfirm(false);
@@ -414,10 +416,10 @@ export function SignsFlashcardsPage(): JSX.Element {
 
       <ConfirmModal
         open={showExitConfirm}
-        title="End Early"
-        message="Are you sure you want to end the session now?"
-        confirmLabel="Yes, End Now"
-        cancelLabel="Cancel"
+        title={t("endEarly")}
+        message={t("endSessionMsg")}
+        confirmLabel={t("yesEndNow")}
+        cancelLabel={t("cancel")}
         variant="danger"
         onConfirm={() => {
           setShowExitConfirm(false);

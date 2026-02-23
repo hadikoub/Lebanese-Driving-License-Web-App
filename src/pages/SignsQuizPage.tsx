@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { useI18n } from "../i18n";
 import { SignImage } from "../components/SignImage";
 import { ConfirmModal } from "../components/Modal";
 import {
@@ -85,6 +86,7 @@ function shuffleQuestionOptions(question: SignQuizQuestion): SignQuizQuestion {
 }
 
 export function SignsQuizPage(): JSX.Element {
+  const { t } = useI18n();
   const [quizSet, setQuizSet] = useState<SignQuizSet | null>(null);
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState<string | null>(null);
@@ -200,7 +202,7 @@ export function SignsQuizPage(): JSX.Element {
 
     const filtered = filterSignsQuizByTypes(quizSet.questions, config.selectedTypes);
     if (filtered.length === 0) {
-      setSetupError("No questions match the selected filters.");
+      setSetupError(t("noMatchSettings"));
       return;
     }
 
@@ -256,7 +258,7 @@ export function SignsQuizPage(): JSX.Element {
   }
 
   if (loadError || !quizSet || !config) {
-    return <section className="panel error-box">{loadError ?? "Sign quiz data not available."}</section>;
+    return <section className="panel error-box">{loadError ?? t("noDataAvailable")}</section>;
   }
 
   if (!active) {
@@ -275,13 +277,13 @@ export function SignsQuizPage(): JSX.Element {
     return (
       <section className="panel">
         <header className="title-row">
-          <h2>Sign Quiz</h2>
-          <span>{quizSet.questions.length} questions</span>
+          <h2>{t("signQuiz")}</h2>
+          <span>{quizSet.questions.length} {t("questions")}</span>
         </header>
 
         <div className="setup-grid">
           <label>
-            Mode
+            {t("mode")}
             <select
               value={config.mode}
               onChange={(event) => {
@@ -289,13 +291,13 @@ export function SignsQuizPage(): JSX.Element {
                 setConfig((current) => (current ? { ...current, mode: value } : current));
               }}
             >
-              <option value="practice">Practice (Instant feedback)</option>
-              <option value="exam">Exam (Results at end)</option>
+              <option value="practice">{t("practiceInstant")}</option>
+              <option value="exam">{t("examEnd")}</option>
             </select>
           </label>
 
           <label>
-            Number of Questions
+            {t("numQuestions")}
             <input
               type="text"
               inputMode="numeric"
@@ -330,7 +332,7 @@ export function SignsQuizPage(): JSX.Element {
           </label>
 
           <label>
-            Duration (minutes)
+            {t("durationMinutes")}
             <input
               type="text"
               inputMode="numeric"
@@ -366,7 +368,7 @@ export function SignsQuizPage(): JSX.Element {
         </div>
 
         <div className="setup-block">
-          <h3>Filter by Type</h3>
+          <h3>{t("filterByType")}</h3>
           <div className="setup-categories">
             {types.map((type) => {
               const selected = config.selectedTypes.includes(type);
@@ -393,7 +395,7 @@ export function SignsQuizPage(): JSX.Element {
         </div>
 
         <button type="button" className="btn-block" onClick={startQuiz}>
-          Start {config.mode === "practice" ? "Practice" : "Exam"}
+          {config.mode === "practice" ? t("startPractice") : t("startExam")}
         </button>
 
         {setupError && <p className="error-box">{setupError}</p>}
@@ -401,18 +403,18 @@ export function SignsQuizPage(): JSX.Element {
         {result && (
           <>
             <div className="setup-block" style={{ marginTop: 16 }}>
-              <h3>Last Session Result</h3>
+              <h3>{t("lastSessionResult")}</h3>
               <div className="score-card">
                 <strong>{result.score} / {result.total}</strong>
                 <span>{Math.round((result.score / Math.max(result.total, 1)) * 100)}%</span>
               </div>
-              <p className="muted">Answered: {answeredCount} | Skipped: {unansweredCount}</p>
-              <p className="muted">Time: {formatDuration(result.elapsedSeconds)}</p>
-              {result.timedOut && <p className="error-box">Time ran out and the quiz was automatically ended.</p>}
+              <p className="muted">{t("answered")}: {answeredCount} | {t("skipped")}: {unansweredCount}</p>
+              <p className="muted">{t("time")}: {formatDuration(result.elapsedSeconds)}</p>
+              {result.timedOut && <p className="error-box">{t("timeRanOut")}</p>}
             </div>
 
-            <h3>Answer Review</h3>
-            {reviewRows.length === 0 && <p className="muted">No completed answers in the previous session.</p>}
+            <h3>{t("answerReview")}</h3>
+            {reviewRows.length === 0 && <p className="muted">{t("noAnsweredPrev")}</p>}
             <div className="question-list">
               {reviewRows.map(({ question, selectedIndex }) => {
                 const isCorrect = selectedIndex === question.correctOptionIndex;
@@ -421,9 +423,9 @@ export function SignsQuizPage(): JSX.Element {
                     <figure className="question-sign small">
                       <SignImage src={question.imagePath} alt={`Sign ${question.sourceId}`} loading="lazy" />
                     </figure>
-                    <p>Type: {question.type}</p>
-                    <p>Your answer: <span className="ar">{selectedIndex !== undefined ? question.optionsAr[selectedIndex] : "-"}</span></p>
-                    <p>Correct: <span className="ar">{question.correctAnswerAr}</span></p>
+                    <p>{t("type")}: {question.type}</p>
+                    <p>{t("yourAnswer")}: <span className="ar">{selectedIndex !== undefined ? question.optionsAr[selectedIndex] : "-"}</span></p>
+                    <p>{t("correct")}: <span className="ar">{question.correctAnswerAr}</span></p>
                   </article>
                 );
               })}
@@ -436,7 +438,7 @@ export function SignsQuizPage(): JSX.Element {
 
   const current = questions[index];
   if (!current) {
-    return <section className="panel">No questions available.</section>;
+    return <section className="panel">{t("noQuestionsAvailable")}</section>;
   }
 
   const selected = answers[current.id];
@@ -445,7 +447,7 @@ export function SignsQuizPage(): JSX.Element {
   return (
     <section className="panel">
       <header className="title-row">
-        <h2>{config.mode === "practice" ? "Sign Quiz - Practice" : "Sign Quiz - Exam"}</h2>
+        <h2>{config.mode === "practice" ? t("signQuizPractice") : t("signQuizExam")}</h2>
         <span>{index + 1} / {questions.length}</span>
       </header>
 
@@ -489,7 +491,7 @@ export function SignsQuizPage(): JSX.Element {
 
         <div className="actions-row primary-actions">
           <button type="button" className="btn-block" onClick={nextQuestion}>
-            {index >= questions.length - 1 ? "Finish Quiz" : "Next Question"}
+            {index >= questions.length - 1 ? t("finishQuiz") : t("nextQuestion")}
           </button>
         </div>
 
@@ -499,17 +501,17 @@ export function SignsQuizPage(): JSX.Element {
             className="danger-button"
             onClick={() => setShowExitConfirm(true)}
           >
-            End Quiz Now
+            {t("endQuizNow")}
           </button>
         </div>
       </article>
 
       <ConfirmModal
         open={showFinishConfirm}
-        title="Finish Quiz"
-        message="Are you sure you want to finish the quiz and see your results?"
-        confirmLabel="Yes, Finish"
-        cancelLabel="Continue"
+        title={t("finishQuizTitle")}
+        message={t("finishQuizConfirm")}
+        confirmLabel={t("yesFinish")}
+        cancelLabel={t("continue")}
         variant="primary"
         onConfirm={() => {
           setShowFinishConfirm(false);
@@ -520,10 +522,10 @@ export function SignsQuizPage(): JSX.Element {
 
       <ConfirmModal
         open={showExitConfirm}
-        title="End Early"
-        message="Are you sure you want to end the quiz now? Only your current answers will be saved."
-        confirmLabel="Yes, End Now"
-        cancelLabel="Cancel"
+        title={t("endEarly")}
+        message={t("endQuizEarlyMsg")}
+        confirmLabel={t("yesEndNow")}
+        cancelLabel={t("cancel")}
         variant="danger"
         onConfirm={() => {
           setShowExitConfirm(false);

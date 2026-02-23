@@ -1,6 +1,6 @@
 # Lebanese Driving License Practice Application
 
-> A free, open-source web application for practicing the Lebanese driving license QCM (multiple-choice) exam.
+> A free, open-source web application for practicing the Lebanese driving license MCQ (multiple-choice) exam.
 
 ## About
 
@@ -8,7 +8,7 @@ This application helps people prepare for the official Lebanese driving license 
 
 ## Features
 
-- **Practice Mode**: Answer QCM questions with instant feedback showing correct/incorrect answers
+- **Practice Mode**: Answer MCQ questions with instant feedback showing correct/incorrect answers
 - **Mock Exam Mode**: Timed exams simulating real test conditions (configurable question count and timer)
 - **Road Sign Flashcards**: Browse traffic signs with their Arabic names
 - **Road Sign Quiz**: Test your knowledge of Lebanese road signs

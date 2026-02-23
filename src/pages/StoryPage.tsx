@@ -1,14 +1,16 @@
 import { Link, createSearchParams } from "react-router-dom";
 import { useAppState } from "../AppState";
+import { useI18n } from "../i18n";
 import { buildStoryLevels, isStoryLevelUnlocked } from "../lib/story";
 
 export function StoryPage(): JSX.Element {
+  const { t } = useI18n();
   const { questionSet, storyProgress } = useAppState();
 
   if (!questionSet) {
     return (
       <section className="panel empty-state">
-        <p>No question data available. Import a JSON file first.</p>
+        <p>{t("noDataAvailable")}</p>
       </section>
     );
   }
@@ -25,11 +27,11 @@ export function StoryPage(): JSX.Element {
   return (
     <section className="panel">
       <header className="title-row">
-        <h2>Story Mode</h2>
-        <span>{levels.length} levels</span>
+        <h2>{t("storyMode")}</h2>
+        <span>{levels.length} {t("levels")}</span>
       </header>
       <p className="muted" style={{ marginTop: 0, fontSize: "0.88rem" }}>
-        Each level has up to 30 questions. Score 70% or higher to unlock the next level.
+        {t("storyExplanation")}
       </p>
 
       <div className="story-grid">
@@ -57,16 +59,16 @@ export function StoryPage(): JSX.Element {
                     fontSize: "0.8rem",
                     fontWeight: 600
                   }}>
-                    Completed
+                    {t("completed")}
                   </span>
                 )}
               </div>
-              <p>Type: {level.type}</p>
-              <p>Questions: {level.questionCount}</p>
+              <p>{t("type")}: {level.type}</p>
+              <p>{t("questionsCount")}: {level.questionCount}</p>
               {stat && (
                 <>
-                  <p>Attempts: {stat.attempts}</p>
-                  <p>Best Score: {stat.bestScore}/{stat.bestTotal} ({bestPercent}%)</p>
+                  <p>{t("attempts")}: {stat.attempts}</p>
+                  <p>{t("bestScore")}: {stat.bestScore}/{stat.bestTotal} ({bestPercent}%)</p>
                   <div className="progress-bar">
                     <div
                       className="progress-bar-fill"
@@ -81,11 +83,11 @@ export function StoryPage(): JSX.Element {
 
               {unlocked ? (
                 <Link className="button-link btn-block" to={link}>
-                  Start Level
+                  {t("startLevel")}
                 </Link>
               ) : (
                 <span className="muted" style={{ display: "block", textAlign: "center", padding: "8px 0" }}>
-                  🔒 Locked
+                  {t("locked")}
                 </span>
               )}
             </article>
